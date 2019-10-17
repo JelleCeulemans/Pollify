@@ -2,15 +2,23 @@
     <mat-sidenav #sidenav role="navigation">
         <mat-nav-list>
             <div mat-list-item>
-                <img src="assets/images/logo_pollify.png">
+                <a routerLink="/"  (click)="sidenav.close()"><img src="assets/images/logo_pollify.png"></a>
             </div>
-            <a mat-list-item routerLink="/signup" (click)="sidenav.close()">
+            <a *ngIf="!(isAuthenticated$ | async)" mat-list-item routerLink="/signup" (click)="sidenav.close()">
                 <mat-icon id="nav-icon">person_add</mat-icon>
                 <span>Signup</span>
             </a>
-            <a mat-list-item routerLink="/login" (click)="sidenav.close()">
+            <a *ngIf="!(isAuthenticated$ | async)" mat-list-item routerLink="/login" (click)="sidenav.close()">
                 <mat-icon id="nav-icon">perm_identity</mat-icon>
                 <span>Login</span>
+            </a>
+            <a *ngIf="isAuthenticated$ | async" mat-list-item routerLink="/dashboard" (click)="sidenav.close()">
+                <mat-icon id="nav-icon">dashboard</mat-icon>
+                <span>Dashboard</span>
+            </a>
+            <a *ngIf="isAuthenticated$ | async" mat-list-item (click)="logout()">
+                <mat-icon id="nav-icon">highlight_off</mat-icon>
+                <span>Logout</span>
             </a>
         </mat-nav-list>
     </mat-sidenav>
@@ -24,10 +32,12 @@
             <div><a routerLink="/"><img src="assets/images/logo_pollify.png"></a></div>
             <div fxFlex fxLayout fxLayoutAlign="flex-end" class="navigation-items">
                 <ul fxLayout fxLayoutGap="20px" class="navigation-items">
-                    <li><a routerLink="/login">Login</a></li>
-                    <li><a routerLink="/signup">Signup</a></li>
-                    <li>Poll</li>
+                    <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/login">Login</a></li>
+                    <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/signup">Signup</a></li>
+                    <li *ngIf="isAuthenticated$ | async"><a routerLink="/dashboard">Dashboard</a></li>
+                    <li *ngIf="isAuthenticated$ | async"><a (click)="logout()">Logout</a></li>
                 </ul>
+                
             </div>
         </mat-toolbar>
         <main>

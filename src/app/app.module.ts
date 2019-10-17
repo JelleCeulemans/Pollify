@@ -9,12 +9,19 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { HomeComponent } from './home/home.component';
 import { LoginComponent } from './home/login/login.component';
 import { AuthModule } from './auth/auth.module';
+import { DashboardComponent } from './dashboard/dashboard.component';
+import { StoreModule } from '@ngrx/store';
+import { reducers } from './app.reducer';
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
+import { AuthInterceptor } from './auth/auth.interceptor';
+import { AuthGuard } from './auth/auth.guard';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent
+    LoginComponent,
+    DashboardComponent
   ],
   imports: [
     BrowserModule,
@@ -23,9 +30,15 @@ import { AuthModule } from './auth/auth.module';
     MaterialModule,
     FlexLayoutModule,
     AppRoutingModule,
-    AuthModule
+    AuthModule,
+    StoreModule.forRoot(reducers)
   ],
-  providers: [],
+  providers: [{
+    provide: HTTP_INTERCEPTORS,
+    useClass: AuthInterceptor,
+    multi: true
+  },
+  AuthGuard],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

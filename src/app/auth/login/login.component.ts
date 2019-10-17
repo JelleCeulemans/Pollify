@@ -2,9 +2,12 @@ import { Component, OnInit, Injectable } from '@angular/core';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { Gebruiker } from 'src/app/models/gebruiker.model';
-import { Observable } from 'rxjs';
+import { Observable, VirtualTimeScheduler } from 'rxjs';
 import { Router } from '@angular/router';
 import { MatSnackBar } from '@angular/material';
+import { Store } from '@ngrx/store';
+import * as fromAuth from '../auth.reducer';
+import * as Auth from '../auth.actions';
 
 @Component({
   selector: 'app-login',
@@ -17,38 +20,34 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   gebruikers$: Observable<Gebruiker[]>;
   gebruiker: Gebruiker;
-  isAuth: boolean;
 
   constructor(
-    private _authService: AuthService, 
+    private _authService: AuthService,
     private router: Router,
-    private snackbar: MatSnackBar) {
-      this.gebruikers$ = this._authService.getGebruikers();
-   }
+    private snackbar: MatSnackBar,
+    private store: Store<{ ui: fromAuth.State }>) {
+    this.gebruikers$ = this._authService.getGebruikers();
+  }
 
   ngOnInit() {
     this.loginForm = new FormGroup({
-      email: new FormControl('', {validators: [Validators.required, Validators.email]}),
-      password: new FormControl('', {validators: [Validators.required]})
+      email: new FormControl('info@jelleceulemans.be', { validators: [Validators.required, Validators.email] }),
+      password: new FormControl('azertyuiop', { validators: [Validators.required] })
     });
   }
 
   onSubmit() {
-    this.gebruikers$.forEach(g => {
-      this.gebruiker = g.find(g => g.email == this.loginForm.value.email);
-      if (this.gebruiker) {
-        if (this.gebruiker.wachtwoord == this.loginForm.value.password) {
-          this.router.navigate(['/']);
-        } else {
-          this.snackbar.open('Wrong password!', 'Login failed', {
-            duration: 3000
-          });
-        }
-      } else {
-        this.snackbar.open('Email nog existing!', 'Login failed', {
-          duration: 3000
-        });
-      }
+    let gebruikerLogin = new Gebruiker(0, this.loginForm.value.email, this.loginForm.value.password, null, null, null, null);
+    this._authService.authenticate(gebruikerLogin).subscribe(result => {
+      this.gebruiker = result;
+      localStorage.setItem("token", result.token);
+      this.store.dispatch(new Auth.SetAuthenticated());
+      this.router.navigate(['/dashboard']);
+    }, error => {
+      this.store.dispatch(new Auth.SetUnauthenticated());
+      this.snackbar.open('Credentials are not recognised!', 'Login failed', {
+        duration: 3000
+      });
     });
   }
 }

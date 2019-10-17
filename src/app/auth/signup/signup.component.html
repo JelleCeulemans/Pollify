@@ -1,6 +1,11 @@
 <section>
     <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" (ngSubmit)="onSubmit()" [formGroup]="signupForm">
         <mat-form-field>
+            <input type="text" matInput placeholder="Gebruikersnaam" formControlName="gebruikersnaam">
+            <mat-error>Vul aub een gebruikersnaam in van minstens 3 karakters lang.</mat-error>
+        </mat-form-field>
+        
+        <mat-form-field>
             <input type="text" matInput placeholder="Email" formControlName="email">
             <mat-error>Please enter a valid email!</mat-error>
         </mat-form-field>

@@ -12,7 +12,15 @@ export class AuthService {
     
    }
 
+   authenticate(gebruiker: Gebruiker): Observable<Gebruiker> {
+    return this.http.post<Gebruiker>("https://localhost:44389/api/Gebruiker/authenticate", gebruiker);
+  }
+
    getGebruikers(): Observable<Gebruiker[]> {
     return this.http.get<Gebruiker[]>("https://localhost:44389/api/Gebruiker");
+  }
+
+  insertGebruiker(gebruiker: Gebruiker) {
+    return this.http.post<Gebruiker>("https://localhost:44389/api/Gebruiker", gebruiker);
   }
 }

@@ -8,5 +8,6 @@ export class Gebruiker {
         public wachtwoord: string, 
         public gebruikersnaam: string,
         public pollgebruikers: PollGebruiker[],
-        public stemmen: Stem[]) { }
+        public stemmen: Stem[],
+        public token: string) { }
 }

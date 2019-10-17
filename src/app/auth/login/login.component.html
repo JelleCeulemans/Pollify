@@ -11,8 +11,4 @@
         </mat-form-field>
         <button mat-raised-button color="accent" type="submit" [disabled]="loginForm.invalid">Submit</button>
     </form>
-
-    <ul>
-        <li *ngFor="let g of (gebruikers$ | async)">{{ g.email }}</li>
-    </ul>
 </section>
