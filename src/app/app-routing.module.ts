@@ -6,6 +6,7 @@ import { SignupComponent } from './auth/signup/signup.component';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './auth/auth.guard';
 import { CreatePollComponent } from './poll/create-poll/create-poll.component';
+import { VotePollComponent } from './poll/vote-poll/vote-poll.component';
 
 
 const routes: Routes = [
@@ -14,6 +15,7 @@ const routes: Routes = [
   { path: 'signup', component: SignupComponent },
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   { path: 'createPoll', component: CreatePollComponent, canActivate: [AuthGuard]},  
+  { path: 'votePoll', component: VotePollComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({

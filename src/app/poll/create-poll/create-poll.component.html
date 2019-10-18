@@ -1,10 +1,18 @@
 <section>
-    <form fxLayout="column" fxLayoutAlign="center center">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="20px" [formGroup]="createPollForm">
         <mat-form-field>
-            <input type="text" matInput placeholder="Titel van de applicatie" formControlName="titel">
+            <input type="text" matInput placeholder="Titel van de applicatie" formControlName="title">
         </mat-form-field>
         <mat-form-field>
-            <input type="text" matInput placeholder="Poll antwoord" formControlName="titel">
+            <input type="text" matInput placeholder="Poll antwoord" formControlName="answer">
         </mat-form-field>
+        <ul>
+            <li *ngFor="let a of answerList">{{a}}</li>
+        </ul>
+        <button mat-raised-button color="warn" (click)="addAnswerPoll()">Add</button>
+        <button mat-raised-button  color="warn" (click)="onSubmit()">Save the poll</button>
+        
     </form>
+    
+    
 </section>

@@ -22,11 +22,11 @@ export class LoginComponent implements OnInit {
   gebruiker: Gebruiker;
 
   constructor(
-    private _authService: AuthService,
+    private authService: AuthService,
     private router: Router,
     private snackbar: MatSnackBar,
     private store: Store<{ ui: fromAuth.State }>) {
-    this.gebruikers$ = this._authService.getGebruikers();
+    this.gebruikers$ = this.authService.getGebruikers();
   }
 
   ngOnInit() {
@@ -38,8 +38,8 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     let gebruikerLogin = new Gebruiker(0, this.loginForm.value.email, this.loginForm.value.password, null, null, null, null);
-    this._authService.authenticate(gebruikerLogin).subscribe(result => {
-      this.gebruiker = result;
+    this.authService.authenticate(gebruikerLogin).subscribe(result => {
+      this.authService.setGebruiker(result);
       localStorage.setItem("token", result.token);
       this.store.dispatch(new Auth.SetAuthenticated());
       this.router.navigate(['/dashboard']);

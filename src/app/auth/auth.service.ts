@@ -7,6 +7,7 @@ import { Gebruiker } from '../models/gebruiker.model';
   providedIn: 'root'
 })
 export class AuthService {
+  gebruiker: Gebruiker;
 
   constructor(private http: HttpClient) {
     
@@ -22,5 +23,13 @@ export class AuthService {
 
   insertGebruiker(gebruiker: Gebruiker) {
     return this.http.post<Gebruiker>("https://localhost:44389/api/Gebruiker", gebruiker);
+  }
+
+  setGebruiker(gebruiker: Gebruiker) {
+    this.gebruiker = gebruiker;
+  }
+
+  getGebruiker() {
+    return this.gebruiker;
   }
 }

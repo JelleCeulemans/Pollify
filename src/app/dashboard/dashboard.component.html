@@ -1,10 +1,10 @@
 <section fxLayoutAlign="center center" fxLayout="column">
     <h1>Your Polls</h1>
-    <mat-card>
+    <mat-card *ngIf="pollGebruikers">
         <mat-list *ngFor="let p of pollGebruikers" >
             <div fxLayout="row" fxLayoutAlign="end center">
                 <mat-list-item>{{ p.poll.naam }}</mat-list-item>
-                <button mat-raised-button color="warn" (click)="editPoll(p.poll.id)">Vote</button>
+                <button mat-raised-button color="warn" (click)="vote(p.poll)">Vote</button>
             </div>
             <mat-divider></mat-divider>
         </mat-list>

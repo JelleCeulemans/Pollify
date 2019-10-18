@@ -7,6 +7,5 @@ export class Poll {
         public naam: string,
         public pollgebruiker: PollGebruiker[],
         public antwoorden: Antwoord[]) {
-
     }
 }

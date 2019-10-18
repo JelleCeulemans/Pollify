@@ -1,0 +1,13 @@
+<section fxLayoutAlign="center center">
+    <mat-card >
+        <mat-card-title fxLayoutAlign="center center">{{poll.naam}}</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <mat-radio-group fxLayout="column" fxLayoutGap="20px">
+                <mat-radio-button *ngFor="let answer of poll.antwoorden" [value]="answer">
+                    {{answer.beantwoording}}
+                </mat-radio-button>
+            </mat-radio-group>
+        </mat-card-content>
+    </mat-card>
+</section>
