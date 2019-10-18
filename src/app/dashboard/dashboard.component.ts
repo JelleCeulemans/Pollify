@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
-import { Observable } from 'rxjs';
-import * as fromAuth from '../auth/auth.reducer';
-import { Store } from '@ngrx/store';
+import { PollService } from '../poll.service';
+import { PollGebruiker } from '../models/pollgebruiker.model';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-dashboard',
@@ -9,13 +9,19 @@ import { Store } from '@ngrx/store';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  isAuthenticated$: Observable<boolean>;
-
-  constructor(private store: Store<fromAuth.State>) { }
+  pollGebruikers: PollGebruiker[];
+  
+  constructor(private pollService: PollService, private router: Router) { }
 
   ngOnInit() {
-    //this.isAuthenticated$ = this.store.select(fromAuth.getIsAuth);
+    this.pollService.getPollGebruikers(1).subscribe(result => {
+      console.log(result);
+      this.pollGebruikers = result;
+    })
+  }
 
+  createPoll() {
+    this.router.navigate(['/createPoll']);
   }
 
 }

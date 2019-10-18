@@ -15,6 +15,7 @@ import { reducers } from './app.reducer';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
+import { PollModule } from './poll/poll.module';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { AuthGuard } from './auth/auth.guard';
     FlexLayoutModule,
     AppRoutingModule,
     AuthModule,
+    PollModule,
     StoreModule.forRoot(reducers)
   ],
   providers: [{

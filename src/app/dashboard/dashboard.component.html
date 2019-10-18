@@ -1,11 +1,15 @@
-<section fxLayoutAlign="center center">
+<section fxLayoutAlign="center center" fxLayout="column">
+    <h1>Your Polls</h1>
     <mat-card>
-        <mat-card-title>TITEL VAN DE POLL</mat-card-title>
-        <mat-card-content>
-            <mat-radio-group aria-label="Select an option" fxLayout="column">
-                <mat-radio-button value="1">Option 1</mat-radio-button>
-                <mat-radio-button value="2">Option 2</mat-radio-button>
-              </mat-radio-group>
-        </mat-card-content>
+        <mat-list *ngFor="let p of pollGebruikers" >
+            <div fxLayout="row" fxLayoutAlign="end center">
+                <mat-list-item>{{ p.poll.naam }}</mat-list-item>
+                <button mat-raised-button color="warn" (click)="editPoll(p.poll.id)">Vote</button>
+            </div>
+            <mat-divider></mat-divider>
+        </mat-list>
+    </mat-card>
+    <mat-card fxLayoutAlign="center">
+        <button  mat-raised-button color="warn" (click)="createPoll()">Create new poll</button>
     </mat-card>
 </section>
