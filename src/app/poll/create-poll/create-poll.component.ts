@@ -61,33 +61,27 @@ export class CreatePollComponent implements OnInit {
   }
 
   onSubmit() {
-    console.log(this.authService.getGebruiker());
-    this.pollGebruiker = new PollGebruiker(0, new Poll(0, "", null, null), this.authService.getGebruiker());
-    console.log(new Poll(0, "", null, null));
-    console.log(this.pollGebruiker)
+    this.title = this.createPollForm.value.title;
 
-
-
-    // //console.log(this.authService.getGebruiker());
-    // this.title = this.createPollForm.value.title;
-
-    // if (this.title && this.answerList.length > 0) {
-    //   this.answerList.forEach(answer => {
-    //     this.answers.push(new Antwoord(0, answer, this.poll, null));
-    //   });
-    //   //console.log(this.authService.getGebruiker());
-    //   this.poll = new Poll(0, this.title, [new PollGebruiker(0, this.poll, this.authService.getGebruiker())], this.answers);
-    //   console.log(this.poll);
-    //   // this.pollService.createPoll(this.poll).subscribe(result => {
-    //   //   this.poll = result;
-    //   // });
+    if (this.title && this.answerList.length > 0) {
+      this.answerList.forEach(answer => {
+        this.answers.push(new Antwoord(0, answer, this.poll, null));
+      });
+      this.poll = new Poll(0, this.title, [new PollGebruiker(0, this.poll, this.authService.getGebruiker())], this.answers);
+      this.pollService.createPoll(this.poll).subscribe(result => {
+        this.poll = result;
+        console.log(result);
+        this.pollService.createPollGebruiker(new PollGebruiker(0, result, this.authService.getGebruiker())).subscribe(result => {
+          console.log(result);
+        });
+      });
       
-    //   this.router.navigate(['/dashboard']);
-    // } else {
-    //   this.snackbar.open('Title was blank or no answers were added to the poll', 'Error', {
-    //     duration: 3000
-    //   });
-    // }
+      this.router.navigate(['/dashboard']);
+    } else {
+      this.snackbar.open('Title was blank or no answers were added to the poll', 'Error', {
+        duration: 3000
+      });
+    }
 
   }
 

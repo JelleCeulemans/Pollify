@@ -16,6 +16,8 @@ import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AuthInterceptor } from './auth/auth.interceptor';
 import { AuthGuard } from './auth/auth.guard';
 import { PollModule } from './poll/poll.module';
+import { DialogModule } from './dialog/dialog.module';
+import { DeletePollComponent } from './dialog/delete-poll/delete-poll.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +35,7 @@ import { PollModule } from './poll/poll.module';
     AppRoutingModule,
     AuthModule,
     PollModule,
+    DialogModule,
     StoreModule.forRoot(reducers)
   ],
   providers: [{
@@ -41,6 +44,7 @@ import { PollModule } from './poll/poll.module';
     multi: true
   },
   AuthGuard],
-  bootstrap: [AppComponent]
+  bootstrap: [AppComponent],
+  entryComponents: [DeletePollComponent]
 })
 export class AppModule { }

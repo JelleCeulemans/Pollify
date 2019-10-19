@@ -13,13 +13,13 @@ const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
   { path: 'createPoll', component: CreatePollComponent, canActivate: [AuthGuard]},  
   { path: 'votePoll', component: VotePollComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes)],
+  imports: [RouterModule.forRoot(routes,  { onSameUrlNavigation: 'reload' })],
   exports: [RouterModule]
 })
 

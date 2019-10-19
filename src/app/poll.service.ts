@@ -18,33 +18,17 @@ export class PollService {
     
    }
 
-   getPollGebruikers(PollGebruikerID: number): Observable<PollGebruiker[]> {
-    return this.http.get<PollGebruiker[]>("https://localhost:44389/api/PollGebruiker/" + PollGebruikerID);
+   getPollGebruikers(gebruikerID: number): Observable<PollGebruiker[]> {
+    return this.http.get<PollGebruiker[]>("https://localhost:44389/api/Pollgebruiker/perUser?gebruikerid=" + gebruikerID);
   }
 
   createPoll(poll: Poll) {
     return this.http.post<Poll>("https://localhost:44389/api/poll", poll);
   }
 
-  createPollGebruiker(gebruikerID: number, pollID) {
-
-    this.http.get<Poll>("https://localhost:44389/api/poll/" + pollID).subscribe(result => {
-      this.poll = result;
-      console.log(result);
-      console.log("1");
-    });
-
-    this.http.get<Gebruiker>("https://localhost:44389/api/gebruiker/" + gebruikerID).subscribe(result => {
-      this.gebruiker = result;
-      console.log(result);
-      console.log("2");
-    });
-
-    this.pollGebruiker = new PollGebruiker(0, this.poll, this.gebruiker);
-    console.log(this.pollGebruiker);
-    console.log("3");
-      
-    return this.http.post<PollGebruiker>("https://localhost:44389/api/pollgebruiker/", this.pollGebruiker);
+  createPollGebruiker(pollGebruiker: PollGebruiker) {
+    console.log(pollGebruiker);
+    return this.http.post<PollGebruiker>("https://localhost:44389/api/pollGebruiker", pollGebruiker)
   }
 
   setPoll(poll: Poll) {

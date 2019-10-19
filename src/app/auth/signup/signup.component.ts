@@ -25,6 +25,8 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
+
+    //check if email already exists
     if  (this.signupForm.value.password == this.signupForm.value.repeatPassword) {
       let gebruiker = new Gebruiker(0, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.gebruikersnaam, null, null, null);
       this.authService.insertGebruiker(gebruiker).subscribe();
