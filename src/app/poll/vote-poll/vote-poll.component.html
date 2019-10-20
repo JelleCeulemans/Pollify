@@ -1,10 +1,10 @@
-<section fxLayoutAlign="center center" *ngIf="antwoordenLijst">
+<section fxLayoutAlign="center center" *ngIf="antwoordenIDGebruiker">
     <mat-card>
         <mat-card-title fxLayoutAlign="center center">{{poll.naam}}</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
             <div fxLayoutGap="20px" fxLayout="column">
-                <mat-checkbox color="warn" *ngFor="let answer of poll.antwoorden" [value]="answer" (change)="updateVote($event, answer)" [checked]="antwoordenLijst.includes(answer.beantwoording)"> 
+                <mat-checkbox color="warn" *ngFor="let answer of poll.antwoorden" [value]="answer" (change)="updateVote($event, answer.antwoordID)" [checked]="antwoordenIDGebruiker.includes(answer.antwoordID)"> 
                     {{answer.beantwoording}}
                 </mat-checkbox>
             </div>

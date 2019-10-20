@@ -33,8 +33,7 @@ export class PollService {
   }
 
   createPollGebruiker(pollGebruiker: PollGebruiker) {
-    console.log(pollGebruiker);
-    return this.http.post<PollGebruiker>("https://localhost:44389/api/pollGebruiker", pollGebruiker)
+    return this.http.post<PollGebruiker>("https://localhost:44389/api/pollGebruiker", pollGebruiker);
   }
 
   getAntwoorden(gebruikerid: number, pollid: number): Observable<Antwoord[]> {
@@ -46,10 +45,7 @@ export class PollService {
   }
 
   deleteStem(antwoordID: number, gebruikerID: number) {
-    this.http.get<Stem>("https://localhost:44389/api/Stem?antwoordid=" + antwoordID + "&gebruikerid=" + gebruikerID).subscribe(result => {
-      this.http.delete<Stem>("https://localhost:44389/api/Stem/" + result.stemID).subscribe();
-    });
-    return this.stem;
+    return this.http.delete<Stem>("https://localhost:44389/api/Stem?antwoordid=" + antwoordID + "&gebruikerid=" + gebruikerID);
   }
 
   setPoll(poll: Poll) {
