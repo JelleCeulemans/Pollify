@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { PollService } from '../poll.service';
 import { PollGebruiker } from '../models/pollgebruiker.model';
-import { Router } from '@angular/router';
+import { Router, NavigationEnd } from '@angular/router';
 import { Poll } from '../models/poll.model';
 import { Gebruiker } from '../models/gebruiker.model';
 import { AuthService } from '../auth/auth.service';
@@ -13,18 +13,28 @@ import { DeletePollComponent } from '../dialog/delete-poll/delete-poll.component
   templateUrl: './dashboard.component.html',
   styleUrls: ['./dashboard.component.scss']
 })
-export class DashboardComponent implements OnInit { 
+export class DashboardComponent implements OnInit {
   pollGebruikers: PollGebruiker[];
   gebruiker: Gebruiker;
-  
+
   constructor(
-    private pollService: PollService, 
+    private pollService: PollService,
     private router: Router,
     private authService: AuthService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog) {
+    this.router.events.subscribe((ev) => {
+      if (ev instanceof NavigationEnd) { 
+        this.initializePolls();
+       }
+    });
+  }
 
   ngOnInit() {
     this.pollGebruikers = new Array<PollGebruiker>();
+    this.initializePolls();
+  }
+
+  initializePolls() {
     this.gebruiker = this.authService.getGebruiker();
     if (this.gebruiker) {
       this.pollService.getPollGebruikers(this.gebruiker.gebruikerID).subscribe(result => {
@@ -52,7 +62,10 @@ export class DashboardComponent implements OnInit {
 
     deletePollDialog.afterClosed().subscribe(result => {
       if (result) {
-        console.log("delete dialog");
+        this.pollService.deletePoll(poll.pollID).subscribe(result => {
+          console.log(result);
+          this.initializePolls();
+        });
       } else {
         console.log("don't delete dialog");
       }

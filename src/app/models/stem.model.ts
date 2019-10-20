@@ -6,6 +6,5 @@ export class Stem {
         public stemID: number,
         public antwoord: Antwoord,
         public gebruiker: Gebruiker) {
-
     }
 }

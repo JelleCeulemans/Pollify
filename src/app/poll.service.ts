@@ -5,6 +5,7 @@ import { PollGebruiker } from './models/pollgebruiker.model';
 import { Poll } from './models/poll.model';
 import { Gebruiker } from './models/gebruiker.model';
 import { Antwoord } from './models/antwoord.model';
+import { Stem } from './models/stem.model';
 
 @Injectable({
   providedIn: 'root'
@@ -13,6 +14,7 @@ export class PollService {
   poll: Poll;
   gebruiker: Gebruiker;
   pollGebruiker: PollGebruiker;
+  stem: Stem;
 
   constructor(private http: HttpClient) {
     
@@ -23,12 +25,31 @@ export class PollService {
   }
 
   createPoll(poll: Poll) {
-    return this.http.post<Poll>("https://localhost:44389/api/poll", poll);
+    return this.http.post<Poll>("https://localhost:44389/api/Poll", poll);
+  }
+
+  deletePoll(pollID: number) {
+    return this.http.delete<Poll>("https://localhost:44389/api/Poll/" + pollID);
   }
 
   createPollGebruiker(pollGebruiker: PollGebruiker) {
     console.log(pollGebruiker);
     return this.http.post<PollGebruiker>("https://localhost:44389/api/pollGebruiker", pollGebruiker)
+  }
+
+  getAntwoorden(gebruikerid: number, pollid: number): Observable<Antwoord[]> {
+    return this.http.get<Antwoord[]>("https://localhost:44389/api/Antwoord/specific?gebruikerid=" + gebruikerid + "&pollID=" + pollid);
+  }
+
+  createStem(stem: Stem) {
+    return this.http.post<Stem>("https://localhost:44389/api/Stem", stem);
+  }
+
+  deleteStem(antwoordID: number, gebruikerID: number) {
+    this.http.get<Stem>("https://localhost:44389/api/Stem?antwoordid=" + antwoordID + "&gebruikerid=" + gebruikerID).subscribe(result => {
+      this.http.delete<Stem>("https://localhost:44389/api/Stem/" + result.stemID).subscribe();
+    });
+    return this.stem;
   }
 
   setPoll(poll: Poll) {

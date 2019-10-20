@@ -1,6 +1,6 @@
-<section fxLayoutAlign="center center" fxLayout="column">
+<section fxLayoutAlign="center center" fxLayout="column" *ngIf="pollGebruikers">
     <h1>Your Polls</h1>
-    <mat-card *ngIf="pollGebruikers.length">
+    <mat-card >
         <mat-list *ngFor="let p of pollGebruikers" >
             <div fxLayout="row" fxLayoutAlign="end center">
                 <mat-list-item>{{ p.poll.naam }}</mat-list-item>
