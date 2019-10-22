@@ -15,4 +15,14 @@
     <mat-card fxLayoutAlign="center">
         <button  mat-raised-button color="warn" (click)="createPoll()">Create new poll</button>
     </mat-card>
+
+    <mat-card>
+        <mat-card-title>Your friends</mat-card-title>
+
+        <mat-card-content>
+            <p *ngFor="let item of (vrienden$ | async)">
+                {{item.gebruikersnaam}}
+            </p>
+        </mat-card-content>
+    </mat-card>
 </section>

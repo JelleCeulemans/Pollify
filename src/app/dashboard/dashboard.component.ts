@@ -7,6 +7,7 @@ import { Gebruiker } from '../models/gebruiker.model';
 import { AuthService } from '../auth/auth.service';
 import { MatDialog } from '@angular/material';
 import { DeletePollComponent } from '../dialog/delete-poll/delete-poll.component';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-dashboard',
@@ -16,6 +17,7 @@ import { DeletePollComponent } from '../dialog/delete-poll/delete-poll.component
 export class DashboardComponent implements OnInit {
   pollGebruikers: PollGebruiker[];
   gebruiker: Gebruiker;
+  vrienden$: Observable<Gebruiker[]>;
 
   constructor(
     private pollService: PollService,
@@ -32,6 +34,8 @@ export class DashboardComponent implements OnInit {
   ngOnInit() {
     this.pollGebruikers = new Array<PollGebruiker>();
     this.initializePolls();
+
+    this.vrienden$ = this.authService.getFriends(this.authService.getGebruiker());
   }
 
   initializePolls() {

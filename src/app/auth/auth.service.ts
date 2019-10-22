@@ -32,4 +32,12 @@ export class AuthService {
   getGebruiker() {
     return this.gebruiker;
   }
+
+  getFriends(gebruiker: Gebruiker) {
+    return this.http.get<Gebruiker[]>("https://localhost:44389/api/Vriend/byId?gebruikerid=" + gebruiker.gebruikerID);
+  }
+
+  getGebruikerByEmail(email: string) {
+    return this.http.get<Gebruiker>("https://localhost:44389/api/Gebruiker/byEmail?email=" + email);
+  }
 }

@@ -18,6 +18,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { PollModule } from './poll/poll.module';
 import { DialogModule } from './dialog/dialog.module';
 import { DeletePollComponent } from './dialog/delete-poll/delete-poll.component';
+import { InviteModule } from './invite/invite.module';
 
 @NgModule({
   declarations: [
@@ -36,6 +37,7 @@ import { DeletePollComponent } from './dialog/delete-poll/delete-poll.component'
     AuthModule,
     PollModule,
     DialogModule,
+    InviteModule,
     StoreModule.forRoot(reducers)
   ],
   providers: [{
