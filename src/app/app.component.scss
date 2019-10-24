@@ -32,3 +32,27 @@ img {
     width: 100px;
     height: auto;
 }
+
+.friendRequests {
+    border: 1px solid gray;
+    background-color: red;
+    color: #ffffff;
+    border-radius: 50%;
+    font-size: 0.5em;
+    font-weight: bold;
+    padding: 3px;
+    position: relative;
+    top: 5px;
+    right: 5px;
+    opacity: 1;
+
+    // &:hover {
+    //     
+    // }
+
+}
+
+#friendsLink:hover > .friendRequests {
+    opacity: 0.5;
+}
+

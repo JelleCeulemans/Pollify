@@ -7,23 +7,21 @@ import { DashboardComponent } from './dashboard/dashboard.component';
 import { AuthGuard } from './auth/auth.guard';
 import { CreatePollComponent } from './poll/create-poll/create-poll.component';
 import { VotePollComponent } from './poll/vote-poll/vote-poll.component';
-import { AcceptInviteComponent } from './invite/accept-invite/accept-invite.component';
-import { InviteComponent } from './invite/invite/invite.component';
+import { FriendsComponent } from './friends/friends.component';
 
 
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
   { path: 'signup', component: SignupComponent },
-  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard], runGuardsAndResolvers: 'always'},
+  { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   { path: 'createPoll', component: CreatePollComponent, canActivate: [AuthGuard]},  
   { path: 'votePoll', component: VotePollComponent, canActivate: [AuthGuard]},
-  { path: 'acceptInvite/:vriendID', component: AcceptInviteComponent, canActivate: [AuthGuard]},
-  { path: 'invite', component: InviteComponent, canActivate: [AuthGuard]}
+  { path: 'friends', component: FriendsComponent, canActivate: [AuthGuard]}
 ];
 
 @NgModule({
-  imports: [RouterModule.forRoot(routes,  { onSameUrlNavigation: 'reload' })],
+  imports: [RouterModule.forRoot(routes)],
   exports: [RouterModule]
 })
 

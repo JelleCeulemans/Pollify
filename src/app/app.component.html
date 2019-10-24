@@ -16,9 +16,9 @@
                 <mat-icon id="nav-icon">dashboard</mat-icon>
                 <span>Dashboard</span>
             </a>
-            <a *ngIf="isAuthenticated$ | async" mat-list-item routerLink="/invite" (click)="sidenav.close()">
+            <a *ngIf="isAuthenticated$ | async" mat-list-item routerLink="/friends" (click)="sidenav.close()">
                 <mat-icon id="nav-icon">person_add</mat-icon>
-                <span>Invite</span>
+                <span>Friends</span>
             </a>
             <a *ngIf="isAuthenticated$ | async" mat-list-item (click)="logout()">
                 <mat-icon id="nav-icon">highlight_off</mat-icon>
@@ -39,10 +39,9 @@
                     <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/login">Login</a></li>
                     <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/signup">Signup</a></li>
                     <li *ngIf="isAuthenticated$ | async"><a routerLink="/dashboard">Dashboard</a></li>
-                    <li *ngIf="isAuthenticated$ | async"><a routerLink="/invite">Invite</a></li>
+                    <li *ngIf="isAuthenticated$ | async"><a id="friendsLink" routerLink="/friends">Friends<span *ngIf="receivedInvitations > 0" class="friendRequests">{{receivedInvitations}}</span></a></li>
                     <li *ngIf="isAuthenticated$ | async"><a (click)="logout()">Logout</a></li>
-                </ul>
-                
+                </ul>  
             </div>
         </mat-toolbar>
         <main>

@@ -31,7 +31,9 @@
               "src/styles.scss",
               "src/my-theme.scss"
             ],
-            "scripts": []
+            "scripts": [
+              "src/assets/js/mail.js"
+            ]
           },
           "configurations": {
             "production": {

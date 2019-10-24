@@ -18,14 +18,17 @@ import { AuthGuard } from './auth/auth.guard';
 import { PollModule } from './poll/poll.module';
 import { DialogModule } from './dialog/dialog.module';
 import { DeletePollComponent } from './dialog/delete-poll/delete-poll.component';
-import { InviteModule } from './invite/invite.module';
+import { FriendsComponent } from './friends/friends.component';
+import { ReactiveFormsModule, FormsModule } from '@angular/forms';
+import { InviteDialogComponent } from './dialog/invite-dialog/invite-dialog.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     LoginComponent,
-    DashboardComponent
+    DashboardComponent,
+    FriendsComponent 
   ],
   imports: [
     BrowserModule,
@@ -37,7 +40,8 @@ import { InviteModule } from './invite/invite.module';
     AuthModule,
     PollModule,
     DialogModule,
-    InviteModule,
+    ReactiveFormsModule,
+    FormsModule,
     StoreModule.forRoot(reducers)
   ],
   providers: [{
@@ -47,6 +51,6 @@ import { InviteModule } from './invite/invite.module';
   },
   AuthGuard],
   bootstrap: [AppComponent],
-  entryComponents: [DeletePollComponent]
+  entryComponents: [DeletePollComponent, InviteDialogComponent]
 })
 export class AppModule { }

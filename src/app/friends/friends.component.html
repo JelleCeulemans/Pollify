@@ -1,0 +1,40 @@
+<section fxLayout="column"  fxLayoutAlign="center center">
+    <form fxLayout="column"  [formGroup]="inviteForm" (ngSubmit)="onSubmit()">
+        <mat-form-field>
+            <input type="text" matInput placeholder="Email" formControlName="email">
+            <mat-error>Please enter a valid email!</mat-error>
+        </mat-form-field>
+        <button mat-raised-button color="accent" type="submit" [disabled]="inviteForm.invalid">Invite</button>
+    </form>
+
+    <mat-card *ngIf="(vrienden$ | async)?.length > 0">
+        <mat-card-title>Your friends</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <p *ngFor="let item of (vrienden$ | async)">
+                {{item.gebruikersnaam}}
+            </p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="(sendedInvitations$ | async)?.length > 0">
+        <mat-card-title>Invitations Sended</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <p *ngFor="let item of (sendedInvitations$ | async)">
+                {{item}}
+            </p>
+        </mat-card-content>
+    </mat-card>
+
+    <mat-card *ngIf="(receivedInvitations$ | async)?.length > 0">
+        <mat-card-title>Invitations Received</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <p *ngFor="let item of (receivedInvitations$ | async)">
+                {{item.sender.email}} ({{item.sender.gebruikersnaam}})
+            </p>
+        </mat-card-content>
+    </mat-card>
+</section>
+

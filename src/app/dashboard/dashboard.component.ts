@@ -8,6 +8,9 @@ import { AuthService } from '../auth/auth.service';
 import { MatDialog } from '@angular/material';
 import { DeletePollComponent } from '../dialog/delete-poll/delete-poll.component';
 import { Observable } from 'rxjs';
+import { Friend } from '../models/friend.model';
+import { async } from 'q';
+import { InviteDialogComponent } from '../dialog/invite-dialog/invite-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,25 +20,36 @@ import { Observable } from 'rxjs';
 export class DashboardComponent implements OnInit {
   pollGebruikers: PollGebruiker[];
   gebruiker: Gebruiker;
-  vrienden$: Observable<Gebruiker[]>;
-
+  receivedInvitations: Friend[];
+  
   constructor(
     private pollService: PollService,
     private router: Router,
     private authService: AuthService,
     private dialog: MatDialog) {
-    this.router.events.subscribe((ev) => {
-      if (ev instanceof NavigationEnd) { 
-        this.initializePolls();
-       }
-    });
   }
 
   ngOnInit() {
     this.pollGebruikers = new Array<PollGebruiker>();
     this.initializePolls();
-
-    this.vrienden$ = this.authService.getFriends(this.authService.getGebruiker());
+    this.authService.getReceivedInvitations().subscribe(result => {
+      this.receivedInvitations = result;
+      this.authService.setReceivedFriends(result);
+      if (result.length > 0) {
+        const inviteDialog = this.dialog.open(InviteDialogComponent, {
+          data: {
+            amount: result.length
+          }
+        });
+  
+        inviteDialog.afterClosed().subscribe(result => {
+          if (result) {
+            this.router.navigate(['/friends'])
+          }
+        });
+      }
+    });
+    
   }
 
   initializePolls() {
@@ -73,7 +87,7 @@ export class DashboardComponent implements OnInit {
       } else {
         console.log("don't delete dialog");
       }
-    })
+    });
   }
 
 }

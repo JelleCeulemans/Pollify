@@ -6,6 +6,7 @@ import { Poll } from './models/poll.model';
 import { Gebruiker } from './models/gebruiker.model';
 import { Antwoord } from './models/antwoord.model';
 import { Stem } from './models/stem.model';
+import { Friend } from './models/friend.model';
 
 @Injectable({
   providedIn: 'root'
@@ -15,6 +16,7 @@ export class PollService {
   gebruiker: Gebruiker;
   pollGebruiker: PollGebruiker;
   stem: Stem;
+  
 
   constructor(private http: HttpClient) {
     
@@ -56,5 +58,11 @@ export class PollService {
     return this.poll;
   }
 
+  getCountPolls(): Observable<number> {
+    return this.http.get<number>("https://localhost:44389/api/Poll/countPolls");
+  }
 
+  getCountUsers(): Observable<number> {
+    return this.http.get<number>("https://localhost:44389/api/Gebruiker/countUsers");
+  }
 }

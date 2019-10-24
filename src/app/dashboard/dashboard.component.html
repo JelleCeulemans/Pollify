@@ -1,28 +1,21 @@
 <section fxLayoutAlign="center center" fxLayout="column" *ngIf="pollGebruikers">
-    <h1>Your Polls</h1>
-    <mat-card >
-        <mat-list *ngFor="let p of pollGebruikers" >
-            <div fxLayout="row" fxLayoutAlign="end center">
-                <mat-list-item>{{ p.poll.naam }}</mat-list-item>
-                <div fxLayout="row" fxLayoutGap="10px">
-                    <button mat-raised-button color="accent" (click)="vote(p.poll)">Vote</button>
-                    <button mat-raised-button color="warn" (click)="deletePoll(p.poll)">Delete</button>
-                </div>
-            </div>
-            <mat-divider></mat-divider>
-        </mat-list>
-    </mat-card>
-    <mat-card fxLayoutAlign="center">
-        <button  mat-raised-button color="warn" (click)="createPoll()">Create new poll</button>
-    </mat-card>
 
     <mat-card>
-        <mat-card-title>Your friends</mat-card-title>
-
+        <mat-card-title>Your polls</mat-card-title>
         <mat-card-content>
-            <p *ngFor="let item of (vrienden$ | async)">
-                {{item.gebruikersnaam}}
-            </p>
+            <mat-list *ngFor="let p of pollGebruikers">
+                <div fxLayout="row" fxLayoutAlign="end center">
+                    <mat-list-item>{{ p.poll.naam }}</mat-list-item>
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <button mat-raised-button color="accent" (click)="vote(p.poll)">Vote</button>
+                        <button mat-raised-button color="warn" (click)="deletePoll(p.poll)">Delete</button>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+            </mat-list>
         </mat-card-content>
+    </mat-card>
+    <mat-card fxLayoutAlign="center">
+        <button mat-raised-button color="warn" (click)="createPoll()">Create new poll</button>
     </mat-card>
 </section>

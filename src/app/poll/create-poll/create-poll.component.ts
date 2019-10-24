@@ -73,10 +73,11 @@ export class CreatePollComponent implements OnInit {
         console.log(result);
         this.pollService.createPollGebruiker(new PollGebruiker(0, result, this.authService.getGebruiker())).subscribe(result => {
           console.log(result);
+          this.router.navigate(['/dashboard']);
         });
       });
       
-      this.router.navigate(['/dashboard']);
+     
     } else {
       this.snackbar.open('Title was blank or no answers were added to the poll', 'Error', {
         duration: 3000
