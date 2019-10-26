@@ -1,6 +1,8 @@
+@import '~@angular/flex-layout/mq';
+
 mat-card {
     margin-top: 30px;
-    width: 500px;
+    width: 350px;
 }
 
 
@@ -14,4 +16,14 @@ mat-form-field {
 
 section {
     margin: 30px;
+}
+
+#invitations {
+    margin-bottom: 20px;
+}
+
+@include layout-bp(gt-xs) {
+    mat-card {
+        width: 450px;
+    }
 }

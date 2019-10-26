@@ -1,4 +1,4 @@
-import { Component, Injectable, EventEmitter, Input } from '@angular/core';
+import { Component, Injectable} from '@angular/core';
 import * as fromRoot from './app.reducer';
 import { Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -15,13 +15,17 @@ import { AuthService } from './auth/auth.service';
 @Injectable()
 export class AppComponent {
   isAuthenticated$: Observable<boolean>;
+  receivedInvitations: number;
   title = 'Pollify';
-  emitter: EventEmitter<number> = new EventEmitter();
-  @Input() receivedInvitations: number;
-
+  
   constructor(private store: Store<fromRoot.State>, private router: Router, private authService: AuthService) { }
 
   ngOnInit() {
+    this.receivedInvitations = 0;
+    this.authService.changeEmitted$.subscribe(result => {
+      this.receivedInvitations = result;
+      console.log(result);
+    });
     this.isAuthenticated$ = this.store.select(fromRoot.getIsAuth);
   }
 
@@ -29,4 +33,5 @@ export class AppComponent {
     this.store.dispatch(new Auth.SetUnauthenticated());
     this.router.navigate(['/login']);
   }
+
 }

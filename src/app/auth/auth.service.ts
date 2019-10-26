@@ -1,8 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable } from 'rxjs';
+import { Observable, Subject } from 'rxjs';
 import { Gebruiker } from '../models/gebruiker.model';
 import { Friend } from '../models/friend.model';
+import { first } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root'
@@ -10,9 +11,18 @@ import { Friend } from '../models/friend.model';
 export class AuthService {
   gebruiker: Gebruiker;
   receivedFriends: Friend[];
+  private emitChargeSource = new Subject<number>();
+  changeEmitted$ = this.emitChargeSource.asObservable();
+  amount: number;
+
 
   constructor(private http: HttpClient) {
     
+   }
+
+   emitChange(change: number) {
+     this.amount = change;
+     this.emitChargeSource.next(change);
    }
 
    authenticate(gebruiker: Gebruiker): Observable<Gebruiker> {
@@ -48,7 +58,7 @@ export class AuthService {
   }
 
   insertFriend(friend: Friend): Observable<Friend> {
-    return this.http.post<Friend>("https://localhost:44389/api/Friend", friend)
+    return this.http.post<Friend>("https://localhost:44389/api/Friend", friend);
   }
 
   getReceivedInvitations(): Observable<Friend[]> {
@@ -61,5 +71,14 @@ export class AuthService {
 
   getReceivedFriends(){
     return this.receivedFriends;
+  }
+
+  removeFriend(friendID: number): Observable<Friend> {
+    this.emitChange(this.amount--);
+    return this.http.delete<Friend>("https://localhost:44389/api/Friend/" + friendID);
+  }
+
+  updateFriend(friendID: number) {
+    return this.http.put<Friend>("https://localhost:44389/api/Friend", new Friend(friendID, null, null, true));
   }
 }

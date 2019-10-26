@@ -1,4 +1,8 @@
-
+mat-toolbar {
+    position: sticky;
+    top: 0; 
+    z-index: 1000;
+}
 .navigation-items {
     list-style: none;
     padding: 0;
@@ -28,31 +32,43 @@ a {
 }
 
 img {
-    margin: 0px 0px 0px 40px;
     width: 100px;
     height: auto;
 }
 
-.friendRequests {
-    border: 1px solid gray;
-    background-color: red;
-    color: #ffffff;
-    border-radius: 50%;
-    font-size: 0.5em;
-    font-weight: bold;
-    padding: 3px;
-    position: relative;
-    top: 5px;
-    right: 5px;
-    opacity: 1;
-
-    // &:hover {
-    //     
-    // }
-
+mat-nav-list {
+    img {
+        margin: 0px 0px 0px 40px;
+    }
 }
 
-#friendsLink:hover > .friendRequests {
-    opacity: 0.5;
+
+
+mat-toolbar {
+    img {
+      margin: 8px 0px 0px 15px;  
+    }
 }
+
+// #friendRequests {
+//     height: 20px;
+//     width: 20px;
+//     background-color: red;
+//     color: #ffffff;
+//     border-radius: 50%;
+//     font-size: 0.5em;
+//     font-weight: bold;
+//     //padding: 3px;
+//     display: inline-flex;
+//     position: relative;
+//     top: 5px;
+//     right: 5px;
+//     opacity: 1;
+//     justify-content: center;
+//     align-items: center;
+// }
+
+// #friendsLink:hover > #friendRequests {
+//     opacity: 0.5;
+// }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
 import { PollService } from '../poll.service';
 import { PollGebruiker } from '../models/pollgebruiker.model';
 import { Router, NavigationEnd } from '@angular/router';
@@ -11,6 +11,7 @@ import { Observable } from 'rxjs';
 import { Friend } from '../models/friend.model';
 import { async } from 'q';
 import { InviteDialogComponent } from '../dialog/invite-dialog/invite-dialog.component';
+import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
 
 @Component({
   selector: 'app-dashboard',
@@ -35,21 +36,22 @@ export class DashboardComponent implements OnInit {
     this.authService.getReceivedInvitations().subscribe(result => {
       this.receivedInvitations = result;
       this.authService.setReceivedFriends(result);
-      if (result.length > 0) {
-        const inviteDialog = this.dialog.open(InviteDialogComponent, {
-          data: {
-            amount: result.length
-          }
-        });
+      this.authService.emitChange(result.length);
+      //if (result.length > 0) {
+        
+        // const inviteDialog = this.dialog.open(InviteDialogComponent, {
+        //   data: {
+        //     amount: result.length
+        //   }
+        // });
   
-        inviteDialog.afterClosed().subscribe(result => {
-          if (result) {
-            this.router.navigate(['/friends'])
-          }
-        });
-      }
+        // inviteDialog.afterClosed().subscribe(result => {
+        //   if (result) {
+        //     this.router.navigate(['/friends'])
+        //   }
+        // });
+      //}
     });
-    
   }
 
   initializePolls() {
@@ -84,8 +86,6 @@ export class DashboardComponent implements OnInit {
           console.log(result);
           this.initializePolls();
         });
-      } else {
-        console.log("don't delete dialog");
       }
     });
   }

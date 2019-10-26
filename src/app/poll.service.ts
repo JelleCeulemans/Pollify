@@ -50,6 +50,11 @@ export class PollService {
     return this.http.delete<Stem>("https://localhost:44389/api/Stem?antwoordid=" + antwoordID + "&gebruikerid=" + gebruikerID);
   }
 
+  getPollParticipants(): Observable<Gebruiker[]>{
+    console.log("pollID: " + this.poll.pollID);
+    return this.http.get<Gebruiker[]>("https://localhost:44389/api/Gebruiker/participants?pollid=" + this.poll.pollID);
+  }
+
   setPoll(poll: Poll) {
     this.poll = poll;
   }

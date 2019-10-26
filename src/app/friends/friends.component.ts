@@ -19,10 +19,8 @@ declare var sendMail: any;
 export class FriendsComponent implements OnInit {
   inviteForm: FormGroup;
   gebruiker: Gebruiker;
-  friend: Friend;
   receiver: Gebruiker;
   existingUser: boolean;
-
   vrienden$: Observable<Gebruiker[]>;
   sendedInvitations$: Observable<string[]>;
   receivedInvitations: Friend[];
@@ -44,17 +42,28 @@ export class FriendsComponent implements OnInit {
       if (result.email) {
         this.receiver = result;
         this.existingUser = true;
-
       } else {
         this.receiver = new Gebruiker(0, this.inviteForm.value.email, null, null, null, null, null);
         this.existingUser = false;
       }
       console.log(this.existingUser);
-      sendMail(this.inviteForm.value.email, this.authService.getGebruiker().gebruikersnaam, this.existingUser);
+      //sendMail(this.inviteForm.value.email, this.authService.getGebruiker().gebruikersnaam, this.existingUser);
       this.authService.insertFriend(new Friend(0, this.authService.getGebruiker(), this.receiver, false)).subscribe(result => {
         console.log(result);
         this.router.navigate(['/dashboard']);
       });  
     });
+  }
+
+  acceptInvitation(friendID: number) {
+    this.authService.updateFriend(friendID).subscribe(result => {
+      this.router.navigate(['/dashboard']);
+    });
+  }
+
+  declineInvitation(friendID: number) {
+    this.authService.removeFriend(friendID).subscribe(result => {
+      this.router.navigate(['/dashboard']);
+    })
   }
 }

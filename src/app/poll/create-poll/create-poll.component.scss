@@ -1,7 +1,15 @@
+@import '~@angular/flex-layout/mq';
+
 section {
-    margin-top: 20px;
+    margin: 50px 0px;
 }
 
-mat-form-field {
-    width: 250px;
+mat-card {
+    width: 350px;
+}
+
+@include layout-bp(gt-xs) {
+    mat-card {
+        width: 450px;
+    }
 }

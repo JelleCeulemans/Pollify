@@ -1,4 +1,19 @@
-<section>
-    <p>Amount of Pollify Polls: {{ countPolls$ | async }}</p>
-    <p>Amount of Pollify Users: {{ countUsers$ | async }}</p>
+<section fxLayout="column" fxLayoutAlign="center center">
+    <img src="assets/images/logo_pollify.png" />
+    <h1>Welcome to pollify</h1>
+    <h2>This platform will poll your life!</h2>
+
+    <mat-card fxLayout="column" *ngIf="countPolls$ && countUsers$" fxLayoutAlign="center center">
+        <mat-card-title>Fun facts:</mat-card-title>
+        <mat-card-content>
+            <mat-chip-list fxLayout="row">
+                <mat-chip color="primary" selected>Polls: {{ countPolls$ | async }}</mat-chip>
+                <mat-chip color="primary" selected>Users: {{ countUsers$ | async }}</mat-chip>
+            </mat-chip-list>
+        </mat-card-content>
+    </mat-card>
+    <div id="sentence">
+        <p>Please <button mat-button color="warn">signup</button> or <button mat-button color="warn">login</button> to
+            start polling with your friends.</p>
+    </div>
 </section>

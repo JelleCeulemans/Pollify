@@ -6,6 +6,8 @@ import { Stem } from 'src/app/models/stem.model';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
 import { element } from 'protractor';
+import { Observable } from 'rxjs';
+import { Gebruiker } from 'src/app/models/gebruiker.model';
 
 @Component({
   selector: 'app-vote-poll',
@@ -16,6 +18,8 @@ export class VotePollComponent implements OnInit, OnDestroy {
   poll: Poll;
   antwoordenIDPoll: number[];
   antwoordenIDGebruiker: number[];
+  participants$: Observable<Gebruiker[]>;
+  gebruikerID: number;
 
   constructor(private pollService: PollService, private authService: AuthService, private router: Router) { }
 
@@ -28,6 +32,11 @@ export class VotePollComponent implements OnInit, OnDestroy {
         this.antwoordenIDGebruiker.push(element.antwoordID);
         this.antwoordenIDPoll.push(element.antwoordID);
       });
+    });
+    this.gebruikerID = this.authService.getGebruiker().gebruikerID;
+    this.participants$ = this.pollService.getPollParticipants();
+    this.pollService.getPollParticipants().subscribe(result => {
+      console.log(result);
     });
   }
 

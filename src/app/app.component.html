@@ -20,7 +20,7 @@
                 <mat-icon id="nav-icon">person_add</mat-icon>
                 <span>Friends</span>
             </a>
-            <a *ngIf="isAuthenticated$ | async" mat-list-item (click)="logout()">
+            <a *ngIf="isAuthenticated$ | async" mat-list-item (click)="logout()" (click)="sidenav.close()">
                 <mat-icon id="nav-icon">highlight_off</mat-icon>
                 <span>Logout</span>
             </a>
@@ -28,18 +28,20 @@
     </mat-sidenav>
     <mat-sidenav-content>
         <mat-toolbar color="primary">
-            <div>
+            <div fxHide.gt-xs>
                 <button mat-icon-button (click)="sidenav.toggle()">
                     <mat-icon>menu</mat-icon>
                 </button>
             </div>
-            <div><a routerLink="/"><img src="assets/images/logo_pollify.png"></a></div>
-            <div fxFlex fxLayout fxLayoutAlign="flex-end" class="navigation-items">
+            <div><a routerLink="/"><img src="assets/images/logo_pollify.png"/></a></div>
+            <div fxFlex fxLayout fxLayoutAlign="flex-end" class="navigation-items" fxHide.lt-sm>
                 <ul fxLayout fxLayoutGap="20px" class="navigation-items">
                     <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/login">Login</a></li>
                     <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/signup">Signup</a></li>
                     <li *ngIf="isAuthenticated$ | async"><a routerLink="/dashboard">Dashboard</a></li>
-                    <li *ngIf="isAuthenticated$ | async"><a id="friendsLink" routerLink="/friends">Friends<span *ngIf="receivedInvitations > 0" class="friendRequests">{{receivedInvitations}}</span></a></li>
+                    <li *ngIf="isAuthenticated$ | async">
+                        <a id="friendsLink"  [matBadge]="receivedInvitations.toString()" matBadgePosition="below after" matBadgeColor="warn" [matBadgeHidden]="!(receivedInvitations > 0)" routerLink="/friends">Friends</a>
+                    </li> <!--<div *ngIf="receivedInvitations" id="friendRequests">{{receivedInvitations}}</div>-->
                     <li *ngIf="isAuthenticated$ | async"><a (click)="logout()">Logout</a></li>
                 </ul>  
             </div>

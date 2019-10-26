@@ -1,10 +1,9 @@
 <section fxLayoutAlign="center center" fxLayout="column" *ngIf="pollGebruikers">
-
     <mat-card>
-        <mat-card-title>Your polls</mat-card-title>
+        <mat-card-title fxLayoutAlign="center center">Your polls</mat-card-title>
         <mat-card-content>
             <mat-list *ngFor="let p of pollGebruikers">
-                <div fxLayout="row" fxLayoutAlign="end center">
+                <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutAlign="center center">
                     <mat-list-item>{{ p.poll.naam }}</mat-list-item>
                     <div fxLayout="row" fxLayoutGap="10px">
                         <button mat-raised-button color="accent" (click)="vote(p.poll)">Vote</button>
@@ -15,7 +14,7 @@
             </mat-list>
         </mat-card-content>
     </mat-card>
-    <mat-card fxLayoutAlign="center">
+    <div fxLayoutAlign="center center" id="creatButton"> 
         <button mat-raised-button color="warn" (click)="createPoll()">Create new poll</button>
-    </mat-card>
+    </div>
 </section>

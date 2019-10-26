@@ -1,0 +1,52 @@
+@import '~@angular/flex-layout/mq';
+
+h1 {
+    font-size: 42px;
+    margin-bottom: 0px;
+}
+
+h2 {
+    margin-top: 10px;
+    font-size: 25px; 
+}
+
+img {
+    width: 250px;
+    height: auto;
+    margin-top: 40px;
+}
+
+mat-card {
+    margin-top: 35px;
+    background-color: lighten($color: #DF0F0F, $amount: 10) !important;
+}
+
+#sentence {
+    text-align: center;
+    margin: 40px;
+}
+
+
+@include layout-bp(gt-xs) {
+    h1 {
+        font-size: 75px;
+    }
+
+    h2 {
+        font-size: 42px;
+    }
+
+    mat-card-title {
+        font-size: 3em;
+    }
+
+    p, button {
+        font-size: 1.5em;
+    }
+
+    button {
+        font-size: 40px;
+    }
+}
+
+
