@@ -47,7 +47,7 @@ export class FriendsComponent implements OnInit {
         this.existingUser = false;
       }
       console.log(this.existingUser);
-      //sendMail(this.inviteForm.value.email, this.authService.getGebruiker().gebruikersnaam, this.existingUser);
+      sendMail(this.inviteForm.value.email, this.authService.getGebruiker().gebruikersnaam, this.existingUser);
       this.authService.insertFriend(new Friend(0, this.authService.getGebruiker(), this.receiver, false)).subscribe(result => {
         console.log(result);
         this.router.navigate(['/dashboard']);

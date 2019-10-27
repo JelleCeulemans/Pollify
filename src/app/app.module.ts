@@ -7,7 +7,6 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { MaterialModule } from './material.module';
 import { FlexLayoutModule } from '@angular/flex-layout';
 import { HomeComponent } from './home/home.component';
-import { LoginComponent } from './home/login/login.component';
 import { AuthModule } from './auth/auth.module';
 import { DashboardComponent } from './dashboard/dashboard.component';
 import { StoreModule } from '@ngrx/store';
@@ -26,7 +25,6 @@ import { InviteDialogComponent } from './dialog/invite-dialog/invite-dialog.comp
   declarations: [
     AppComponent,
     HomeComponent,
-    LoginComponent,
     DashboardComponent,
     FriendsComponent 
   ],

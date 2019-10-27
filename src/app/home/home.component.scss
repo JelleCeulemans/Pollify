@@ -1,5 +1,7 @@
 @import '~@angular/flex-layout/mq';
 
+@import '../../my-theme.scss';
+
 h1 {
     font-size: 42px;
     margin-bottom: 0px;
@@ -18,7 +20,7 @@ img {
 
 mat-card {
     margin-top: 35px;
-    background-color: lighten($color: #DF0F0F, $amount: 10) !important;
+    background-color: mat-color($my-theme-warn) !important;
 }
 
 #sentence {
@@ -26,26 +28,35 @@ mat-card {
     margin: 40px;
 }
 
-
 @include layout-bp(gt-xs) {
     h1 {
-        font-size: 75px;
+        font-size: 70px;
+        margin-top: 25px;
     }
 
     h2 {
         font-size: 42px;
     }
 
-    mat-card-title {
-        font-size: 3em;
+    mat-card {
+        margin-top: 25px;
     }
 
-    p, button {
+    mat-card-title {
+        font-size: 1.8em;
+    }
+
+    mat-chip {
+        font-size: 1.2em;
+    }
+
+    p{
+        margin-top: 15px;
         font-size: 1.5em;
     }
 
     button {
-        font-size: 40px;
+        font-size: 35px;
     }
 }
 
