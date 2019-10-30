@@ -1,5 +1,8 @@
+@import '~@angular/flex-layout/mq';
+
 section {
-    margin-top: 20px;
+    margin: 50px 0px;
+    font-size: 1.5em;
 }
 
 button {
@@ -7,5 +10,11 @@ button {
 }
 
 mat-form-field {
-    width: 250px;
+    width: 350px;
+}
+
+@include layout-bp(gt-xs) {
+    mat-form-field {
+        width: 450px;
+    }
 }

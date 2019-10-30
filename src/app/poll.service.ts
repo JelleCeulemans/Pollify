@@ -1,29 +1,33 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { Observable, Subject } from 'rxjs';
-import { PollGebruiker } from './models/pollgebruiker.model';
 import { Poll } from './models/poll.model';
-import { Gebruiker } from './models/gebruiker.model';
-import { Antwoord } from './models/antwoord.model';
-import { Stem } from './models/stem.model';
-import { Friend } from './models/friend.model';
+import { User } from './models/user.model';
+import { Vote } from './models/vote.model';
+import { PollUser } from './models/poll-user.model';
+import { Observable } from 'rxjs';
+import { Answer } from './models/answer.model';
+
 
 @Injectable({
   providedIn: 'root'
 })
 export class PollService {
-  poll: Poll;
-  gebruiker: Gebruiker;
-  pollGebruiker: PollGebruiker;
-  stem: Stem;
+  pollID: number;
+  user: User;
+  pollUser: PollUser;
+  vote: Vote;
   
 
   constructor(private http: HttpClient) {
     
-   }
+  }
 
-   getPollGebruikers(gebruikerID: number): Observable<PollGebruiker[]> {
-    return this.http.get<PollGebruiker[]>("https://localhost:44389/api/Pollgebruiker/perUser?gebruikerid=" + gebruikerID);
+  getPollbyId() {
+    return this.http.get<Poll>("https://localhost:44389/api/Poll/" + this.pollID);
+  }
+
+   getPollUsers(userID: number): Observable<PollUser[]> {
+    return this.http.get<PollUser[]>("https://localhost:44389/api/PollUser/perUser?userid=" + userID);
   }
 
   createPoll(poll: Poll) {
@@ -34,33 +38,36 @@ export class PollService {
     return this.http.delete<Poll>("https://localhost:44389/api/Poll/" + pollID);
   }
 
-  createPollGebruiker(pollGebruiker: PollGebruiker) {
-    return this.http.post<PollGebruiker>("https://localhost:44389/api/pollGebruiker", pollGebruiker);
+  createPollUser(pollUser: PollUser) {
+    return this.http.post<PollUser>("https://localhost:44389/api/PollUser", pollUser);
   }
 
-  getAntwoorden(gebruikerid: number, pollid: number): Observable<Antwoord[]> {
-    return this.http.get<Antwoord[]>("https://localhost:44389/api/Antwoord/specific?gebruikerid=" + gebruikerid + "&pollID=" + pollid);
+  getAnswers(userID: number): Observable<Answer[]> {
+    return this.http.get<Answer[]>("https://localhost:44389/api/Antwoord/specific?userid=" + userID + "&pollID=" + this.pollID);
   }
 
-  createStem(stem: Stem) {
-    return this.http.post<Stem>("https://localhost:44389/api/Stem", stem);
+  createVote(vote: Vote) {
+    return this.http.post<Vote>("https://localhost:44389/api/Vote", vote);
   }
 
-  deleteStem(antwoordID: number, gebruikerID: number) {
-    return this.http.delete<Stem>("https://localhost:44389/api/Stem?antwoordid=" + antwoordID + "&gebruikerid=" + gebruikerID);
+  deleteVote(answerID: number, userID: number) {
+    return this.http.delete<Vote>("https://localhost:44389/api/Vote?answerid=" + answerID + "&userid=" + userID);
   }
 
-  getPollParticipants(): Observable<Gebruiker[]>{
-    console.log("pollID: " + this.poll.pollID);
-    return this.http.get<Gebruiker[]>("https://localhost:44389/api/Gebruiker/participants?pollid=" + this.poll.pollID);
+  getPollParticipants(): Observable<User[]>{
+    return this.http.get<User[]>("https://localhost:44389/api/User/participants?pollid=" + this.pollID);
   }
 
-  setPoll(poll: Poll) {
-    this.poll = poll;
+  getPollNoParticipants(): Observable<User[]>{
+    return this.http.get<User[]>("https://localhost:44389/api/Usere/noparticipants?pollid=" + this.pollID);
   }
 
-  getPoll() {
-    return this.poll;
+  setPollID(pollID: number) {
+    this.pollID = pollID;
+  }
+
+  getPollID() {
+    return this.pollID;
   }
 
   getCountPolls(): Observable<number> {
@@ -68,6 +75,6 @@ export class PollService {
   }
 
   getCountUsers(): Observable<number> {
-    return this.http.get<number>("https://localhost:44389/api/Gebruiker/countUsers");
+    return this.http.get<number>("https://localhost:44389/api/User/countUsers");
   }
 }

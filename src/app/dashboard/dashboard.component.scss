@@ -1,9 +1,12 @@
 @import '~@angular/flex-layout/mq';
 
+section {
+    font-size: 1.5em;
+}
+
 mat-card {
     margin-top: 45px;
     width: 350px;
-    font-size: 1.5em;
 }
 
 #creatButton {

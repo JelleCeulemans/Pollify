@@ -1,17 +1,13 @@
-import { Component, OnInit, EventEmitter, Input, Output } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { PollService } from '../poll.service';
-import { PollGebruiker } from '../models/pollgebruiker.model';
-import { Router, NavigationEnd } from '@angular/router';
+import { Router,  } from '@angular/router';
 import { Poll } from '../models/poll.model';
-import { Gebruiker } from '../models/gebruiker.model';
 import { AuthService } from '../auth/auth.service';
 import { MatDialog } from '@angular/material';
 import { DeletePollComponent } from '../dialog/delete-poll/delete-poll.component';
-import { Observable } from 'rxjs';
 import { Friend } from '../models/friend.model';
-import { async } from 'q';
-import { InviteDialogComponent } from '../dialog/invite-dialog/invite-dialog.component';
-import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
+import { PollUser } from '../models/poll-user.model';
+import { User } from '../models/user.model';
 
 @Component({
   selector: 'app-dashboard',
@@ -19,8 +15,8 @@ import { THIS_EXPR } from '@angular/compiler/src/output/output_ast';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  pollGebruikers: PollGebruiker[];
-  gebruiker: Gebruiker;
+  pollUsers: PollUser[];
+  user: User;
   receivedInvitations: Friend[];
   
   constructor(
@@ -31,7 +27,7 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pollGebruikers = new Array<PollGebruiker>();
+    this.pollUsers = new Array<PollUser>();
     this.initializePolls();
     this.authService.getReceivedInvitations().subscribe(result => {
       this.receivedInvitations = result;
@@ -55,16 +51,16 @@ export class DashboardComponent implements OnInit {
   }
 
   initializePolls() {
-    this.gebruiker = this.authService.getGebruiker();
-    if (this.gebruiker) {
-      this.pollService.getPollGebruikers(this.gebruiker.gebruikerID).subscribe(result => {
-        this.pollGebruikers = result;
+    this.user = this.authService.getUser();
+    if (this.user) {
+      this.pollService.getPollUsers(this.user.userID).subscribe(result => {
+        this.pollUsers = result;
       });
     }
   }
 
   vote(poll: Poll) {
-    this.pollService.setPoll(poll);
+    this.pollService.setPollID(poll.pollID);
     this.router.navigate(['/votePoll']);
   }
 
@@ -89,5 +85,4 @@ export class DashboardComponent implements OnInit {
       }
     });
   }
-
 }

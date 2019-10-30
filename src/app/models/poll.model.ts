@@ -1,11 +1,11 @@
-import { PollGebruiker } from './pollgebruiker.model';
-import { Antwoord } from './antwoord.model';
+import { PollUser } from './poll-user.model';
+import { Answer } from './answer.model';
 
 export class Poll {
     constructor(
         public pollID: number, 
         public naam: string,
-        public pollgebruiker: PollGebruiker[],
-        public antwoorden: Antwoord[]) {
+        public pollUsers: PollUser[],
+        public answers: Answer[]) {
     }
 }

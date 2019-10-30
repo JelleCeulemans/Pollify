@@ -1,10 +1,10 @@
-import { Gebruiker } from './gebruiker.model';
+import { User } from './user.model';
 
 export class Friend {
 
     constructor(
         public friendID: number,
-        public sender: Gebruiker,
-        public receiver: Gebruiker,
+        public sender: User,
+        public receiver: User,
         public accepted: boolean) {}
 }

@@ -1,14 +1,17 @@
-<section fxLayout="column" fxLayoutAlign="center center" *ngIf="antwoordenIDGebruiker" fxLayoutGap="20px">
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="answersIDUser" fxLayoutGap="20px">
     <mat-card>
         <mat-card-title fxLayoutAlign="center center">{{poll.naam}}</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <div fxLayoutGap="20px" fxLayout="column">
-                <mat-checkbox color="warn" *ngFor="let answer of poll.antwoorden" [value]="answer"
-                    (change)="updateVote($event, answer.antwoordID)"
-                    [checked]="antwoordenIDGebruiker.includes(answer.antwoordID)">
-                    {{answer.beantwoording}}
-                </mat-checkbox>
+            <div fxLayoutGap="20px" fxLayout="column" >
+                <div *ngFor="let answer of poll.answers" fxLayout="row" fxLayoutAlign="space-between">
+                    <mat-checkbox color="warn" [value]="answer"
+                        (change)="updateVote($event, answer.answerID)"
+                        [checked]="answersIDUser.includes(answer.answerID)">
+                        {{answer.beantwoording}}
+                    </mat-checkbox>
+                    <p>Votes: {{answer.stemmen.length}}</p>
+                </div>
             </div>
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="center center">
@@ -19,13 +22,18 @@
         <mat-card-title>Participants</mat-card-title>
         <mat-card-content fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let participant of (participants$ | async)">
-                <p>{{participant.gebruikersnaam}}<span *ngIf="participant.gebruikerID == gebruikerID">(you)</span></p>
-                <button mat-button color="warn" *ngIf="participant.gebruikerID != gebruikerID">Remove</button>
+                <p>{{participant.gebruikersnaam}} <span *ngIf="participant.userID == userID">(you)</span></p>
+                <button mat-button color="warn" *ngIf="participant.userID != userID">Remove</button>
             </div>
         </mat-card-content>
     </mat-card>
     <mat-card>
         <mat-card-title>Invite friends</mat-card-title>
-        <mat-card-content></mat-card-content>
+        <mat-card-content>
+            <div *ngFor="let noParticipant of (noParticipants$ | async)" fxLayoutAlign="space-between">
+                <p>{{noParticipant.gebruikersnaam}}</p>
+                <button mat-button color="warn" (click)="inviteFriend(noParticipant.userID)">Invite</button>
+            </div>
+        </mat-card-content>
     </mat-card>
 </section>

@@ -2,12 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Poll } from 'src/app/models/poll.model';
-import { Antwoord } from 'src/app/models/antwoord.model';
 import { PollService } from 'src/app/poll.service';
-import { Observable } from 'rxjs';
-import { PollGebruiker } from 'src/app/models/pollgebruiker.model';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
+import { Answer } from 'src/app/models/answer.model';
+import { PollUser } from 'src/app/models/poll-user.model';
 
 @Component({
   selector: 'app-create-poll',
@@ -16,12 +15,12 @@ import { AuthService } from 'src/app/auth/auth.service';
 })
 export class CreatePollComponent implements OnInit {
   answerList: string[];
-  answers: Antwoord[]
+  answers: Answer[]
   answer: string;
   title: string;
   createPollForm: FormGroup;
   poll: Poll;
-  pollGebruiker: PollGebruiker
+  pollUser: PollUser
 
   constructor(
     private snackbar: MatSnackBar, 
@@ -31,7 +30,7 @@ export class CreatePollComponent implements OnInit {
 
   ngOnInit() {
     this.answerList = new Array();
-    this.answers = new Array<Antwoord>();
+    this.answers = new Array<Answer>();
     this.createPollForm = new FormGroup({
       title: new FormControl(''),
       answer: new FormControl('')
@@ -62,28 +61,23 @@ export class CreatePollComponent implements OnInit {
 
   onSubmit() {
     this.title = this.createPollForm.value.title;
-
-    if (this.title && this.answerList.length > 0) {
+    if (this.title && this.answerList.length >= 2) {
       this.answerList.forEach(answer => {
-        this.answers.push(new Antwoord(0, answer, this.poll, null));
+        this.answers.push(new Answer(0, answer, this.poll, null));
       });
-      this.poll = new Poll(0, this.title, [new PollGebruiker(0, this.poll, this.authService.getGebruiker())], this.answers);
+      this.poll = new Poll(0, this.title, [new PollUser(0, this.poll, this.authService.getUser())], this.answers);
       this.pollService.createPoll(this.poll).subscribe(result => {
         this.poll = result;
         console.log(result);
-        this.pollService.createPollGebruiker(new PollGebruiker(0, result, this.authService.getGebruiker())).subscribe(result => {
+        this.pollService.createPollUser(new PollUser(0, result, this.authService.getUser())).subscribe(result => {
           console.log(result);
           this.router.navigate(['/dashboard']);
         });
       });
-      
-     
     } else {
-      this.snackbar.open('Title was blank or no answers were added to the poll', 'Error', {
+      this.snackbar.open('Title was blank or less then 2 answers were added to the poll', 'Error', {
         duration: 3000
       });
     }
-
   }
-
 }

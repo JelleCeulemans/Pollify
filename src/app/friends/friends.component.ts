@@ -1,11 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
-import { Gebruiker } from 'src/app/models/gebruiker.model';
 import * as mail from 'src/assets/js/mail.js';
 import { Friend } from 'src/app/models/friend.model';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
+import { User } from '../models/user.model';
 
 declare var sendMail: any;
 
@@ -18,10 +18,10 @@ declare var sendMail: any;
 
 export class FriendsComponent implements OnInit {
   inviteForm: FormGroup;
-  gebruiker: Gebruiker;
-  receiver: Gebruiker;
+  user: User;
+  receiver: User;
   existingUser: boolean;
-  vrienden$: Observable<Gebruiker[]>;
+  friends$: Observable<User[]>;
   sendedInvitations$: Observable<string[]>;
   receivedInvitations: Friend[];
 
@@ -31,25 +31,23 @@ export class FriendsComponent implements OnInit {
     this.inviteForm = new FormGroup({
       email: new FormControl('', { validators: [Validators.required, Validators.email] })
     });
-    this.vrienden$ = this.authService.getFriends();
+    this.friends$ = this.authService.getFriends();
     this.sendedInvitations$ = this.authService.getSendedInvitations();
     this.receivedInvitations = this.authService.getReceivedFriends();
   }
 
   onSubmit() { 
-    this.authService.getGebruikerByEmail(this.inviteForm.value.email).subscribe(result => {
-      console.log()
+    this.authService.getUserByEmail(this.inviteForm.value.email).subscribe(result => {
       if (result.email) {
         this.receiver = result;
         this.existingUser = true;
       } else {
-        this.receiver = new Gebruiker(0, this.inviteForm.value.email, null, null, null, null, null);
+        this.receiver = new User(0, this.inviteForm.value.email, null, null, null, null, null);
         this.existingUser = false;
       }
       console.log(this.existingUser);
-      sendMail(this.inviteForm.value.email, this.authService.getGebruiker().gebruikersnaam, this.existingUser);
-      this.authService.insertFriend(new Friend(0, this.authService.getGebruiker(), this.receiver, false)).subscribe(result => {
-        console.log(result);
+      //sendMail(this.inviteForm.value.email, this.authService.getUser().username, this.existingUser);
+      this.authService.insertFriend(new Friend(0, this.authService.getUser(), this.receiver, false)).subscribe(result => {
         this.router.navigate(['/dashboard']);
       });  
     });
