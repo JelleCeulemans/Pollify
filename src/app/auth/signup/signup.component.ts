@@ -28,35 +28,42 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    this.authService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
-      if (result.email) {
-        this.snackbar.open('Email already exists!', 'Signup failed', {
-          duration: 3000
-        });
-        this.signupForm.setValue({
-          username: this.signupForm.value.username,
-          email: '',
-          password: '',
-          repeatPassword: ''
-        });
-      } else {
-        if (this.signupForm.value.password == this.signupForm.value.repeatPassword) {
-          let user = new User(0, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.gebruikersnaam, null, null, null);
-          this.authService.insertUser(user).subscribe();
-          //SEND EMAIL
-          this.router.navigate(['/login']);
-        } else {
-          this.signupForm.setValue({
-            email: this.signupForm.value.email,
-            password: '',
-            repeatPassword: ''
-          });
-          this.snackbar.open('Both passwords aren\'t identical!', 'Signup failed', {
-            duration: 3000
-          });
-        }
-      }
-    });
+    if (this.signupForm.value.password == this.signupForm.value.repeatPassword) {
+      this.authService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
+        if (result.email) {
+          if (!result.username && !result.password) {
+            this.snackbar.open('Update this email!', 'Signup failed', {
+              duration: 3000
+            });
 
+          } else {
+            this.snackbar.open('Email already exists!', 'Signup failed', {
+              duration: 3000
+            });
+            this.signupForm.setValue({
+              username: this.signupForm.value.username,
+              email: '',
+              password: '',
+              repeatPassword: ''
+            });
+          }
+        } else {
+          let user = new User(0, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.username, null, null, null, false, null);
+          this.authService.insertUser(user).subscribe();
+          //SEND EMAIL user has been created (avtivate user)
+          this.router.navigate(['/login']);
+        }
+      });
+    } else {
+      this.signupForm.setValue({
+        username: this.signupForm.value.username,
+        email: this.signupForm.value.email,
+        password: '',
+        repeatPassword: ''
+      });
+      this.snackbar.open('Both passwords aren\'t identical!', 'Signup failed', {
+        duration: 3000
+      });
+    }
   }
 }

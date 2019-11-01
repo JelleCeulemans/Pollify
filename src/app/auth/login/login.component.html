@@ -9,6 +9,7 @@
             <input type="password" matInput placeholder="Password" formControlName="password">
             <mat-error>This password is incorrect.</mat-error>
         </mat-form-field>
-        <button mat-raised-button color="accent" type="submit" [disabled]="loginForm.invalid">Submit</button>
+        <button *ngIf="!spinnerActive" mat-raised-button color="accent" type="submit" [disabled]="loginForm.invalid">Submit</button>
+        <mat-spinner *ngIf="spinnerActive"></mat-spinner>
     </form>
 </section>

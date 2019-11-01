@@ -7,7 +7,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 
-declare var sendMail: any;
+declare var sendInvite: any;
+declare var sendFriendRequest: any;
 
 @Component({
   selector: 'app-friends',
@@ -20,7 +21,6 @@ export class FriendsComponent implements OnInit {
   inviteForm: FormGroup;
   user: User;
   receiver: User;
-  existingUser: boolean;
   friends$: Observable<User[]>;
   sendedInvitations$: Observable<string[]>;
   receivedInvitations: Friend[];
@@ -40,13 +40,11 @@ export class FriendsComponent implements OnInit {
     this.authService.getUserByEmail(this.inviteForm.value.email).subscribe(result => {
       if (result.email) {
         this.receiver = result;
-        this.existingUser = true;
+        sendFriendRequest(this.inviteForm.value.email, this.authService.getUser().username);
       } else {
-        this.receiver = new User(0, this.inviteForm.value.email, null, null, null, null, null);
-        this.existingUser = false;
+        this.receiver = new User(0, this.inviteForm.value.email, null, null, null, null, null, false, null);
+        sendInvite(this.inviteForm.value.email, this.authService.getUser().username);
       }
-      console.log(this.existingUser);
-      //sendMail(this.inviteForm.value.email, this.authService.getUser().username, this.existingUser);
       this.authService.insertFriend(new Friend(0, this.authService.getUser(), this.receiver, false)).subscribe(result => {
         this.router.navigate(['/dashboard']);
       });  

@@ -8,6 +8,8 @@ import { DeletePollComponent } from '../dialog/delete-poll/delete-poll.component
 import { Friend } from '../models/friend.model';
 import { PollUser } from '../models/poll-user.model';
 import { User } from '../models/user.model';
+import { Observable } from 'rxjs';
+import { async } from 'q';
 
 @Component({
   selector: 'app-dashboard',
@@ -18,6 +20,7 @@ export class DashboardComponent implements OnInit {
   pollUsers: PollUser[];
   user: User;
   receivedInvitations: Friend[];
+  friends: number;
   
   constructor(
     private pollService: PollService,
@@ -47,6 +50,9 @@ export class DashboardComponent implements OnInit {
         //   }
         // });
       //}
+    });
+    this.authService.getFriends().subscribe(result => {
+      this.friends = result.length;
     });
   }
 

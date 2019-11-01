@@ -14,7 +14,6 @@ export class AuthService {
   changeEmitted$ = this.emitChargeSource.asObservable();
   amount: number;
 
-
   constructor(private http: HttpClient) { }
 
    emitChange(change: number) {
@@ -78,4 +77,6 @@ export class AuthService {
   updateFriend(friendID: number) {
     return this.http.put<Friend>("https://localhost:44389/api/Friend", new Friend(friendID, null, null, true));
   }
+
+  updateUser(user: User) {}
 }

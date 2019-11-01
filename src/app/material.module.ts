@@ -12,7 +12,8 @@ import {
     MatDialogModule,
     MatCheckboxModule,
     MatBadgeModule,
-    MatChipsModule} from '@angular/material';
+    MatChipsModule,
+    MatProgressSpinnerModule} from '@angular/material';
 
 @NgModule({
     imports: [
@@ -28,7 +29,8 @@ import {
         MatDialogModule,
         MatCheckboxModule,
         MatBadgeModule,
-        MatChipsModule
+        MatChipsModule,
+        MatProgressSpinnerModule
     ],
     exports: [
         MatToolbarModule, 
@@ -43,7 +45,8 @@ import {
         MatDialogModule,
         MatCheckboxModule,
         MatBadgeModule,
-        MatChipsModule
+        MatChipsModule,
+        MatProgressSpinnerModule
     ]
 })
 export class MaterialModule {

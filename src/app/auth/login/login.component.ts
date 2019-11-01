@@ -20,6 +20,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   users$: Observable<User[]>;
   user: User;
+  spinnerActive: boolean;
 
   constructor(
     private authService: AuthService,
@@ -31,6 +32,7 @@ export class LoginComponent implements OnInit {
 
   //FORGOT PASSWORD!!!!!
   ngOnInit() {
+    this.spinnerActive = false;
     this.loginForm = new FormGroup({
       email: new FormControl('info@jelleceulemans.be', { validators: [Validators.required, Validators.email] }),
       password: new FormControl('azertyuiop', { validators: [Validators.required] })
@@ -38,15 +40,19 @@ export class LoginComponent implements OnInit {
   }
 
   onSubmit() {
-    let gebruikerLogin = new User(0, this.loginForm.value.email, this.loginForm.value.password, null, null, null, null);
-    this.authService.authenticate(gebruikerLogin).subscribe(result => {
+    this.spinnerActive = true;
+    let userLogin = new User(0, this.loginForm.value.email, this.loginForm.value.password, null, null, null, null, false, '00000000-0000-0000-0000-000000000000');
+    this.authService.authenticate(userLogin).subscribe(result => {
       this.authService.setUser(result);
       localStorage.setItem("token", result.token);
+      this.spinnerActive = false;
       this.store.dispatch(new Auth.SetAuthenticated());
       this.router.navigate(['/dashboard']);
     }, error => {
+      this.spinnerActive = false;
+      //Create progress bar while loading
       this.store.dispatch(new Auth.SetUnauthenticated());
-      this.snackbar.open('Credentials are not recognised!', 'Login failed', {
+      this.snackbar.open('Credentials are not recognised or account is not activated', 'Login failed', {
         duration: 3000
       });
     });

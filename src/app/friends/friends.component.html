@@ -1,18 +1,23 @@
 <section fxLayout="column" fxLayoutAlign="center center">
-    <form fxLayout="column" [formGroup]="inviteForm" (ngSubmit)="onSubmit()">
-        <mat-form-field>
-            <input type="text" matInput placeholder="Email" formControlName="email">
-            <mat-error>Please enter a valid email!</mat-error>
-        </mat-form-field>
-        <button mat-raised-button color="accent" type="submit" [disabled]="inviteForm.invalid">Invite</button>
-    </form>
+    <mat-card>
+        <mat-card-title>Send Invitation</mat-card-title>
+        <mat-card-content>
+            <form fxLayout="column" [formGroup]="inviteForm" (ngSubmit)="onSubmit()">
+                <mat-form-field>
+                    <input type="text" matInput placeholder="Email" formControlName="email">
+                    <mat-error>Please enter a valid email!</mat-error>
+                </mat-form-field>
+                <button mat-raised-button color="accent" type="submit" [disabled]="inviteForm.invalid">Invite</button>
+            </form>
+        </mat-card-content>
+    </mat-card>
 
-    <mat-card *ngIf="(vrienden$ | async)?.length > 0">
+    <mat-card *ngIf="(friends$ | async)?.length > 0">
         <mat-card-title>Your friends</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p *ngFor="let item of (vrienden$ | async)">
-                {{item.gebruikersnaam}}
+            <p *ngFor="let item of (friends$ | async)">
+                {{item.username}}
             </p>
         </mat-card-content>
     </mat-card>
@@ -34,7 +39,7 @@
             <div *ngFor="let item of receivedInvitations" fxLayout="row" fxLayoutAlign="space-between center">
                 <div fxLayout="column" id="invitations">
                     <div>{{item.sender.email}}</div>
-                    <div>({{item.sender.gebruikersnaam}})</div>
+                    <div>({{item.sender.username}})</div>
                 </div>
                 <div fxLayoutGap="10px">
                     <button mat-raised-button color="warn" (click)="acceptInvitation(item.friendID)">Accept</button>
