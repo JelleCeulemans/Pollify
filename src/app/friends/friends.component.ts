@@ -42,7 +42,7 @@ export class FriendsComponent implements OnInit {
         this.receiver = result;
         sendFriendRequest(this.inviteForm.value.email, this.authService.getUser().username);
       } else {
-        this.receiver = new User(0, this.inviteForm.value.email, null, null, null, null, null, false, null);
+        this.receiver = new User(0, this.inviteForm.value.email, null, null, false, null, null, null, null);
         sendInvite(this.inviteForm.value.email, this.authService.getUser().username);
       }
       this.authService.insertFriend(new Friend(0, this.authService.getUser(), this.receiver, false)).subscribe(result => {

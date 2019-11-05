@@ -1,11 +1,12 @@
 import { Injectable } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Poll } from './models/poll.model';
-import { User } from './models/user.model';
-import { Vote } from './models/vote.model';
-import { PollUser } from './models/poll-user.model';
+import { PollUser } from '../models/poll-user.model';
+import { Vote } from '../models/vote.model';
+import { User } from '../models/user.model';
+import { Poll } from '../models/poll.model';
 import { Observable } from 'rxjs';
-import { Answer } from './models/answer.model';
+import { Answer } from '../models/answer.model';
+import { HttpClient } from '@angular/common/http';
+
 
 
 @Injectable({
@@ -43,7 +44,7 @@ export class PollService {
   }
 
   getAnswers(userID: number): Observable<Answer[]> {
-    return this.http.get<Answer[]>("https://localhost:44389/api/Antwoord/specific?userid=" + userID + "&pollID=" + this.pollID);
+    return this.http.get<Answer[]>("https://localhost:44389/api/Answer/specific?userid=" + userID + "&pollID=" + this.pollID);
   }
 
   createVote(vote: Vote) {
@@ -59,7 +60,7 @@ export class PollService {
   }
 
   getPollNoParticipants(): Observable<User[]>{
-    return this.http.get<User[]>("https://localhost:44389/api/Usere/noparticipants?pollid=" + this.pollID);
+    return this.http.get<User[]>("https://localhost:44389/api/User/noparticipants?pollid=" + this.pollID);
   }
 
   setPollID(pollID: number) {

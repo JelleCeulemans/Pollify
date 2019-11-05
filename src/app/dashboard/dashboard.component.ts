@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { PollService } from '../poll.service';
+import { PollService } from '../poll/poll.service';
 import { Router,  } from '@angular/router';
 import { Poll } from '../models/poll.model';
 import { AuthService } from '../auth/auth.service';
@@ -9,7 +9,6 @@ import { Friend } from '../models/friend.model';
 import { PollUser } from '../models/poll-user.model';
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
-import { async } from 'q';
 
 @Component({
   selector: 'app-dashboard',
@@ -17,7 +16,7 @@ import { async } from 'q';
   styleUrls: ['./dashboard.component.scss']
 })
 export class DashboardComponent implements OnInit {
-  pollUsers: PollUser[];
+  pollUsers$: Observable<PollUser[]>;
   user: User;
   receivedInvitations: Friend[];
   friends: number;
@@ -30,7 +29,6 @@ export class DashboardComponent implements OnInit {
   }
 
   ngOnInit() {
-    this.pollUsers = new Array<PollUser>();
     this.initializePolls();
     this.authService.getReceivedInvitations().subscribe(result => {
       this.receivedInvitations = result;
@@ -59,9 +57,7 @@ export class DashboardComponent implements OnInit {
   initializePolls() {
     this.user = this.authService.getUser();
     if (this.user) {
-      this.pollService.getPollUsers(this.user.userID).subscribe(result => {
-        this.pollUsers = result;
-      });
+      this.pollUsers$ =  this.pollService.getPollUsers(this.user.userID);
     }
   }
 
@@ -77,7 +73,7 @@ export class DashboardComponent implements OnInit {
   deletePoll(poll: Poll) {
     const deletePollDialog = this.dialog.open(DeletePollComponent, {
       data: {
-        title: poll.naam
+        title: poll.name
       }
     });
 
@@ -85,7 +81,6 @@ export class DashboardComponent implements OnInit {
     deletePollDialog.afterClosed().subscribe(result => {
       if (result) {
         this.pollService.deletePoll(poll.pollID).subscribe(result => {
-          console.log(result);
           this.initializePolls();
         });
       }

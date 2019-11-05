@@ -4,7 +4,7 @@ import { Answer } from './answer.model';
 export class Poll {
     constructor(
         public pollID: number, 
-        public naam: string,
+        public name: string,
         public pollUsers: PollUser[],
         public answers: Answer[]) {
     }

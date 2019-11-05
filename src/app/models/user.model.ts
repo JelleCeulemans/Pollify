@@ -7,9 +7,9 @@ export class User {
         public email: string, 
         public password: string, 
         public username: string,
-        public pollUsers: PollUser[],
-        public votes: Vote[],
-        public token: string,
         public activated: boolean,
-        public guid: string) { }
+        public guid: string,
+        public token: string,
+        public pollUsers: PollUser[],
+        public votes: Vote[]) { }
 }

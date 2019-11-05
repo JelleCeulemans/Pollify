@@ -1,5 +1,5 @@
 import { Component, OnInit, OnDestroy } from '@angular/core';
-import { PollService } from 'src/app/poll.service';
+import { PollService } from 'src/app/poll/poll.service';
 import { Poll } from 'src/app/models/poll.model';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Router } from '@angular/router';
@@ -24,6 +24,7 @@ export class VotePollComponent implements OnInit, OnDestroy {
 
   ngOnInit() {
     this.pollService.getPollbyId().subscribe(result => {
+      console.log(result);
       this.poll = result;
     });
     this.answersIDPoll = new Array<number>();
@@ -31,16 +32,12 @@ export class VotePollComponent implements OnInit, OnDestroy {
     this.noParticipants$ = this.pollService.getPollNoParticipants();
     this.pollService.getAnswers(this.authService.getUser().userID).subscribe(result => {
       result.forEach(element => {
-        console.log(element.answerID);
         this.answersIDUser.push(element.answerID);
         this.answersIDPoll.push(element.answerID);
       });
     });
     this.userID = this.authService.getUser().userID;
     this.participants$ = this.pollService.getPollParticipants();
-    this.pollService.getPollParticipants().subscribe(result => {
-      console.log(result);
-    });
   }
 
   updateVote(event, answer) {

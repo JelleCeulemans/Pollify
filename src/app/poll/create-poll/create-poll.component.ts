@@ -2,11 +2,11 @@ import { Component, OnInit } from '@angular/core';
 import { FormGroup, FormControl } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Poll } from 'src/app/models/poll.model';
-import { PollService } from 'src/app/poll.service';
 import { Router } from '@angular/router';
 import { AuthService } from 'src/app/auth/auth.service';
 import { Answer } from 'src/app/models/answer.model';
 import { PollUser } from 'src/app/models/poll-user.model';
+import { PollService } from '../poll.service';
 
 @Component({
   selector: 'app-create-poll',
@@ -56,7 +56,6 @@ export class CreatePollComponent implements OnInit {
         duration: 3000
       });
     }
-
   }
 
   onSubmit() {
@@ -65,11 +64,11 @@ export class CreatePollComponent implements OnInit {
       this.answerList.forEach(answer => {
         this.answers.push(new Answer(0, answer, this.poll, null));
       });
-      this.poll = new Poll(0, this.title, [new PollUser(0, this.poll, this.authService.getUser())], this.answers);
+      this.poll = new Poll(0, this.title, null, this.answers);
+      console.log(this.poll);
       this.pollService.createPoll(this.poll).subscribe(result => {
         this.poll = result;
-        console.log(result);
-        this.pollService.createPollUser(new PollUser(0, result, this.authService.getUser())).subscribe(result => {
+        this.pollService.createPollUser(new PollUser(0, result, this.authService.getUser(), true)).subscribe(result => {
           console.log(result);
           this.router.navigate(['/dashboard']);
         });

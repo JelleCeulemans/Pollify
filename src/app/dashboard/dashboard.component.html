@@ -1,8 +1,8 @@
-<section fxLayoutAlign="center center" fxLayout="column" *ngIf="pollUsers">
-    <mat-card *ngIf="pollUsers.poll">
+<section fxLayoutAlign="center center" fxLayout="column" *ngIf="(pollUsers$ | async)">
+    <mat-card *ngIf="(pollUsers$ | async)?.length > 0">
         <mat-card-title fxLayoutAlign="center center">Your polls</mat-card-title>
         <mat-card-content>
-            <mat-list *ngFor="let p of pollUsers">
+            <mat-list *ngFor="let p of (pollUsers$ | async)">
                 <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutAlign="center center">
                     <mat-list-item>{{ p.poll.name }}</mat-list-item>
                     <div fxLayout="row" fxLayoutGap="10px">

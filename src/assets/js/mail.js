@@ -21,5 +21,16 @@ function sendFriendRequest(email, username) {
     emailjs.send(service_id, template_id, template_params);
 }
 
+function sendActivition(email, username, guid) {
+    var template_params = {
+        "email_to": email,
+        "username": username,
+        "guid": guid
+     }
+     
+     var template_id = "activate_account";
+     emailjs.send(service_id, template_id, template_params);
+}
+
 
 

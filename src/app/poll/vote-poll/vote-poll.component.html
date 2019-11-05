@@ -1,6 +1,6 @@
-<section fxLayout="column" fxLayoutAlign="center center" *ngIf="answersIDUser" fxLayoutGap="20px">
+<section fxLayout="column" fxLayoutAlign="center center" *ngIf="poll" fxLayoutGap="20px">
     <mat-card>
-        <mat-card-title fxLayoutAlign="center center">{{poll.naam}}</mat-card-title>
+        <mat-card-title fxLayoutAlign="center center">{{poll.name}}</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
             <div fxLayoutGap="20px" fxLayout="column" >
@@ -8,9 +8,9 @@
                     <mat-checkbox color="warn" [value]="answer"
                         (change)="updateVote($event, answer.answerID)"
                         [checked]="answersIDUser.includes(answer.answerID)">
-                        {{answer.beantwoording}}
+                        {{answer.name}}
                     </mat-checkbox>
-                    <p>Votes: {{answer.stemmen.length}}</p>
+                    <p>Votes: {{answer.votes.length}}</p>
                 </div>
             </div>
         </mat-card-content>
@@ -22,16 +22,16 @@
         <mat-card-title>Participants</mat-card-title>
         <mat-card-content fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let participant of (participants$ | async)">
-                <p>{{participant.gebruikersnaam}} <span *ngIf="participant.userID == userID">(you)</span></p>
+                <p>{{participant.username}} <span *ngIf="participant.userID == userID">(you)</span></p>
                 <button mat-button color="warn" *ngIf="participant.userID != userID">Remove</button>
             </div>
         </mat-card-content>
     </mat-card>
-    <mat-card>
+    <mat-card *ngIf="(noParticipants$ | async)?.length > 0">
         <mat-card-title>Invite friends</mat-card-title>
         <mat-card-content>
             <div *ngFor="let noParticipant of (noParticipants$ | async)" fxLayoutAlign="space-between">
-                <p>{{noParticipant.gebruikersnaam}}</p>
+                <p>{{noParticipant.username}}</p>
                 <button mat-button color="warn" (click)="inviteFriend(noParticipant.userID)">Invite</button>
             </div>
         </mat-card-content>

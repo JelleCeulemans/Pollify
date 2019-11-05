@@ -41,7 +41,7 @@ export class LoginComponent implements OnInit {
 
   onSubmit() {
     this.spinnerActive = true;
-    let userLogin = new User(0, this.loginForm.value.email, this.loginForm.value.password, null, null, null, null, false, '00000000-0000-0000-0000-000000000000');
+    let userLogin = new User(0, this.loginForm.value.email, this.loginForm.value.password, null, true, '00000000-0000-0000-0000-000000000000', null, null, null);
     this.authService.authenticate(userLogin).subscribe(result => {
       this.authService.setUser(result);
       localStorage.setItem("token", result.token);
