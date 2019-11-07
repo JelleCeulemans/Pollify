@@ -8,6 +8,7 @@ import { Store } from '@ngrx/store';
 import * as fromAuth from '../auth.reducer';
 import * as Auth from '../auth.actions';
 import { User } from 'src/app/models/user.model';
+import { AESEncryptDecryptService } from '../aesencrypt-decrypt-service.service';
 
 @Component({
   selector: 'app-login',
@@ -26,7 +27,8 @@ export class LoginComponent implements OnInit {
     private authService: AuthService,
     private router: Router,
     private snackbar: MatSnackBar,
-    private store: Store<{ ui: fromAuth.State }>) {
+    private store: Store<{ ui: fromAuth.State }>,
+    private _AESEncryptDecryptService: AESEncryptDecryptService) {
     this.users$ = this.authService.getUsers();
   }
 
@@ -35,7 +37,7 @@ export class LoginComponent implements OnInit {
     this.spinnerActive = false;
     this.loginForm = new FormGroup({
       email: new FormControl('info@jelleceulemans.be', { validators: [Validators.required, Validators.email] }),
-      password: new FormControl('azertyuiop', { validators: [Validators.required] })
+      password: new FormControl('aqwzsxedc', { validators: [Validators.required] })
     });
   }
 
@@ -50,11 +52,19 @@ export class LoginComponent implements OnInit {
       this.router.navigate(['/dashboard']);
     }, error => {
       this.spinnerActive = false;
-      //Create progress bar while loading
       this.store.dispatch(new Auth.SetUnauthenticated());
       this.snackbar.open('Credentials are not recognised or account is not activated', 'Login failed', {
         duration: 3000
       });
+      this.loginForm.setValue({
+        email: this.loginForm.value.email,
+        password: '',
+      });
     });
+  }
+
+  forgotPassword() {
+    // console.log(this._AESEncryptDecryptService.encrypt(this.loginForm.value.password));
+    // console.log(this._AESEncryptDecryptService.decrypt(this._AESEncryptDecryptService.encrypt(this.loginForm.value.password)));
   }
 }

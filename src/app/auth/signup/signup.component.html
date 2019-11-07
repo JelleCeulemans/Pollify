@@ -1,24 +1,29 @@
 <section>
-    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" (ngSubmit)="onSubmit()" [formGroup]="signupForm">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" (ngSubmit)="onSubmit()"
+        [formGroup]="signupForm">
         <mat-form-field>
-            <input type="text" matInput placeholder="Username" formControlName="username">
-            <mat-error>Vul aub een gebruikersnaam in van minstens 3 karakters lang.</mat-error>
+            <input type="text" matInput placeholder="Username" formControlName="username" #unInput>
+            <mat-hint align="end">{{ unInput.value?.length }} / 3</mat-hint>
+            <mat-error>Has to be at least 3 characters long.</mat-error>
         </mat-form-field>
-        
+
         <mat-form-field>
             <input type="text" matInput placeholder="Email" formControlName="email">
             <mat-error>Please enter a valid email!</mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <input type="password" matInput placeholder="Password" formControlName="password">
-            <mat-error>This password is incorrect.</mat-error>
+            <input type="password" matInput placeholder="Password" formControlName="password" #pw1Input>
+            <mat-hint align="end">{{ pw1Input.value?.length }} / 8</mat-hint>
+            <mat-error>Has to be at least 6 characters long.</mat-error>
         </mat-form-field>
 
         <mat-form-field>
-            <input type="password" matInput placeholder="Repeat password" formControlName="repeatPassword">
-            <mat-error>This password is incorrect.</mat-error>
+            <input type="password" matInput placeholder="Repeat password" formControlName="repeatPassword" #pw2Input>
+            <mat-hint align="end">{{ pw2Input.value?.length }} / 8</mat-hint>
+            <mat-error>Has to be at least 6 characters long.</mat-error>
         </mat-form-field>
-        <button mat-raised-button color="accent" type="submit" [disabled]="signupForm.invalid">Submit</button>
+        <button *ngIf="!spinnerActive" mat-raised-button color="accent" type="submit" [disabled]="signupForm.invalid">Submit</button>
+        <mat-spinner *ngIf="spinnerActive"></mat-spinner>
     </form>
 </section>

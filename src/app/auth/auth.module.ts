@@ -7,11 +7,14 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { BrowserModule } from '@angular/platform-browser';
+import { ActivateAccountComponent } from './activate-account/activate-account.component';
+import { RouterModule } from '@angular/router';
 
 @NgModule({
   declarations: [
     LoginComponent,
-    SignupComponent
+    SignupComponent,
+    ActivateAccountComponent
   ],
   imports: [
     CommonModule,
@@ -19,7 +22,8 @@ import { BrowserModule } from '@angular/platform-browser';
     FlexLayoutModule,
     ReactiveFormsModule,
     BrowserModule,
-    HttpClientModule
+    HttpClientModule,
+    RouterModule
   ]
 })
 export class AuthModule { }

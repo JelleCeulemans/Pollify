@@ -20,6 +20,7 @@ import { DeletePollComponent } from './dialog/delete-poll/delete-poll.component'
 import { FriendsComponent } from './friends/friends.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { InviteDialogComponent } from './dialog/invite-dialog/invite-dialog.component';
+import { CreateUserDialogComponent } from './dialog/create-user-dialog/create-user-dialog.component';
 
 @NgModule({
   declarations: [
@@ -34,7 +35,6 @@ import { InviteDialogComponent } from './dialog/invite-dialog/invite-dialog.comp
     BrowserAnimationsModule,
     MaterialModule,
     FlexLayoutModule,
-    AppRoutingModule,
     AuthModule,
     PollModule,
     DialogModule,
@@ -49,6 +49,9 @@ import { InviteDialogComponent } from './dialog/invite-dialog/invite-dialog.comp
   },
   AuthGuard],
   bootstrap: [AppComponent],
-  entryComponents: [DeletePollComponent, InviteDialogComponent]
+  entryComponents: [
+    DeletePollComponent, 
+    InviteDialogComponent, 
+    CreateUserDialogComponent]
 })
 export class AppModule { }

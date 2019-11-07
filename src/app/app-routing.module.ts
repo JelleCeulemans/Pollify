@@ -8,6 +8,7 @@ import { AuthGuard } from './auth/auth.guard';
 import { CreatePollComponent } from './poll/create-poll/create-poll.component';
 import { VotePollComponent } from './poll/vote-poll/vote-poll.component';
 import { FriendsComponent } from './friends/friends.component';
+import { ActivateAccountComponent } from './auth/activate-account/activate-account.component';
 
 
 const routes: Routes = [
@@ -17,7 +18,8 @@ const routes: Routes = [
   { path: 'dashboard', component: DashboardComponent, canActivate: [AuthGuard]},
   { path: 'createPoll', component: CreatePollComponent, canActivate: [AuthGuard]},  
   { path: 'votePoll', component: VotePollComponent, canActivate: [AuthGuard]},
-  { path: 'friends', component: FriendsComponent, canActivate: [AuthGuard]}
+  { path: 'friends', component: FriendsComponent, canActivate: [AuthGuard]},
+  { path: 'activateAccount/:guid', component: ActivateAccountComponent}
 ];
 
 @NgModule({

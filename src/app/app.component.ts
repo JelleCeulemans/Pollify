@@ -24,7 +24,6 @@ export class AppComponent {
     this.receivedInvitations = 0;
     this.authService.changeEmitted$.subscribe(result => {
       this.receivedInvitations = result;
-      console.log(result);
     });
     this.isAuthenticated$ = this.store.select(fromRoot.getIsAuth);
   }

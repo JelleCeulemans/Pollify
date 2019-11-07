@@ -1,5 +1,5 @@
 <section>
-    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" [formGroup]="loginForm" (ngSubmit)="onSubmit()">
+    <form fxLayout="column" fxLayoutAlign="center center" fxLayoutGap="10px" [formGroup]="loginForm">
         <mat-form-field>
             <input type="text" matInput placeholder="Email" formControlName="email">
             <mat-error>Please enter a valid email!</mat-error>
@@ -9,7 +9,8 @@
             <input type="password" matInput placeholder="Password" formControlName="password">
             <mat-error>This password is incorrect.</mat-error>
         </mat-form-field>
-        <button *ngIf="!spinnerActive" mat-raised-button color="accent" type="submit" [disabled]="loginForm.invalid">Submit</button>
+        <button mat-button  color="primary" (click)="forgotPassword()">Forgot password</button>
+        <button *ngIf="!spinnerActive" mat-raised-button color="accent" [disabled]="loginForm.invalid" (click)="onSubmit()">Submit</button>
         <mat-spinner *ngIf="spinnerActive"></mat-spinner>
     </form>
 </section>

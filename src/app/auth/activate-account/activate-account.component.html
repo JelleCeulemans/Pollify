@@ -1,0 +1,20 @@
+<section fxLayoutAlign="center center">
+    <mat-card fxLayoutAlign="center center" fxLayout="column">
+        <mat-card-title>Account activation</mat-card-title>
+        <mat-card-content *ngIf="user && show">
+            <p>Your account {{user.username}} with email {{user.email}} is succesfully updated!</p>
+            <p>You are now able to login!</p>
+            <p>Go to the <button mat-button color="warn" routerLink="/login">login</button> page and login to start the Pollify adventure!
+            </p>
+        </mat-card-content>
+        <mat-card-content *ngIf="!user && !show">
+            <p>This activation link is not recognized</p>
+        </mat-card-content>
+        <mat-card-content *ngIf="user && !show">
+            <p>This activation link has already been used!</p>
+            <p>You can go to the <button mat-button color="warn" routerLink="/login">login</button> page and start the Pollify adventure!
+            </p>
+        </mat-card-content>
+    </mat-card>
+
+</section>

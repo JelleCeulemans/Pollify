@@ -1,4 +1,4 @@
-<section fxLayout="column" fxLayoutAlign="center center">
+<section fxLayout="column" fxLayoutAlign="center center" >
     <mat-card>
         <mat-card-title>Send Invitation</mat-card-title>
         <mat-card-content>
@@ -22,11 +22,11 @@
         </mat-card-content>
     </mat-card>
 
-    <mat-card *ngIf="(sendedInvitations$ | async)?.length > 0">
+    <mat-card *ngIf="sendedInvitations.length > 0">
         <mat-card-title>Invitations Sended</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p *ngFor="let item of (sendedInvitations$ | async)">
+            <p *ngFor="let item of sendedInvitations">
                 {{item}}
             </p>
         </mat-card-content>

@@ -78,5 +78,15 @@ export class AuthService {
     return this.http.put<Friend>("https://localhost:44389/api/Friend", new Friend(friendID, null, null, true));
   }
 
-  updateUser(user: User) {}
+  activateUser(user: User) {
+    return this.http.put<User>("https://localhost:44389/api/User/activate", user);
+  }
+
+  updateUser(user: User) {
+    return this.http.put<User>("https://localhost:44389/api/User/updateUser", user);
+  }
+
+  getUserWhereGuid(guid: string) {
+    return this.http.get<User>("https://localhost:44389/api/User/whereGuid?guid=" + guid);
+  }
 }
