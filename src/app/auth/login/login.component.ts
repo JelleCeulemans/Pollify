@@ -32,7 +32,6 @@ export class LoginComponent implements OnInit {
     this.users$ = this.authService.getUsers();
   }
 
-  //FORGOT PASSWORD!!!!!
   ngOnInit() {
     this.spinnerActive = false;
     this.loginForm = new FormGroup({
@@ -61,10 +60,5 @@ export class LoginComponent implements OnInit {
         password: '',
       });
     });
-  }
-
-  forgotPassword() {
-    // console.log(this._AESEncryptDecryptService.encrypt(this.loginForm.value.password));
-    // console.log(this._AESEncryptDecryptService.decrypt(this._AESEncryptDecryptService.encrypt(this.loginForm.value.password)));
   }
 }

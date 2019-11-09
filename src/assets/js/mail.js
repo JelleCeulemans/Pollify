@@ -42,3 +42,13 @@ function sendAcceptFriend(email, username) {
     emailjs.send(service_id, template_id, template_params);
 }
 
+function resetPassword(email, username, guid){
+    var template_params = {
+        "email_to": email,
+        "username": username,
+        "guid": guid
+     }
+     
+     var template_id = "forgot_password";
+     emailjs.send(service_id, template_id, template_params);
+}

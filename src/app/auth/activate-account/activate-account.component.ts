@@ -19,8 +19,6 @@ export class ActivateAccountComponent implements OnInit, OnDestroy {
   ngOnInit() {
     this.show = false;
     this.sub = this.route.params.subscribe(params => {
-      this.guid = params['guid'];
-      console.log(params['guid']);
       this.authService.getUserWhereGuid(params['guid']).subscribe(result => {
         if (result != null) {
           this.user = result;

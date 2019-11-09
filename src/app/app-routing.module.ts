@@ -9,6 +9,8 @@ import { CreatePollComponent } from './poll/create-poll/create-poll.component';
 import { VotePollComponent } from './poll/vote-poll/vote-poll.component';
 import { FriendsComponent } from './friends/friends.component';
 import { ActivateAccountComponent } from './auth/activate-account/activate-account.component';
+import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
+import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
 
 
 const routes: Routes = [
@@ -19,7 +21,9 @@ const routes: Routes = [
   { path: 'createPoll', component: CreatePollComponent, canActivate: [AuthGuard]},  
   { path: 'votePoll', component: VotePollComponent, canActivate: [AuthGuard]},
   { path: 'friends', component: FriendsComponent, canActivate: [AuthGuard]},
-  { path: 'activateAccount/:guid', component: ActivateAccountComponent}
+  { path: 'activateAccount/:guid', component: ActivateAccountComponent},
+  { path: 'forgotPassword', component: ForgotPasswordComponent},
+  { path: 'resetPassword/:guid', component: ResetPasswordComponent}
 ];
 
 @NgModule({

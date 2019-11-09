@@ -18,7 +18,7 @@
             <button mat-raised-button color="accent" (click)="saveVote()">Vote</button>
         </mat-card-actions>
     </mat-card>
-    <mat-card *ngIf="participants$">
+    <mat-card *ngIf="(participants$ | async)?.length > 0">
         <mat-card-title>Participants</mat-card-title>
         <mat-card-content fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let participant of (participants$ | async)">
@@ -27,12 +27,12 @@
             </div>
         </mat-card-content>
     </mat-card>
-    <mat-card *ngIf="(noParticipants$ | async)?.length > 0">
+    <mat-card *ngIf="(noparticipants$ | async)?.length > 0">
         <mat-card-title>Invite friends</mat-card-title>
         <mat-card-content>
-            <div *ngFor="let noParticipant of (noParticipants$ | async)" fxLayoutAlign="space-between">
-                <p>{{noParticipant.username}}</p>
-                <button mat-button color="warn" (click)="inviteFriend(noParticipant.userID)">Invite</button>
+            <div  *ngFor="let noparticipant of (noparticipants$ | async)" fxLayoutAlign="space-between">
+                <p>{{noparticipant.username}}</p>
+                <button mat-button color="warn" (click)="inviteFriend(noparticipant)">Invite</button>
             </div>
         </mat-card-content>
     </mat-card>

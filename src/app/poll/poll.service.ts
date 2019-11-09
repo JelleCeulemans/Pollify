@@ -6,6 +6,7 @@ import { Poll } from '../models/poll.model';
 import { Observable } from 'rxjs';
 import { Answer } from '../models/answer.model';
 import { HttpClient } from '@angular/common/http';
+import { AuthService } from '../auth/auth.service';
 
 
 
@@ -19,7 +20,7 @@ export class PollService {
   vote: Vote;
   
 
-  constructor(private http: HttpClient) {
+  constructor(private http: HttpClient, private authService: AuthService) {
     
   }
 
@@ -60,7 +61,7 @@ export class PollService {
   }
 
   getPollNoParticipants(): Observable<User[]>{
-    return this.http.get<User[]>("https://localhost:44389/api/User/noparticipants?pollid=" + this.pollID);
+    return this.http.get<User[]>("https://localhost:44389/api/User/noparticipants?userid=" + this.authService.getUser().userID +"&pollid=" + this.pollID);
   }
 
   setPollID(pollID: number) {

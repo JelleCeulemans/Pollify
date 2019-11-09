@@ -89,4 +89,8 @@ export class AuthService {
   getUserWhereGuid(guid: string) {
     return this.http.get<User>("https://localhost:44389/api/User/whereGuid?guid=" + guid);
   }
+
+  updatePassword(user: User) {
+    return this.http.put<User>("https://localhost:44389/api/User/updatePassword", user);
+  }
 }

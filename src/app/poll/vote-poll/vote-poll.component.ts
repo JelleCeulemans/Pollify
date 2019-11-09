@@ -6,6 +6,8 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { Vote } from 'src/app/models/vote.model';
+import { PollUser } from 'src/app/models/poll-user.model';
+import { find, filter } from 'rxjs/operators';
 
 @Component({
   selector: 'app-vote-poll',
@@ -18,18 +20,16 @@ export class VotePollComponent implements OnInit, OnDestroy {
   answersIDUser: number[];
   participants$: Observable<User[]>;
   userID: number;
-  noParticipants$: Observable<User[]>;
+  noparticipants$: Observable<User[]>;
 
   constructor(private pollService: PollService, private authService: AuthService, private router: Router) { }
 
   ngOnInit() {
     this.pollService.getPollbyId().subscribe(result => {
-      console.log(result);
       this.poll = result;
     });
     this.answersIDPoll = new Array<number>();
     this.answersIDUser = new Array<number>();
-    this.noParticipants$ = this.pollService.getPollNoParticipants();
     this.pollService.getAnswers(this.authService.getUser().userID).subscribe(result => {
       result.forEach(element => {
         this.answersIDUser.push(element.answerID);
@@ -38,6 +38,7 @@ export class VotePollComponent implements OnInit, OnDestroy {
     });
     this.userID = this.authService.getUser().userID;
     this.participants$ = this.pollService.getPollParticipants();
+    this.noparticipants$ = this.pollService.getPollNoParticipants();
   }
 
   updateVote(event, answer) {
@@ -62,7 +63,8 @@ export class VotePollComponent implements OnInit, OnDestroy {
     this.router.navigate(["/dashboard"]);
   }
 
-  inviteFriend(gebruikerID: number) {
+  inviteFriend(user: User) {
+    this.pollService.createPollUser(new PollUser(0, this.poll, user, false)).subscribe();
     //create pollgebruiker with accepted false
     //send email
   }
