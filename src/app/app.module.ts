@@ -21,6 +21,8 @@ import { FriendsComponent } from './friends/friends.component';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 import { InviteDialogComponent } from './dialog/invite-dialog/invite-dialog.component';
 import { CreateUserDialogComponent } from './dialog/create-user-dialog/create-user-dialog.component';
+import { ForgotPasswordDialogComponent } from './dialog/forgot-password-dialog/forgot-password-dialog.component';
+import { OneOptionDialogComponent } from './dialog/one-option-dialog/one-option-dialog.component';
 
 @NgModule({
   declarations: [
@@ -52,6 +54,8 @@ import { CreateUserDialogComponent } from './dialog/create-user-dialog/create-us
   entryComponents: [
     DeletePollComponent, 
     InviteDialogComponent, 
-    CreateUserDialogComponent]
+    CreateUserDialogComponent,
+    ForgotPasswordDialogComponent,
+    OneOptionDialogComponent]
 })
 export class AppModule { }
