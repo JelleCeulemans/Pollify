@@ -11,14 +11,17 @@
             </form>
         </mat-card-content>
     </mat-card>
+    
+    <!-- <p>{{ (friends$ | async)?.length }}</p> -->
 
-    <mat-card *ngIf="(friends$ | async)?.length > 0">
+    <mat-card *ngIf="friends.length > 0">
         <mat-card-title>Your friends</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p *ngFor="let item of (friends$ | async)">
-                {{item.username}}
-            </p>
+            <div *ngFor="let item of friends" fxLayout="row" fxLayoutAlign="space-between">
+                <p>{{item.username}}</p>
+                <button mat-button color="warn" (click)="deleteFriend(item.userID)">Delete</button>
+            </div>
         </mat-card-content>
     </mat-card>
 
@@ -26,9 +29,10 @@
         <mat-card-title>Invitations Sended</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <p *ngFor="let item of sendedInvitations">
-                {{item}}
-            </p>
+            <div *ngFor="let item of sendedInvitations" fxLayout="row" fxLayoutAlign="space-between">
+                <p>{{item.email}}</p>
+                <button mat-button color="warn" (click)="deleteFriend(item.userID)">Delete</button>
+            </div>
         </mat-card-content>
     </mat-card>
 

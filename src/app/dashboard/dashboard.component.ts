@@ -32,7 +32,6 @@ export class DashboardComponent implements OnInit {
     this.initializePolls();
     this.authService.getReceivedInvitations().subscribe(result => {
       this.receivedInvitations = result;
-      this.authService.setReceivedFriends(result);
       this.authService.emitChange(result.length);
       //if (result.length > 0) {
         

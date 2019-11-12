@@ -7,6 +7,7 @@ import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { MatSnackBar } from '@angular/material';
+import { find, filter } from 'rxjs/operators';
 
 declare var sendInvite: any;
 declare var sendFriendRequest: any;
@@ -22,35 +23,46 @@ declare var sendAcceptFriend: any;
 export class FriendsComponent implements OnInit {
   inviteForm: FormGroup;
   receiver: User;
-  friends$: Observable<User[]>;
-  sendedInvitations: string[];
+  friends: User[];
+  sendedInvitations: User[];
   receivedInvitations: Friend[];
 
   constructor(
     private authService: AuthService, 
-    private router: Router, 
     private snackbar: MatSnackBar) { }
 
   ngOnInit() {
-    this.sendedInvitations = new Array<string>();
     this.inviteForm = new FormGroup({
       email: new FormControl('', { validators: [Validators.required, Validators.email] })
     });
-    this.friends$ = this.authService.getFriends();
-    this.authService.getSendedInvitations().subscribe(result => {
-      this.sendedInvitations = result; 
+    this.authService.getFriends().subscribe(result => {
+      this.friends = result;
     });
-    this.receivedInvitations = this.authService.getReceivedFriends();
+    this.authService.getSendedInvitations().subscribe(result => {
+      this.sendedInvitations = result;
+    })
+    this.authService.getReceivedInvitations().subscribe(result => {
+      this.receivedInvitations = result; 
+      this.authService.emitChange(result.length);
+    });
   }
 
   onSubmit() { 
-    if (this.sendedInvitations.includes(this.inviteForm.value.email) || this.receivedInvitations.some(e => e.sender.email == this.inviteForm.value.email)) {
-      this.snackbar.open('You already have invited or received an invitation of this person!', 'Friend request', {
+    // this.friends$.pipe(filter(a => a.some(b => b.email == this.inviteForm.value.email))).subscribe(result => {
+    //   console.log(result);
+    // });
+    //hoe werkt dit met obervables
+    if (this.sendedInvitations.some(e => e.email == this.inviteForm.value.email) || 
+        this.receivedInvitations.some(e => e.sender.email == this.inviteForm.value.email ||
+        this.friends.some(e => e.email == this.inviteForm.value.email))) {
+
+      this.snackbar.open('You already have invited or received an invitation of this person or is already a friend!', 'Friend request', {
         duration: 3000
       });
     } else {
       this.authService.getUserByEmail(this.inviteForm.value.email).subscribe(result => {
-        if (result.email) {
+        console.log(result);
+        if (result) {
           this.receiver = result;
           sendFriendRequest(this.inviteForm.value.email, this.authService.getUser().username);
         } else {
@@ -61,8 +73,7 @@ export class FriendsComponent implements OnInit {
           this.snackbar.open('Your friend is invited!', 'Friend request', {
             duration: 3000
           });
-          //should stay on the same page
-          this.router.navigate(['/dashboard']);
+          this.ngOnInit();
         });  
       });
     }
@@ -71,14 +82,21 @@ export class FriendsComponent implements OnInit {
   acceptInvitation(friendID: number) {
     this.authService.updateFriend(friendID).subscribe(result => {
       sendAcceptFriend(this.authService.getUser().email, this.authService.getUser().username);
-      //should stay on the same page.
-      this.router.navigate(['/dashboard']);
+      console.log(this.receivedInvitations);
+      this.ngOnInit();
     });
   }
 
   declineInvitation(friendID: number) {
     this.authService.removeFriend(friendID).subscribe(result => {
-      this.router.navigate(['/dashboard']);
+      this.ngOnInit();
+    });
+  }
+
+  deleteFriend(userID: number) {
+    this.authService.deleteFriend(userID).subscribe(result => {
+      console.log(result);
+      this.ngOnInit();
     });
   }
 }

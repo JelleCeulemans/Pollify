@@ -36,7 +36,7 @@ export class LoginComponent implements OnInit {
     this.spinnerActive = false;
     this.loginForm = new FormGroup({
       email: new FormControl('info@jelleceulemans.be', { validators: [Validators.required, Validators.email] }),
-      password: new FormControl('aqwzsxedc', { validators: [Validators.required] })
+      password: new FormControl('azertyuiop', { validators: [Validators.required] })
     });
   }
 

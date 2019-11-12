@@ -9,7 +9,6 @@ import { User } from '../models/user.model';
 })
 export class AuthService {
   user: User;
-  receivedFriends: Friend[];
   private emitChargeSource = new Subject<number>();
   changeEmitted$ = this.emitChargeSource.asObservable();
   amount: number;
@@ -49,8 +48,8 @@ export class AuthService {
     return this.http.get<User>("https://localhost:44389/api/User/byEmail?email=" + email);
   }
 
-  getSendedInvitations(): Observable<string[]> {
-    return this.http.get<string[]>("https://localhost:44389/api/Friend/sendedInvitations?gebruikerid=" + this.user.userID);
+  getSendedInvitations(): Observable<User[]> {
+    return this.http.get<User[]>("https://localhost:44389/api/Friend/sendedInvitations?gebruikerid=" + this.user.userID);
   }
 
   insertFriend(friend: Friend): Observable<Friend> {
@@ -59,14 +58,6 @@ export class AuthService {
 
   getReceivedInvitations(): Observable<Friend[]> {
     return this.http.get<Friend[]>("https://localhost:44389/api/Friend/receivedInvitations?gebruikerid=" + this.user.userID);
-  }
-
-  setReceivedFriends(receivedFriends: Friend[]) {
-    this.receivedFriends = receivedFriends;
-  }
-
-  getReceivedFriends(){
-    return this.receivedFriends;
   }
 
   removeFriend(friendID: number): Observable<Friend> {
@@ -92,5 +83,9 @@ export class AuthService {
 
   updatePassword(user: User) {
     return this.http.put<User>("https://localhost:44389/api/User/updatePassword", user);
+  }
+
+  deleteFriend(userID: number) {
+    return this.http.delete<User>("https://localhost:44389/api/Friend?senderid=" + userID + "&receiverid=" + this.user.userID);
   }
 }

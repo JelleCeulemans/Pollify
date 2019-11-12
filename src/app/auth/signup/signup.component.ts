@@ -41,7 +41,7 @@ export class SignupComponent implements OnInit {
     this.spinnerActive = true;
     if (this.signupForm.value.password == this.signupForm.value.repeatPassword) {
       this.authService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
-        if (result.email) {
+        if (result) {
           if (!result.username && !result.password) {
             result.username = this.signupForm.value.username;
             result.password = this.signupForm.value.password;
