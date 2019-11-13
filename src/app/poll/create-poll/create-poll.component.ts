@@ -65,11 +65,9 @@ export class CreatePollComponent implements OnInit {
         this.answers.push(new Answer(0, answer, this.poll, null));
       });
       this.poll = new Poll(0, this.title, null, this.answers);
-      console.log(this.poll);
       this.pollService.createPoll(this.poll).subscribe(result => {
         this.poll = result;
         this.pollService.createPollUser(new PollUser(0, result, this.authService.getUser(), true)).subscribe(result => {
-          console.log(result);
           this.router.navigate(['/dashboard']);
         });
       });
@@ -78,5 +76,9 @@ export class CreatePollComponent implements OnInit {
         duration: 3000
       });
     }
+  }
+
+  removeAnswer(answer: string) {
+    this.answerList.splice(this.answerList.indexOf(answer), 1);
   }
 }

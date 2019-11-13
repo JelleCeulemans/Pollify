@@ -23,13 +23,16 @@ import { InviteDialogComponent } from './dialog/invite-dialog/invite-dialog.comp
 import { CreateUserDialogComponent } from './dialog/create-user-dialog/create-user-dialog.component';
 import { ForgotPasswordDialogComponent } from './dialog/forgot-password-dialog/forgot-password-dialog.component';
 import { OneOptionDialogComponent } from './dialog/one-option-dialog/one-option-dialog.component';
+import { AngularFireModule } from '@angular/fire';
+import { environment } from 'src/environments/environment';
+import { AngularFireAuthModule } from '@angular/fire/auth';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DashboardComponent,
-    FriendsComponent 
+    FriendsComponent
   ],
   imports: [
     BrowserModule,
@@ -42,18 +45,20 @@ import { OneOptionDialogComponent } from './dialog/one-option-dialog/one-option-
     DialogModule,
     ReactiveFormsModule,
     FormsModule,
-    StoreModule.forRoot(reducers)
+    StoreModule.forRoot(reducers),
+    //AngularFireModule.initializeApp(environment.firebaseConfig),
+    AngularFireAuthModule
   ],
   providers: [{
     provide: HTTP_INTERCEPTORS,
     useClass: AuthInterceptor,
     multi: true
   },
-  AuthGuard],
+    AuthGuard],
   bootstrap: [AppComponent],
   entryComponents: [
-    DeletePollComponent, 
-    InviteDialogComponent, 
+    DeletePollComponent,
+    InviteDialogComponent,
     CreateUserDialogComponent,
     ForgotPasswordDialogComponent,
     OneOptionDialogComponent]

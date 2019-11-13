@@ -21,15 +21,18 @@ export class AuthService {
    }
 
    authenticate(user: User): Observable<User> {
-    return this.http.post<User>("https://localhost:44389/api/User/authenticate", user);
+    return this.http.post<User>("https://pollifybackend.azurewebsites.net/api/User/authenticate", user);
+    //return this.http.post<User>("https://localhost:44389/api/User/authenticate", user);
   }
 
    getUsers(): Observable<User[]> {
-    return this.http.get<User[]>("https://localhost:44389/api/User");
+    return this.http.get<User[]>("https://pollifybackend.azurewebsites.net/api/User");
+    //return this.http.get<User[]>("https://localhost:44389/api/User");
   }
 
   insertUser(user: User) {
-    return this.http.post<User>("https://localhost:44389/api/User", user);
+    return this.http.post<User>("https://pollifybackend.azurewebsites.net/api/User", user);
+    //return this.http.post<User>("https://localhost:44389/api/User", user);
   }
 
   setUser(user: User) {
@@ -39,53 +42,65 @@ export class AuthService {
   getUser() {
     return this.user;
   }
-
+  
   getFriends(): Observable<User[]> {
-    return this.http.get<User[]>("https://localhost:44389/api/Friend/byId?userid=" + this.user.userID);
+    //return this.http.get<User[]>("https://localhost:44389/api/Friend/byId?userid=" + this.user.userID);
+    return this.http.get<User[]>("https://pollifybackend.azurewebsites.net/api/Friend/byId?userid=" + this.user.userID);
   }
 
   getUserByEmail(email: string) {
-    return this.http.get<User>("https://localhost:44389/api/User/byEmail?email=" + email);
+    return this.http.get<User>("https://pollifybackend.azurewebsites.net/api/User/byEmail?email=" + email);
+    //return this.http.get<User>("https://localhost:44389/api/User/byEmail?email=" + email);
   }
 
   getSendedInvitations(): Observable<User[]> {
-    return this.http.get<User[]>("https://localhost:44389/api/Friend/sendedInvitations?gebruikerid=" + this.user.userID);
+    return this.http.get<User[]>("https://pollifybackend.azurewebsites.net/api/Friend/sendedInvitations?gebruikerid=" + this.user.userID);
+    //return this.http.get<User[]>("https://localhost:44389/api/Friend/sendedInvitations?gebruikerid=" + this.user.userID);
   }
 
   insertFriend(friend: Friend): Observable<Friend> {
-    return this.http.post<Friend>("https://localhost:44389/api/Friend", friend);
+    //return this.http.post<Friend>("https://localhost:44389/api/Friend", friend);
+    return this.http.post<Friend>("https://pollifybackend.azurewebsites.net/api/Friend", friend);
   }
 
   getReceivedInvitations(): Observable<Friend[]> {
-    return this.http.get<Friend[]>("https://localhost:44389/api/Friend/receivedInvitations?gebruikerid=" + this.user.userID);
+    return this.http.get<Friend[]>("https://pollifybackend.azurewebsites.net/api/Friend/receivedInvitations?gebruikerid=" + this.user.userID);
+    //return this.http.get<Friend[]>("https://localhost:44389/api/Friend/receivedInvitations?gebruikerid=" + this.user.userID);
   }
 
   removeFriend(friendID: number): Observable<Friend> {
     this.emitChange(this.amount--);
-    return this.http.delete<Friend>("https://localhost:44389/api/Friend/" + friendID);
+    return this.http.delete<Friend>("https://pollifybackend.azurewebsites.net/api/Friend/" + friendID);
+    //return this.http.delete<Friend>("https://localhost:44389/api/Friend/" + friendID);
   }
 
   updateFriend(friendID: number) {
-    return this.http.put<Friend>("https://localhost:44389/api/Friend", new Friend(friendID, null, null, true));
+    return this.http.put<Friend>("https://pollifybackend.azurewebsites.net/api/Friend", new Friend(friendID, null, null, true));
+    //return this.http.put<Friend>("https://localhost:44389/api/Friend", new Friend(friendID, null, null, true));
   }
 
   activateUser(user: User) {
-    return this.http.put<User>("https://localhost:44389/api/User/activate", user);
+    return this.http.put<User>("https://pollifybackend.azurewebsites.net/api/User/activate", user);
+    //return this.http.put<User>("https://localhost:44389/api/User/activate", user);
   }
 
   updateUser(user: User) {
-    return this.http.put<User>("https://localhost:44389/api/User/updateUser", user);
+    return this.http.put<User>("https://pollifybackend.azurewebsites.net/api/User/updateUser", user);
+    //return this.http.put<User>("https://localhost:44389/api/User/updateUser", user);
   }
 
   getUserWhereGuid(guid: string) {
-    return this.http.get<User>("https://localhost:44389/api/User/whereGuid?guid=" + guid);
+    return this.http.get<User>("https://pollifybackend.azurewebsites.net/api/User/whereGuid?guid=" + guid);
+    //return this.http.get<User>("https://localhost:44389/api/User/whereGuid?guid=" + guid);
   }
 
   updatePassword(user: User) {
-    return this.http.put<User>("https://localhost:44389/api/User/updatePassword", user);
+    return this.http.put<User>("https://pollifybackend.azurewebsites.net/api/User/updatePassword", user);
+    //return this.http.put<User>("https://localhost:44389/api/User/updatePassword", user);
   }
 
   deleteFriend(userID: number) {
-    return this.http.delete<User>("https://localhost:44389/api/Friend?senderid=" + userID + "&receiverid=" + this.user.userID);
+    return this.http.delete<User>("https://pollifybackend.azurewebsites.net/api/Friend/byIds?senderid=" + userID + "&receiverid=" + this.user.userID);
+    //return this.http.delete<User>("https://localhost:44389/api/Friend/byIds?senderid=" + userID + "&receiverid=" + this.user.userID);
   }
 }

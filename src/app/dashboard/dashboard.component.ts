@@ -20,6 +20,7 @@ export class DashboardComponent implements OnInit {
   user: User;
   receivedInvitations: Friend[];
   friends: number;
+  pollInvites$: Observable<Poll[]>;
   
   constructor(
     private pollService: PollService,
@@ -51,6 +52,7 @@ export class DashboardComponent implements OnInit {
     this.authService.getFriends().subscribe(result => {
       this.friends = result.length;
     });
+    this.pollInvites$ = this.pollService.getPollInvites();
   }
 
   initializePolls() {

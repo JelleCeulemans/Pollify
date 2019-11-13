@@ -7,7 +7,9 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { Vote } from 'src/app/models/vote.model';
 import { PollUser } from 'src/app/models/poll-user.model';
-import { find, filter } from 'rxjs/operators';
+import * as mail from 'src/assets/js/mail.js';
+
+declare var sendPollInvite: any;
 
 @Component({
   selector: 'app-vote-poll',
@@ -15,6 +17,8 @@ import { find, filter } from 'rxjs/operators';
   styleUrls: ['./vote-poll.component.scss']
 })
 export class VotePollComponent implements OnInit, OnDestroy {
+
+  //Add an extra button to add an answer
   poll: Poll;
   answersIDPoll: number[];
   answersIDUser: number[];
@@ -63,10 +67,12 @@ export class VotePollComponent implements OnInit, OnDestroy {
     this.router.navigate(["/dashboard"]);
   }
 
-  inviteFriend(user: User) {
-    this.pollService.createPollUser(new PollUser(0, this.poll, user, false)).subscribe();
-    //create pollgebruiker with accepted false
-    //send email
+  inviteFriend(user: User, event: any) {
+    //Werkt allen bij het drukken op de rand van de button
+    event.target.disabled = true;
+    this.pollService.createPollUser(new PollUser(0, this.poll, user, false)).subscribe(result => {
+      sendPollInvite(result.user.email, this.authService.getUser().username, result.poll.name);
+    }); 
   }
 
   ngOnDestroy() {

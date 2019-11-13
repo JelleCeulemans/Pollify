@@ -40,13 +40,20 @@
                     <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/signup">Signup</a></li>
                     <li *ngIf="isAuthenticated$ | async"><a routerLink="/dashboard">Dashboard</a></li>
                     <li *ngIf="isAuthenticated$ | async">
-                        <a id="friendsLink" [matBadge]="receivedInvitations.toString()" matBadgePosition="below after"
+                        <a [matBadge]="receivedInvitations.toString()" matBadgePosition="below after"
                             matBadgeColor="warn" [matBadgeHidden]="!(receivedInvitations > 0)"
                             routerLink="/friends">Friends</a>
                     </li>
                     <!--<div *ngIf="receivedInvitations" id="friendRequests">{{receivedInvitations}}</div>-->
                     <li *ngIf="isAuthenticated$ | async"><a (click)="logout()">Logout</a></li>
                 </ul>
+            </div>
+            <div fxFlex fxLayout fxLayoutAlign="flex-end" class="navigation-items" fxHide.gt-xs
+                *ngIf="(isAuthenticated$ | async) && receivedInvitations > 0">
+                <a id="friendsIcon" [matBadge]="receivedInvitations.toString()" matBadgePosition="below after"
+                    matBadgeColor="warn" routerLink="/friends">
+                    <mat-icon [inline]="true">supervisor_account</mat-icon>
+                </a>
             </div>
         </mat-toolbar>
         <main>

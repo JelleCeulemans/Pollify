@@ -23,7 +23,7 @@
         <mat-card-content fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let participant of (participants$ | async)">
                 <p>{{participant.username}} <span *ngIf="participant.userID == userID">(you)</span></p>
-                <button mat-button color="warn" *ngIf="participant.userID != userID">Remove</button>
+                <!-- <button mat-button color="warn" *ngIf="participant.userID != userID">Remove</button> -->
             </div>
         </mat-card-content>
     </mat-card>
@@ -32,7 +32,7 @@
         <mat-card-content>
             <div  *ngFor="let noparticipant of (noparticipants$ | async)" fxLayoutAlign="space-between">
                 <p>{{noparticipant.username}}</p>
-                <button mat-button color="warn" (click)="inviteFriend(noparticipant)">Invite</button>
+                <button mat-button color="warn" (click)="inviteFriend(noparticipant, $event)">Invite</button>
             </div>
         </mat-card-content>
     </mat-card>

@@ -1,4 +1,16 @@
 <section fxLayoutAlign="center center" fxLayout="column" *ngIf="(pollUsers$ | async)">
+    <mat-card *ngIf="(pollInvites$ | async)?.length > 0">
+        <mat-card-title>Poll Invites</mat-card-title>
+        <mat-card-content>
+            <div *ngFor="let poll of (pollInvites$ | async)" fxFlex fxLayout="row" fxLayoutAlign="space-between">
+                <div>{{poll.name}}</div>
+                <div fxLayoutGap="10px">
+                    <button mat-raised-button color="warn">Accept</button>
+                    <button mat-raised-button color="accent">Decline</button>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
     <mat-card *ngIf="(pollUsers$ | async)?.length > 0">
         <mat-card-title fxLayoutAlign="center center">Your polls</mat-card-title>
         <mat-card-content>
@@ -14,14 +26,15 @@
             </mat-list>
         </mat-card-content>
     </mat-card>
-    <div fxLayoutAlign="center center" id="creatButton" *ngIf="friends > 0"> 
+    <div fxLayoutAlign="center center" id="creatButton" *ngIf="friends > 0">
         <button mat-raised-button color="warn" (click)="createPoll()">Create new poll</button>
     </div>
     <mat-card *ngIf="friends == 0" fxLayoutAlign="center center" fxLayout="column">
         <mat-card-title>Add Friends</mat-card-title>
         <mat-card-content>
             <p>You first need to add friends before the Pollify experience gets started.</p>
-            <p>Go to the <button mat-button color="warn" routerLink="/friends">friends</button> section to send send invitations.</p>
+            <p>Go to the <button mat-button color="warn" routerLink="/friends">friends</button> section to send send
+                invitations.</p>
         </mat-card-content>
     </mat-card>
 </section>

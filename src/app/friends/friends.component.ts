@@ -32,6 +32,9 @@ export class FriendsComponent implements OnInit {
     private snackbar: MatSnackBar) { }
 
   ngOnInit() {
+    this.friends = new Array<User>();
+    this.sendedInvitations = new Array<User>();
+    this.receivedInvitations = new Array<Friend>();
     this.inviteForm = new FormGroup({
       email: new FormControl('', { validators: [Validators.required, Validators.email] })
     });

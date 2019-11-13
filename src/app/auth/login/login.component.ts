@@ -9,6 +9,7 @@ import * as fromAuth from '../auth.reducer';
 import * as Auth from '../auth.actions';
 import { User } from 'src/app/models/user.model';
 import { AESEncryptDecryptService } from '../aesencrypt-decrypt-service.service';
+import { FbAuthService } from '../fb-auth.service';
 
 @Component({
   selector: 'app-login',
@@ -28,14 +29,15 @@ export class LoginComponent implements OnInit {
     private router: Router,
     private snackbar: MatSnackBar,
     private store: Store<{ ui: fromAuth.State }>,
-    private _AESEncryptDecryptService: AESEncryptDecryptService) {
+    private _AESEncryptDecryptService: AESEncryptDecryptService,
+    private fbAuthService: FbAuthService) {
     this.users$ = this.authService.getUsers();
   }
 
   ngOnInit() {
     this.spinnerActive = false;
     this.loginForm = new FormGroup({
-      email: new FormControl('info@jelleceulemans.be', { validators: [Validators.required, Validators.email] }),
+      email: new FormControl('jelle_djmagic@hotmail.com', { validators: [Validators.required, Validators.email] }),
       password: new FormControl('azertyuiop', { validators: [Validators.required] })
     });
   }
@@ -60,5 +62,9 @@ export class LoginComponent implements OnInit {
         password: '',
       });
     });
+  }
+
+  fbLogin() {
+    this.fbAuthService.facebookAuth();
   }
 }
