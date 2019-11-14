@@ -69,12 +69,14 @@ export class VotePollComponent implements OnInit, OnDestroy {
   }
 
   inviteFriend(user: User, event: any) {
-    //Werkt allen bij het drukken op de rand van de button
     if(event.target.tagName == "SPAN") {
       event.target.parentElement.disabled = true;
+      event.target.innerHTML = "Invited";
     } else if (event.target.tagName == "BUTTON") {
       event.target.disabled = true;
+      event.target.firstChild.innerHTML = "Invited";
     }
+    
     this.pollService.createPollUser(new PollUser(0, this.poll, user, false)).subscribe(result => {
       sendPollInvite(result.user.email, this.authService.getUser().username, result.poll.name);
     }); 

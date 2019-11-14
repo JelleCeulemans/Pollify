@@ -12,10 +12,13 @@
                     </mat-checkbox>
                     <p>Votes: {{answer.votes.length}}</p>
                 </div>
+                <!-- add input field to add answer -->
+                <div><input></div>
             </div>
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="center center">
             <button mat-raised-button color="accent" (click)="saveVote()">Vote</button>
+            <button mat-raised-button color="primary">Add answer</button>
         </mat-card-actions>
     </mat-card>
     <mat-card *ngIf="(participants$ | async)?.length > 0">
