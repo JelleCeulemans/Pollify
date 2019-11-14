@@ -9,6 +9,7 @@ import { AngularFireAuth } from "@angular/fire/auth";
 })
 
 export class FbAuthService {
+  
 
   constructor(public afAuth: AngularFireAuth) { } // Inject Firebase auth service
 

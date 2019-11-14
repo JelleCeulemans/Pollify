@@ -37,7 +37,7 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.spinnerActive = false;
     this.loginForm = new FormGroup({
-      email: new FormControl('jelle_djmagic@hotmail.com', { validators: [Validators.required, Validators.email] }),
+      email: new FormControl('info@jelleceulemans.be', { validators: [Validators.required, Validators.email] }),
       password: new FormControl('azertyuiop', { validators: [Validators.required] })
     });
   }

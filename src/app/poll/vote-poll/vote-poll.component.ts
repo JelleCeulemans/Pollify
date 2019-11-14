@@ -25,6 +25,7 @@ export class VotePollComponent implements OnInit, OnDestroy {
   participants$: Observable<User[]>;
   userID: number;
   noparticipants$: Observable<User[]>;
+  
 
   constructor(private pollService: PollService, private authService: AuthService, private router: Router) { }
 

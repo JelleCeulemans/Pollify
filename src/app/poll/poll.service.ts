@@ -30,7 +30,7 @@ export class PollService {
   }
 
    getPollUsers(userID: number): Observable<PollUser[]> {
-    return this.http.get<PollUser[]>("https://pollifybackend.azurewebsites.net/PollUser/perUser?userid=" + userID);
+    return this.http.get<PollUser[]>("https://pollifybackend.azurewebsites.net/api/PollUser/perUser?userid=" + userID);
     //return this.http.get<PollUser[]>("https://localhost:44389/api/PollUser/perUser?userid=" + userID);
   }
 
