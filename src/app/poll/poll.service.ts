@@ -92,8 +92,16 @@ export class PollService {
     //return this.http.get<number>("https://localhost:44389/api/User/countUsers");
   }
 
-  getPollInvites(): Observable<Poll[]> {
-    return this.http.get<Poll[]>("https://pollifybackend.azurewebsites.net/api/Poll/pollInvites?userid=" + this.authService.getUser().userID);
+  getPollInvites(): Observable<PollUser[]> {
+    return this.http.get<PollUser[]>("https://pollifybackend.azurewebsites.net/api/PollUser/pollInvites?userid=" + this.authService.getUser().userID);
     //return this.http.get<Poll[]>("https://localhost:44389/api/Poll/pollInvites?userid=" + this.authService.getUser().userID);
+  }
+
+  deletePollUser(pollUser: PollUser) {
+    return this.http.delete<PollUser>("https://pollifybackend.azurewebsites.net/api/PollUser/" + pollUser.pollUserID);
+  }
+
+  acceptPollInvite(pollUser: PollUser) {
+    return this.http.put<PollUser>("https://pollifybackend.azurewebsites.net/api/PollUser/", pollUser);
   }
 }

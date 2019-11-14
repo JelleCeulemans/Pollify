@@ -2,11 +2,11 @@
     <mat-card *ngIf="(pollInvites$ | async)?.length > 0">
         <mat-card-title>Poll Invites</mat-card-title>
         <mat-card-content>
-            <div *ngFor="let poll of (pollInvites$ | async)" fxFlex fxLayout="row" fxLayoutAlign="space-between">
-                <div>{{poll.name}}</div>
+            <div *ngFor="let pollUser of (pollInvites$ | async)" fxFlex fxLayout="row" fxLayoutAlign="space-between">
+                <div>{{pollUser.poll.name}}</div>
                 <div fxLayoutGap="10px">
-                    <button mat-raised-button color="warn">Accept</button>
-                    <button mat-raised-button color="accent">Decline</button>
+                    <button mat-raised-button color="warn" (click)="acceptPollInvite(pollUser)">Accept</button>
+                    <button mat-raised-button color="accent" (click)="deletePollInvite(pollUser)">Decline</button>
                 </div>
             </div>
         </mat-card-content>

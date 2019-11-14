@@ -20,7 +20,7 @@ export class DashboardComponent implements OnInit {
   user: User;
   receivedInvitations: Friend[];
   friends: number;
-  pollInvites$: Observable<Poll[]>;
+  pollInvites$: Observable<PollUser[]>;
   
   constructor(
     private pollService: PollService,
@@ -85,6 +85,19 @@ export class DashboardComponent implements OnInit {
           this.initializePolls();
         });
       }
+    });
+  }
+
+  acceptPollInvite(pollUser: PollUser) {
+    this.pollService.acceptPollInvite(pollUser).subscribe(result => {
+      console.log(result);
+      this.ngOnInit();
+    })
+  }
+
+  deletePollInvite(pollUser: PollUser) {
+    this.pollService.deletePollUser(pollUser).subscribe(result => {
+      this.ngOnInit();
     });
   }
 }
