@@ -12,6 +12,8 @@
             </mat-card-content>
         </mat-card>
 
+        <button type="submit" (click)="onSubmit()" mat-raised-button color="warn">Save the poll</button>
+
         <mat-card *ngIf="answerList.length > 0">
             <mat-card-title>Poll answers</mat-card-title>
             <mat-card-content>
@@ -23,7 +25,5 @@
                 </div>
             </mat-card-content>
         </mat-card>
-
-        <button type="submit" (click)="onSubmit()" mat-raised-button color="warn">Save the poll</button>
     </form>
 </section>

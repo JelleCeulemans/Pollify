@@ -11,6 +11,7 @@ import { ActivateAccountComponent } from './activate-account/activate-account.co
 import { RouterModule } from '@angular/router';
 import { ForgotPasswordComponent } from './forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './reset-password/reset-password.component';
+import { SharedModule } from '../shared.module';
 
 @NgModule({
   declarations: [
@@ -22,12 +23,10 @@ import { ResetPasswordComponent } from './reset-password/reset-password.componen
   ],
   imports: [
     CommonModule,
-    MaterialModule,
-    FlexLayoutModule,
-    ReactiveFormsModule,
     BrowserModule,
     HttpClientModule,
-    RouterModule
+    RouterModule,
+    SharedModule
   ]
 })
 export class AuthModule { }

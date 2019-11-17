@@ -1,20 +1,20 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { DeletePollComponent } from './delete-poll.component';
+import { TwoOptionsDialogComponent } from './two-options-dialog.component';
 
-describe('DeletePollComponent', () => {
-  let component: DeletePollComponent;
-  let fixture: ComponentFixture<DeletePollComponent>;
+describe('TwoOptionsDialogComponent', () => {
+  let component: TwoOptionsDialogComponent;
+  let fixture: ComponentFixture<TwoOptionsDialogComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ DeletePollComponent ]
+      declarations: [ TwoOptionsDialogComponent ]
     })
     .compileComponents();
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(DeletePollComponent);
+    fixture = TestBed.createComponent(TwoOptionsDialogComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

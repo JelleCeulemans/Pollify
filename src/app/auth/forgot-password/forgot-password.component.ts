@@ -3,8 +3,8 @@ import * as mail from 'src/assets/js/mail.js';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
-import { ForgotPasswordDialogComponent } from 'src/app/dialog/forgot-password-dialog/forgot-password-dialog.component';
 import { Router } from '@angular/router';
+import { OneOptionDialogComponent } from 'src/app/dialog/one-option-dialog/one-option-dialog.component';
 
 declare var resetPassword: any;
 
@@ -35,13 +35,16 @@ export class ForgotPasswordComponent implements OnInit {
     this.authService.getUserByEmail(this.forgotPasswordForm.value.email).subscribe(result => {
       if (result) {
         resetPassword(result.email, result.username, result.guid);
-        const forgotPasswordDialog = this.dialog.open(ForgotPasswordDialogComponent, {
+
+        const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
           data: {
-            username: result.username,
-            email: result.email
+            title: "Reset Password",
+            content: "<p>"+ result.username +" there is an email send to following email address: "+ result.email +" to reset your password</p><p>Please go to your email to reset your password</p>",
+            button: "OK"
           }
         });
-        forgotPasswordDialog.afterClosed().subscribe(result => {
+
+        oneOptionDialog.afterClosed().subscribe(result => {
           if (result) {
             this.router.navigate(['/login']);
           }

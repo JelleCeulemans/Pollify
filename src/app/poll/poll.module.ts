@@ -1,10 +1,9 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { CreatePollComponent } from './create-poll/create-poll.component';
-import { MaterialModule } from '../material.module';
-import { FlexLayoutModule } from '@angular/flex-layout';
 import { VotePollComponent } from './vote-poll/vote-poll.component';
 import { FormsModule, ReactiveFormsModule } from '@angular/forms';
+import { SharedModule } from '../shared.module';
 
 
 
@@ -12,10 +11,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
   declarations: [CreatePollComponent, VotePollComponent],
   imports: [
     CommonModule,
-    MaterialModule,
-    FlexLayoutModule,
-    FormsModule,
-    ReactiveFormsModule
+    SharedModule
   ]
 })
 export class PollModule { }

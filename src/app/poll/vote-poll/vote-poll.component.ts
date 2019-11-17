@@ -8,6 +8,8 @@ import { User } from 'src/app/models/user.model';
 import { Vote } from 'src/app/models/vote.model';
 import { PollUser } from 'src/app/models/poll-user.model';
 import * as mail from 'src/assets/js/mail.js';
+import { Answer } from 'src/app/models/answer.model';
+import { MatSnackBar } from '@angular/material';
 
 declare var sendPollInvite: any;
 
@@ -18,16 +20,20 @@ declare var sendPollInvite: any;
 })
 export class VotePollComponent implements OnInit, OnDestroy {
 
-  //Add an extra button to add an answer
   poll: Poll;
   answersIDPoll: number[];
   answersIDUser: number[];
   participants$: Observable<User[]>;
   userID: number;
   noparticipants$: Observable<User[]>;
-  
+  answer: string;
+  show: boolean;
 
-  constructor(private pollService: PollService, private authService: AuthService, private router: Router) { }
+  constructor(
+    private pollService: PollService, 
+    private authService: AuthService, 
+    private router: Router,
+    private snackbar: MatSnackBar) { }
 
   ngOnInit() {
     this.pollService.getPollbyId().subscribe(result => {
@@ -44,6 +50,7 @@ export class VotePollComponent implements OnInit, OnDestroy {
     this.userID = this.authService.getUser().userID;
     this.participants$ = this.pollService.getPollParticipants();
     this.noparticipants$ = this.pollService.getPollNoParticipants();
+    this.show = false;
   }
 
   updateVote(event, answer) {
@@ -80,8 +87,36 @@ export class VotePollComponent implements OnInit, OnDestroy {
     this.pollService.createPollUser(new PollUser(0, this.poll, user, false)).subscribe(result => {
       sendPollInvite(result.user.email, this.authService.getUser().username, result.poll.name);
     }); 
+  }
 
+  showAnswer() {
+    this.show = !this.show;
+  }
 
+  addAnswer() {
+    if (this.poll.answers.some(n => n.name == this.answer)) {
+      this.snackbar.open('Duplicate error', 'Error', {
+        duration: 3000
+      });
+    } else {
+      this.pollService.addAnswer(new Answer(0, this.answer, this.poll, null)).subscribe(result => {
+        console.log(result);
+        this.ngOnInit();
+        this.answer = '';
+      });
+    }
+  }
+
+  deleteAnswer(answer: Answer) {
+    if (this.poll.answers.length > 2) {
+      this.pollService.delelteAnswer(answer).subscribe(result => {
+        this.ngOnInit();
+      });
+    } else {
+      this.snackbar.open('A poll need at least 2 answer, you first have to add an answer to delete one of the remaining', 'Delete error', {
+        duration: 3000
+      });
+    }
   }
 
   ngOnDestroy() {

@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { PollService } from '../poll/poll.service';
-import { Router,  } from '@angular/router';
+import { Router, } from '@angular/router';
 import { Poll } from '../models/poll.model';
 import { AuthService } from '../auth/auth.service';
 import { MatDialog } from '@angular/material';
-import { DeletePollComponent } from '../dialog/delete-poll/delete-poll.component';
 import { Friend } from '../models/friend.model';
 import { PollUser } from '../models/poll-user.model';
 import { User } from '../models/user.model';
 import { Observable } from 'rxjs';
+import { TwoOptionsDialogComponent } from '../dialog/two-options-dialog/two-options-dialog.component';
 
 @Component({
   selector: 'app-dashboard',
@@ -21,7 +21,7 @@ export class DashboardComponent implements OnInit {
   receivedInvitations: Friend[];
   friends: number;
   pollInvites$: Observable<PollUser[]>;
-  
+
   constructor(
     private pollService: PollService,
     private router: Router,
@@ -34,20 +34,6 @@ export class DashboardComponent implements OnInit {
     this.authService.getReceivedInvitations().subscribe(result => {
       this.receivedInvitations = result;
       this.authService.emitChange(result.length);
-      //if (result.length > 0) {
-        
-        // const inviteDialog = this.dialog.open(InviteDialogComponent, {
-        //   data: {
-        //     amount: result.length
-        //   }
-        // });
-  
-        // inviteDialog.afterClosed().subscribe(result => {
-        //   if (result) {
-        //     this.router.navigate(['/friends'])
-        //   }
-        // });
-      //}
     });
     this.authService.getFriends().subscribe(result => {
       this.friends = result.length;
@@ -58,7 +44,7 @@ export class DashboardComponent implements OnInit {
   initializePolls() {
     this.user = this.authService.getUser();
     if (this.user) {
-      this.pollUsers$ =  this.pollService.getPollUsers(this.user.userID);
+      this.pollUsers$ = this.pollService.getPollUsers(this.user.userID);
     }
   }
 
@@ -72,14 +58,16 @@ export class DashboardComponent implements OnInit {
   }
 
   deletePoll(poll: Poll) {
-    const deletePollDialog = this.dialog.open(DeletePollComponent, {
+    const twoOptionsDialog = this.dialog.open(TwoOptionsDialogComponent, {
       data: {
-        title: poll.name
+        title: "Reset Password",
+        content: "<p>Do you want to delete this poll?</p><p>Title: <b>" + poll.name + "</b></p>",
+        button1: "Yes",
+        button2: "No"
       }
     });
 
-
-    deletePollDialog.afterClosed().subscribe(result => {
+    twoOptionsDialog.afterClosed().subscribe(result => {
       if (result) {
         this.pollService.deletePoll(poll.pollID).subscribe(result => {
           this.initializePolls();

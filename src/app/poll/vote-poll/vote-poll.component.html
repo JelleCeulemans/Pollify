@@ -10,15 +10,23 @@
                         [checked]="answersIDUser.includes(answer.answerID)">
                         {{answer.name}}
                     </mat-checkbox>
-                    <p>Votes: {{answer.votes.length}}</p>
+                    <div fxLayout="row">
+                        <p>Votes: {{answer.votes.length}}</p>
+                        <button mat-button color="warn" (click)="deleteAnswer(answer)">Delete</button>
+                    </div>
                 </div>
-                <!-- add input field to add answer -->
-                <div><input></div>
+                <div *ngIf="show">
+                    <mat-form-field>
+                        <input type="text" matInput placeholder="Answer" [(ngModel)]="answer">
+                        <mat-error>Characters...</mat-error>
+                    </mat-form-field>
+                    <button mat-raised-button color="primary" (click)="addAnswer()"><mat-icon>add_circle_outline</mat-icon></button>
+                </div>
             </div>
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="center center">
             <button mat-raised-button color="accent" (click)="saveVote()">Vote</button>
-            <button mat-raised-button color="primary">Add answer</button>
+            <button mat-raised-button color="primary" (click)="showAnswer()">Toggle add answer</button>
         </mat-card-actions>
     </mat-card>
     <mat-card *ngIf="(participants$ | async)?.length > 0">
@@ -26,7 +34,6 @@
         <mat-card-content fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let participant of (participants$ | async)">
                 <p>{{participant.username}} <span *ngIf="participant.userID == userID">(you)</span></p>
-                <!-- <button mat-button color="warn" *ngIf="participant.userID != userID">Remove</button> -->
             </div>
         </mat-card-content>
     </mat-card>

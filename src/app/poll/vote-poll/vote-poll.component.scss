@@ -8,6 +8,11 @@ mat-card {
     width: 350px;
 }
 
+mat-form-field {
+    width: 225px;
+    margin-right: 40px;
+}
+
 mat-card-content {
     padding: 30px 0px 20px 20px;
 }
@@ -15,5 +20,10 @@ mat-card-content {
 @include layout-bp(gt-xs) {
     mat-card {
         width: 450px;
+    }
+
+    mat-form-field {
+        width: 300px;
+        margin-right: 65px;
     }
 }

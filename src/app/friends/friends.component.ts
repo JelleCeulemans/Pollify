@@ -22,7 +22,6 @@ declare var sendAcceptFriend: any;
 
 export class FriendsComponent implements OnInit {
   inviteForm: FormGroup;
-  receiver: User;
   friends: User[];
   sendedInvitations: User[];
   receivedInvitations: Friend[];
@@ -66,20 +65,23 @@ export class FriendsComponent implements OnInit {
       this.authService.getUserByEmail(this.inviteForm.value.email).subscribe(result => {
         console.log(result);
         if (result) {
-          this.receiver = result;
           sendFriendRequest(this.inviteForm.value.email, this.authService.getUser().username);
+          this.inviteFriend(result);
         } else {
-          this.receiver = new User(0, this.inviteForm.value.email, null, null, false, '00000000-0000-0000-0000-000000000000', null, null, null);
           sendInvite(this.inviteForm.value.email, this.authService.getUser().username);
-        }
-        this.authService.insertFriend(new Friend(0, this.authService.getUser(), this.receiver, false)).subscribe(result => {
-          this.snackbar.open('Your friend is invited!', 'Friend request', {
-            duration: 3000
-          });
-          this.ngOnInit();
-        });  
+          this.inviteFriend(new User(0, this.inviteForm.value.email, null, null, false, '00000000-0000-0000-0000-000000000000', null, null, null));
+        } 
       });
     }
+  }
+
+  inviteFriend(receiver: User) {
+    this.authService.insertFriend(new Friend(0, this.authService.getUser(), receiver, false)).subscribe(result => {
+      this.snackbar.open('Your friend is invited!', 'Friend request', {
+        duration: 3000
+      });
+      this.ngOnInit();
+    }); 
   }
 
   acceptInvitation(friendID: number) {

@@ -5,8 +5,7 @@ import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
 import * as mail from 'src/assets/js/mail.js';
 import { User } from 'src/app/models/user.model';
-import { AESEncryptDecryptService } from '../aesencrypt-decrypt-service.service';
-import { CreateUserDialogComponent } from 'src/app/dialog/create-user-dialog/create-user-dialog.component';
+import { OneOptionDialogComponent } from 'src/app/dialog/one-option-dialog/one-option-dialog.component';
 
 declare var sendActivition: any;
 
@@ -23,8 +22,7 @@ export class SignupComponent implements OnInit {
     private snackbar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
-    private dialog: MatDialog,
-    private _AESEncryptDecryptService: AESEncryptDecryptService) { }
+    private dialog: MatDialog) { }
 
   ngOnInit() {
     this.spinnerActive = false;
@@ -37,7 +35,6 @@ export class SignupComponent implements OnInit {
   }
 
   onSubmit() {
-    //look for all sort of things that can happen (dialog and snackbar)
     this.spinnerActive = true;
     if (this.signupForm.value.password == this.signupForm.value.repeatPassword) {
       this.authService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
@@ -66,13 +63,15 @@ export class SignupComponent implements OnInit {
           this.authService.insertUser(user).subscribe(result => {
             console.log(result);
             this.activationLink(result.email, result.username, result.guid);
-            const createUserDialog = this.dialog.open(CreateUserDialogComponent, {
+            
+            const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
               data: {
-                username: this.signupForm.value.username,
-                email: this.signupForm.value.email
+                title: "Reset Password",
+                content: "<p>" + this.signupForm.value.username + " your account has just been created!</p><p>There is an email sent to you email address: " + this.signupForm.value.email + " with an activation link.</p><p>Please activate your account, before you are able to login.</p>",
+                button: "Go to Login"
               }
             });
-            createUserDialog.afterClosed().subscribe(result => {
+            oneOptionDialog.afterClosed().subscribe(result => {
               if (result) {
                 this.router.navigate(['/login']);
               }
