@@ -10,7 +10,8 @@
                         {{answer.name}}
                     </mat-checkbox>
                     <div fxLayout="row">
-                        <p [matTooltip]="answer.votes | votingUsers" matTooltipPosition="right" (click)="tooltip.toggle()" #tooltip="matTooltip">Votes: {{answer.votes.length}}</p>
+                        <p [matTooltip]="answer.votes | votingUsers" matTooltipPosition="right"
+                            (click)="tooltip.toggle()" #tooltip="matTooltip">Votes: {{answer.votes.length}}</p>
                         <button mat-button color="warn" (click)="deleteAnswer(answer)">Delete</button>
                     </div>
                 </div>
@@ -22,6 +23,14 @@
                     <button mat-raised-button color="primary" (click)="addAnswer()">
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
+                </div>
+                <div style="display: block;">
+                    <canvas baseChart 
+                    [data]="doughnutChartData" 
+                    [labels]="doughnutChartLabels"
+                    [chartType]="doughnutChartType"
+                    [colors]="doughnutColors">
+                </canvas>
                 </div>
             </div>
         </mat-card-content>
@@ -35,7 +44,8 @@
         <mat-card-content fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let participant of (participants$ | async)">
                 <p>{{participant.username}} <span *ngIf="participant.userID == userID">(you)</span></p>
-                <button mat-button color="warn" (click)="removeParticipant(participant)" *ngIf="participant.userID != userID">Delete</button>
+                <button mat-button color="warn" (click)="removeParticipant(participant)"
+                    *ngIf="participant.userID != userID">Delete</button>
             </div>
         </mat-card-content>
     </mat-card>

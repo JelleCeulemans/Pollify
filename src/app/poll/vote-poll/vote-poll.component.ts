@@ -10,6 +10,10 @@ import { PollUser } from 'src/app/models/poll-user.model';
 import * as mail from 'src/assets/js/mail.js';
 import { Answer } from 'src/app/models/answer.model';
 import { MatSnackBar } from '@angular/material';
+import { Label, SingleDataSet, Colors, ThemeService } from 'ng2-charts';
+import { ChartType, ChartOptions } from 'chart.js';
+
+
 
 declare var sendPollInvite: any;
 
@@ -28,6 +32,18 @@ export class VotePollComponent implements OnInit, OnDestroy {
   noparticipants$: Observable<User[]>;
   answer: string;
   show: boolean;
+  dataArray: number[];
+  labelArray: string[];
+  
+
+  public doughnutChartLabels: Label[];
+  public doughnutChartData: SingleDataSet;
+  public doughnutChartType: ChartType = 'doughnut';
+  public doughnutColors: Array<any> = [
+    { // all colors in order
+      backgroundColor: ['#E91E63', '#7B1FA2', '#FFEB3B', '#F44336', '#03A9F4', '#607D8B']
+    }];
+
 
   constructor(
     private pollService: PollService,
@@ -36,9 +52,17 @@ export class VotePollComponent implements OnInit, OnDestroy {
     private snackbar: MatSnackBar) { }
 
   ngOnInit() {
+    this.labelArray = new Array<string>();
+    this.dataArray = new Array<number>();
     this.pollService.getPollbyId().subscribe(result => {
       this.poll = result;
+      result.answers.forEach(element => {
+        this.labelArray.push(element.name);
+        this.dataArray.push(element.votes.length);
+      });
     });
+    this.doughnutChartLabels = this.labelArray;
+    this.doughnutChartData = this.dataArray;
     this.answersIDPoll = new Array<number>();
     this.answersIDUser = new Array<number>();
     this.pollService.getAnswers(this.authService.getUser().userID).subscribe(result => {
@@ -134,6 +158,15 @@ export class VotePollComponent implements OnInit, OnDestroy {
     this.pollService.deleteParticipant(participant.userID, this.poll.pollID).subscribe(result => {
       this.ngOnInit();
     });
+  }
+
+  // events
+  public chartClicked({ event, active }: { event: MouseEvent, active: {}[] }): void {
+    console.log(event, active);
+  }
+
+  public chartHovered({ event, active }: { event: MouseEvent, active: {}[] }): void {
+    console.log(event, active);
   }
 
   ngOnDestroy() {

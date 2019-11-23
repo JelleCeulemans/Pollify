@@ -5,6 +5,7 @@ import { VotePollComponent } from './vote-poll/vote-poll.component';
 import { SharedModule } from '../shared.module';
 import { MatTooltipModule } from '@angular/material';
 import { VotingUsersPipe } from './tooltip.pipe';
+import { ChartsModule} from 'ng2-charts';
 
 
 
@@ -13,7 +14,8 @@ import { VotingUsersPipe } from './tooltip.pipe';
   imports: [
     CommonModule,
     SharedModule,
-    MatTooltipModule
+    MatTooltipModule,
+    ChartsModule
   ]
 })
 export class PollModule { }
