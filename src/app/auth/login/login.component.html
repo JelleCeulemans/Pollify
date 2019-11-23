@@ -10,7 +10,7 @@
             <mat-error>This password is incorrect.</mat-error>
         </mat-form-field>
         <button *ngIf="!spinnerActive" mat-raised-button color="accent" [disabled]="loginForm.invalid" (click)="onSubmit()">Submit</button>
-        <button mat-raised-button  color="primary" (click)="fbLogin()">Login with facebook</button>
+        <button mat-raised-button id="fbButton" (click)="fbLogin()"><i class="fab fa-facebook-f fa-2x"></i>Login with facebook</button>
         <button mat-button  color="primary" routerLink="/forgotPassword">Forgot password</button>
         <mat-spinner *ngIf="spinnerActive"></mat-spinner>
     </form>

@@ -17,6 +17,10 @@ mat-card-content {
     padding: 30px 0px 20px 20px;
 }
 
+.my-tooltip {
+    white-space: pre-line !important;
+}
+
 @include layout-bp(gt-xs) {
     mat-card {
         width: 450px;

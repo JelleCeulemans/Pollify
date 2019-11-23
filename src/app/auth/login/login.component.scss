@@ -15,6 +15,14 @@ mat-form-field {
     width: 320px;
 }
 
+#fbButton {
+    background-color:#3b5998;
+}
+
+.fa-facebook-f {
+    padding: 8px 15px 8px 0px;
+}
+
 @include layout-bp(gt-xs) {
     section {
         margin-top: 80px;

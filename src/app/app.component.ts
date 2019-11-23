@@ -30,6 +30,7 @@ export class AppComponent {
 
   logout() {
     this.store.dispatch(new Auth.SetUnauthenticated());
+    localStorage.removeItem('token');
     this.router.navigate(['/login']);
   }
 

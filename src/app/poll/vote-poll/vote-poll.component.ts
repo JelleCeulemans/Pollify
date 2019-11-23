@@ -30,8 +30,8 @@ export class VotePollComponent implements OnInit, OnDestroy {
   show: boolean;
 
   constructor(
-    private pollService: PollService, 
-    private authService: AuthService, 
+    private pollService: PollService,
+    private authService: AuthService,
     private router: Router,
     private snackbar: MatSnackBar) { }
 
@@ -65,28 +65,39 @@ export class VotePollComponent implements OnInit, OnDestroy {
   }
 
   saveVote() {
+    let counter = 1;
     this.poll.answers.forEach(element => {
+      //console.log(index, this.poll.answers.length - 1);
       if (this.answersIDPoll.includes(element.answerID) && !this.answersIDUser.includes(element.answerID)) {
-         this.pollService.createVote(new Vote(0, element, this.authService.getUser())).subscribe();
+        this.pollService.createVote(new Vote(0, element, this.authService.getUser())).subscribe(result => this.checkEnd(counter++));
       } else if (!this.answersIDPoll.includes(element.answerID) && this.answersIDUser.includes(element.answerID)) {
-        this.pollService.deleteVote(element.answerID, this.authService.getUser().userID).subscribe();
+        this.pollService.deleteVote(element.answerID, this.authService.getUser().userID).subscribe(result => this.checkEnd(counter++));
+      } else {
+        this.checkEnd(counter++);
       }
     });
-    this.router.navigate(["/dashboard"]);
+  }
+
+  //FIXME
+  //Can this shorter ? callback ?
+  checkEnd(count: Number) {
+    if (count == this.poll.answers.length) {
+      this.ngOnInit();
+    }
   }
 
   inviteFriend(user: User, event: any) {
-    if(event.target.tagName == "SPAN") {
+    if (event.target.tagName == "SPAN") {
       event.target.parentElement.disabled = true;
       event.target.innerHTML = "Invited";
     } else if (event.target.tagName == "BUTTON") {
       event.target.disabled = true;
       event.target.firstChild.innerHTML = "Invited";
     }
-    
+
     this.pollService.createPollUser(new PollUser(0, this.poll, user, false)).subscribe(result => {
       sendPollInvite(result.user.email, this.authService.getUser().username, result.poll.name);
-    }); 
+    });
   }
 
   showAnswer() {
@@ -117,6 +128,12 @@ export class VotePollComponent implements OnInit, OnDestroy {
         duration: 3000
       });
     }
+  }
+  
+  removeParticipant(participant: User) {
+    this.pollService.deleteParticipant(participant.userID, this.poll.pollID).subscribe(result => {
+      this.ngOnInit();
+    });
   }
 
   ngOnDestroy() {

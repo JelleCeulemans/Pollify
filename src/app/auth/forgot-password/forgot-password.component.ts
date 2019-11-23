@@ -1,12 +1,12 @@
 import { Component, OnInit } from '@angular/core';
-import * as mail from 'src/assets/js/mail.js';
+//import * as mail from 'src/assets/js/mail.js';
 import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { AuthService } from '../auth.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { OneOptionDialogComponent } from 'src/app/dialog/one-option-dialog/one-option-dialog.component';
 
-declare var resetPassword: any;
+//declare var resetPassword: any;
 
 @Component({
   selector: 'app-forgot-password',
@@ -26,15 +26,15 @@ export class ForgotPasswordComponent implements OnInit {
   ngOnInit() {
     this.show = false;
     this.forgotPasswordForm = new FormGroup({
-      email: new FormControl('info@jelleceulemans.be', { validators: [Validators.required, Validators.email] })
+      email: new FormControl('', { validators: [Validators.required, Validators.email] })
     });
   }
 
   onSubmit() {
     this.show = true;
-    this.authService.getUserByEmail(this.forgotPasswordForm.value.email).subscribe(result => {
+    this.authService.getUserByEmail(this.forgotPasswordForm.value.email, true).subscribe(result => {
       if (result) {
-        resetPassword(result.email, result.username, result.guid);
+        //resetPassword(result.email, result.username, result.guid);
 
         const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
           data: {

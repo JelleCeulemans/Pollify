@@ -33,15 +33,13 @@ export class FbAuthService {
         this.afAuth.user.subscribe(user => {
           console.log(user);
           
-          this.authService.getUserByEmail(user.email).subscribe(result => {
+          this.authService.getUserByEmail(user.email, false).subscribe(result => {
             if (result) {
-              //Create easier authentication for fb ? Security issue
-              result.password = user.uid;
+              console.log(result);
               this.login(result);
             } else {
               let insertUser = new User(0, user.email, user.uid, user.displayName, true, '00000000-0000-0000-0000-000000000000', null, null, null);
               this.authService.insertUser(insertUser).subscribe(result => {
-                //Create easier authentication for fb ? Security issue
                 result.password = user.uid;
                 this.login(result);
               });
@@ -60,7 +58,7 @@ export class FbAuthService {
   // }
 
   login(user: User) {
-    this.authService.authenticate(user).subscribe(result => {
+    this.authService.fbauth(user).subscribe(result => {
       this.authService.setUser(result);
       localStorage.setItem("token", result.token);
       this.store.dispatch(new Auth.SetAuthenticated());
@@ -69,7 +67,7 @@ export class FbAuthService {
       const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
         data: {
           title: "Facebook login error",
-          content: "<p>You are not able to login with facebook.</p><p>Maybe you have changed your password earlier ?</p><p>Go to the forgot password section to reset your password.</p><p><i>After this you are only able to login normally and not with the facebook option (all you polls are then still available).</i></p>",
+          content: "<p>SHOULD NEVER GET HERE</p>",
           button: "OK"
         }
       });

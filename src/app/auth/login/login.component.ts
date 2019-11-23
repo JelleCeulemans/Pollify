@@ -35,8 +35,8 @@ export class LoginComponent implements OnInit {
   ngOnInit() {
     this.spinnerActive = false;
     this.loginForm = new FormGroup({
-      email: new FormControl('', { validators: [Validators.required, Validators.email] }),
-      password: new FormControl('', { validators: [Validators.required] })
+      email: new FormControl('info@jelleceulemans.be', { validators: [Validators.required, Validators.email] }),
+      password: new FormControl('azertyuiop', { validators: [Validators.required] })
     });
   }
 
@@ -45,7 +45,7 @@ export class LoginComponent implements OnInit {
     let userLogin = new User(0, this.loginForm.value.email, this.loginForm.value.password, null, true, '00000000-0000-0000-0000-000000000000', null, null, null);
     this.authService.authenticate(userLogin).subscribe(result => {
       this.authService.setUser(result);
-      localStorage.setItem("token", result.token);
+      localStorage.setItem('token', result.token);
       this.spinnerActive = false;
       this.store.dispatch(new Auth.SetAuthenticated());
       this.router.navigate(['/dashboard']);

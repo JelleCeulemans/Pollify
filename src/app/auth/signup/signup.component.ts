@@ -3,11 +3,11 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-import * as mail from 'src/assets/js/mail.js';
+//import * as mail from 'src/assets/js/mail.js';
 import { User } from 'src/app/models/user.model';
 import { OneOptionDialogComponent } from 'src/app/dialog/one-option-dialog/one-option-dialog.component';
 
-declare var sendActivition: any;
+//declare var sendActivition: any;
 
 @Component({
   selector: 'app-signup',
@@ -37,13 +37,16 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     this.spinnerActive = true;
     if (this.signupForm.value.password == this.signupForm.value.repeatPassword) {
-      this.authService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
+      this.authService.getUserByEmail(this.signupForm.value.email, false).subscribe(result => {
         if (result) {
           if (!result.username && !result.password) {
             result.username = this.signupForm.value.username;
             result.password = this.signupForm.value.password;
             this.authService.updateUser(result).subscribe(result => {
-              this.activationLink(result.email, result.username, result.guid);
+              this.snackbar.open('Email activation link is sended!', 'Email', {
+                duration: 3000
+              });
+              this.spinnerActive = false;
               this.router.navigate(['/login']);
             });
           } else {
@@ -61,9 +64,10 @@ export class SignupComponent implements OnInit {
         } else {
           let user = new User(0, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.username, false, '00000000-0000-0000-0000-000000000000', null, null, null);
           this.authService.insertUser(user).subscribe(result => {
-            console.log(result);
-            this.activationLink(result.email, result.username, result.guid);
-            
+            this.snackbar.open('Email activation link is sended!', 'Email', {
+              duration: 3000
+            });
+            this.spinnerActive = false;
             const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
               data: {
                 title: "Reset Password",
@@ -98,11 +102,11 @@ export class SignupComponent implements OnInit {
     }
   }
 
-  activationLink(email: string, username: string, guid: string) {
-    sendActivition(email, username, guid);
-    this.snackbar.open('Email activation link is sended!', 'Email', {
-      duration: 3000
-    });
-    this.spinnerActive = false;
-  }
+  // activationLink(email: string, username: string, guid: string) {
+  //   //sendActivition(email, username, guid);
+  //   this.snackbar.open('Email activation link is sended!', 'Email', {
+  //     duration: 3000
+  //   });
+  //   this.spinnerActive = false;
+  // }
 }

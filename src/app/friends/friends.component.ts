@@ -62,14 +62,15 @@ export class FriendsComponent implements OnInit {
         duration: 3000
       });
     } else {
-      this.authService.getUserByEmail(this.inviteForm.value.email).subscribe(result => {
+      //rewrite
+      this.authService.getUserByEmail(this.inviteForm.value.email, false).subscribe(result => {
         console.log(result);
         if (result) {
-          sendFriendRequest(this.inviteForm.value.email, this.authService.getUser().username);
-          this.inviteFriend(result);
+          //sendFriendRequest(this.inviteForm.value.email, this.authService.getUser().username);
+          //this.inviteFriend(result);
         } else {
-          sendInvite(this.inviteForm.value.email, this.authService.getUser().username);
-          this.inviteFriend(new User(0, this.inviteForm.value.email, null, null, false, '00000000-0000-0000-0000-000000000000', null, null, null));
+          //sendInvite(this.inviteForm.value.email, this.authService.getUser().username);
+          //this.inviteFriend(new User(0, this.inviteForm.value.email, null, null, false, '00000000-0000-0000-0000-000000000000', null, null, null));
         } 
       });
     }

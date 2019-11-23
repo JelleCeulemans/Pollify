@@ -3,15 +3,14 @@
         <mat-card-title fxLayoutAlign="center center">{{poll.name}}</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <div fxLayoutGap="20px" fxLayout="column" >
+            <div fxLayoutGap="20px" fxLayout="column">
                 <div *ngFor="let answer of poll.answers" fxLayout="row" fxLayoutAlign="space-between">
-                    <mat-checkbox color="warn" [value]="answer"
-                        (change)="updateVote($event, answer.answerID)"
+                    <mat-checkbox color="warn" [value]="answer" (change)="updateVote($event, answer.answerID)"
                         [checked]="answersIDUser.includes(answer.answerID)">
                         {{answer.name}}
                     </mat-checkbox>
                     <div fxLayout="row">
-                        <p>Votes: {{answer.votes.length}}</p>
+                        <p [matTooltip]="answer.votes | votingUsers" matTooltipPosition="right" (click)="tooltip.toggle()" #tooltip="matTooltip">Votes: {{answer.votes.length}}</p>
                         <button mat-button color="warn" (click)="deleteAnswer(answer)">Delete</button>
                     </div>
                 </div>
@@ -20,7 +19,9 @@
                         <input type="text" matInput placeholder="Answer" [(ngModel)]="answer">
                         <mat-error>Characters...</mat-error>
                     </mat-form-field>
-                    <button mat-raised-button color="primary" (click)="addAnswer()"><mat-icon>add_circle_outline</mat-icon></button>
+                    <button mat-raised-button color="primary" (click)="addAnswer()">
+                        <mat-icon>add_circle_outline</mat-icon>
+                    </button>
                 </div>
             </div>
         </mat-card-content>
@@ -34,13 +35,14 @@
         <mat-card-content fxLayout="column">
             <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let participant of (participants$ | async)">
                 <p>{{participant.username}} <span *ngIf="participant.userID == userID">(you)</span></p>
+                <button mat-button color="warn" (click)="removeParticipant(participant)" *ngIf="participant.userID != userID">Delete</button>
             </div>
         </mat-card-content>
     </mat-card>
     <mat-card *ngIf="(noparticipants$ | async)?.length > 0">
         <mat-card-title>Invite friends</mat-card-title>
         <mat-card-content>
-            <div  *ngFor="let noparticipant of (noparticipants$ | async)" fxLayoutAlign="space-between">
+            <div *ngFor="let noparticipant of (noparticipants$ | async)" fxLayoutAlign="space-between">
                 <p>{{noparticipant.username}}</p>
                 <button mat-button color="warn" (click)="inviteFriend(noparticipant, $event)">Invite</button>
             </div>
