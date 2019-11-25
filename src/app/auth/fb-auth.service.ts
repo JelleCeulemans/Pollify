@@ -57,10 +57,11 @@ export class FbAuthService {
   //   });
   // }
 
+
   login(user: User) {
     this.authService.fbauth(user).subscribe(result => {
+      localStorage.setItem('token', result.token);
       this.authService.setUser(result);
-      localStorage.setItem("token", result.token);
       this.store.dispatch(new Auth.SetAuthenticated());
       this.router.navigate(['/dashboard']);
     }, error => {

@@ -32,6 +32,9 @@ export class LoginComponent implements OnInit {
     this.users$ = this.authService.getUsers();
   }
 
+  //Is executing when the login page is initializing
+  //Sets the spinner (while submitting the form) default to false.
+  //Creates a FromGroup for the login form with validation rules.
   ngOnInit() {
     this.spinnerActive = false;
     this.loginForm = new FormGroup({

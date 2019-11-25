@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
   initializePolls() {
     this.user = this.authService.getUser();
     if (this.user) {
-      this.pollUsers$ = this.pollService.getPollUsers(this.user.userID);
+      this.pollUsers$ = this.pollService.getPollUsers(+localStorage.getItem('userID'));
     }
   }
 

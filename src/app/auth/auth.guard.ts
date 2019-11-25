@@ -15,7 +15,9 @@ export class AuthGuard implements CanActivate {
         this.store.select(fromRoot.getIsAuth).pipe(take(1)).subscribe(value => {
             this.isAuth = value;
         });
-        if  (this.isAuth) {
+
+        //check
+        if  (this.isAuth || localStorage.getItem('token')) {
             return true;
         } else {
             this.router.navigate(['/login']);

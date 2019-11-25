@@ -11,8 +11,11 @@ import { FriendsComponent } from './friends/friends.component';
 import { ActivateAccountComponent } from './auth/activate-account/activate-account.component';
 import { ForgotPasswordComponent } from './auth/forgot-password/forgot-password.component';
 import { ResetPasswordComponent } from './auth/reset-password/reset-password.component';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 
+//All the url routes for the app
+// ** is for all unmatched routes
 const routes: Routes = [
   { path: '', component: HomeComponent },
   { path: 'login', component: LoginComponent },
@@ -21,9 +24,11 @@ const routes: Routes = [
   { path: 'createPoll', component: CreatePollComponent, canActivate: [AuthGuard]},  
   { path: 'votePoll', component: VotePollComponent, canActivate: [AuthGuard]},
   { path: 'friends', component: FriendsComponent, canActivate: [AuthGuard]},
+  { path: 'activateAccount', component: ActivateAccountComponent},
   { path: 'activateAccount/:guid', component: ActivateAccountComponent},
   { path: 'forgotPassword', component: ForgotPasswordComponent},
-  { path: 'resetPassword/:guid', component: ResetPasswordComponent}
+  { path: 'resetPassword/:guid', component: ResetPasswordComponent},
+  { path: '**', component: PageNotFoundComponent}
 ];
 
 @NgModule({

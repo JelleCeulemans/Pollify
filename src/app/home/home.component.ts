@@ -13,9 +13,10 @@ export class HomeComponent implements OnInit {
 
   constructor(private pollService: PollService) { }
 
+  //Is executed on the initializing of the home component
+  //This method will retrieve the total amount of polls and activated users
   ngOnInit() {
     this.countPolls$ = this.pollService.getCountPolls();
     this.countUsers$ = this.pollService.getCountUsers();
   }
-
 }

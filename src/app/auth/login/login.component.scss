@@ -11,7 +11,8 @@ button {
     margin-top: 10px;
 }
 
-mat-form-field {
+
+mat-form-field, mat-card {
     width: 320px;
 }
 
@@ -28,7 +29,8 @@ mat-form-field {
         margin-top: 80px;
     }
 
-    mat-form-field {
+    mat-form-field, mat-card {
         width: 450px;
     }
+
 }

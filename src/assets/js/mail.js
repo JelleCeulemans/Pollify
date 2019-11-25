@@ -7,7 +7,7 @@ function sendInvite(email, username) {
     }
 
     var template_id = "invite_pollify";
-    emailjs.send(service_id, template_id, template_params);
+    //emailjs.send(service_id, template_id, template_params);
 }
 
 
@@ -18,7 +18,7 @@ function sendFriendRequest(email, username) {
     }
 
     var template_id = "friend_request";
-    emailjs.send(service_id, template_id, template_params);
+    //emailjs.send(service_id, template_id, template_params);
 }
 
 function sendActivition(email, username, guid) {
@@ -29,7 +29,7 @@ function sendActivition(email, username, guid) {
     }
 
     var template_id = "activate_account";
-    emailjs.send(service_id, template_id, template_params);
+    //emailjs.send(service_id, template_id, template_params);
 }
 
 function sendAcceptFriend(email, username) {
@@ -42,7 +42,7 @@ function sendAcceptFriend(email, username) {
      }
      
      var template_id = "friend_and_poll";
-     emailjs.send(service_id, template_id, template_params); 
+     //emailjs.send(service_id, template_id, template_params); 
 }
 
 function sendPollInvite(email, username, pollName) {
@@ -55,7 +55,7 @@ function sendPollInvite(email, username, pollName) {
      }
      
      var template_id = "friend_and_poll";
-     emailjs.send(service_id, template_id, template_params); 
+     //emailjs.send(service_id, template_id, template_params); 
 }
 
 function resetPassword(email, username, guid){
@@ -66,5 +66,5 @@ function resetPassword(email, username, guid){
      }
      
      var template_id = "forgot_password";
-     emailjs.send(service_id, template_id, template_params);
+     //emailjs.send(service_id, template_id, template_params);
 }

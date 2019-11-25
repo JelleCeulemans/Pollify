@@ -20,13 +20,15 @@ import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { TwoOptionsDialogComponent } from './dialog/two-options-dialog/two-options-dialog.component';
 import { SharedModule } from './shared.module';
+import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
 
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DashboardComponent,
-    FriendsComponent
+    FriendsComponent,
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

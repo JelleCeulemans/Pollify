@@ -13,24 +13,43 @@ import { OneOptionDialogComponent } from 'src/app/dialog/one-option-dialog/one-o
 })
 export class ResetPasswordComponent implements OnInit {
   resetPasswordForm: FormGroup;
-  private sub: any;
+  private urlParam: any;
   guid: string;
   user: User;
   show: boolean;
 
+  //password validation variables
+  lowercase: boolean;
+  uppercase: boolean;
+  numeric: boolean;
+  specialCharacter: boolean;
+  length: boolean;
+  identical: boolean
+
   constructor(
-    private route: ActivatedRoute, 
-    private authService: AuthService, 
+    private route: ActivatedRoute,
+    private authService: AuthService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
     private router: Router) { }
 
+  //Is executing when initializing the reset password page.
   ngOnInit() {
+    //All the validation variables are false by default.
+    this.lowercase = false;
+    this.uppercase = false;
+    this.numeric = false;
+    this.specialCharacter = false;
+    this.length = false;
+    this.identical = false;
+
+    //Creates an FormGroup for the reset password form with validation rules
+    //At least 1 Uppercase, 1 lowercase, 1 spacial character, 1 number and 8 characters long
     this.resetPasswordForm = new FormGroup({
-      password: new FormControl('', { validators: [Validators.required, Validators.minLength(8)] }),
+      password: new FormControl('', { validators: [Validators.required,  Validators.pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"))] }),
       confirmPassword: new FormControl('', { validators: [Validators.required, Validators.minLength(8)] })
     });
-    this.sub = this.route.params.subscribe(params => {
+    this.urlParam = this.route.params.subscribe(params => {
       this.authService.getUserWhereGuid(params['guid']).subscribe(result => {
         this.user = result;
         this.show = true;
@@ -38,16 +57,19 @@ export class ResetPasswordComponent implements OnInit {
         this.show = false;
       });
     });
+
+    //Executing the password validation
+    this.validatePassword();
   }
 
   onSubmit() {
-    if (this.resetPasswordForm.value.password == this.resetPasswordForm.value.confirmPassword) {
+    if (this.identical) {
       this.user.password = this.resetPasswordForm.value.password;
       this.authService.updatePassword(this.user).subscribe(result => {
         const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
           data: {
             title: "Reset Password",
-            content: "<p>"+ this.user.username +" your password has been reset.</p><p>You are now able to login with your new password.</p>",
+            content: "<p>" + this.user.username + " your password has been reset.</p><p>You are now able to login with your new password.</p>",
             button: "OK"
           }
         });
@@ -66,5 +88,27 @@ export class ResetPasswordComponent implements OnInit {
         confirmPassword: '',
       });
     }
+  }
+
+  validatePassword() {
+    this.resetPasswordForm.valueChanges.subscribe(result => {
+      //If the password contains a lowercase letter
+      this.lowercase = new RegExp('(?=.*[a-z])').test(result.password) ? true : false;
+
+      //If the password contains a uppercase letter
+      this.uppercase = new RegExp('(?=.*[A-Z])').test(result.password) ? true : false;
+
+      //If the password contains a number
+      this.numeric = new RegExp('(?=.*[0-9])').test(result.password) ? true : false;
+
+      //If the password contains a special character
+      this.specialCharacter = new RegExp('(?=.*[!@#\$%\^&\*])').test(result.password) ? true : false;
+
+      //If the password is at least 8 characters long
+      this.length = new RegExp('(?=.{8,})').test(result.password) ? true : false;
+
+      //If the password and confirm password is identical
+      this.identical = result.password == result.confirmPassword ? true : false;
+    });
   }
 }

@@ -18,129 +18,52 @@ export class PollService {
   user: User;
   pollUser: PollUser;
   vote: Vote;
-  
+  baseURL = 'https://localhost:44389/api';
+  //baseURL = 'https://pollifybackend.azurewebsites.net/api';
+
 
   constructor(private http: HttpClient, private authService: AuthService) {
-    
+
   }
-  //production
 
-  // getPollbyId() {
-  //   return this.http.get<Poll>("https://pollifybackend.azurewebsites.net/api/Poll/" + this.pollID);
-  // }
-
-  //  getPollUsers(userID: number): Observable<PollUser[]> {
-  //   return this.http.get<PollUser[]>("https://pollifybackend.azurewebsites.net/api/PollUser/perUser?userid=" + userID);
-  // }
-
-  // createPoll(poll: Poll) {
-  //   return this.http.post<Poll>("https://pollifybackend.azurewebsites.net/api/Poll", poll);
-  // }
-
-  // deletePoll(pollID: number) {
-  //   return this.http.delete<Poll>("https://pollifybackend.azurewebsites.net/api/Poll/" + pollID);
-  // }
-
-  // createPollUser(pollUser: PollUser) {
-  //   return this.http.post<PollUser>("https://pollifybackend.azurewebsites.net/api/PollUser", pollUser);
-  // }
-
-  // getAnswers(userID: number): Observable<Answer[]> {
-  //   return this.http.get<Answer[]>("https://pollifybackend.azurewebsites.net/api/Answer/specific?userid=" + userID + "&pollID=" + this.pollID);
-  // }
-
-  // createVote(vote: Vote) {
-  //   return this.http.post<Vote>("https://pollifybackend.azurewebsites.net/api/Vote", vote);
-  // }
-
-  // deleteVote(answerID: number, userID: number) {
-  //   return this.http.delete<Vote>("https://pollifybackend.azurewebsites.net/api/Vote?answerid=" + answerID + "&userid=" + userID);
-  // }
-
-  // getPollParticipants(): Observable<User[]>{
-  //   return this.http.get<User[]>("https://pollifybackend.azurewebsites.net/api/User/participants?pollid=" + this.pollID);
-  // }
-
-  // getPollNoParticipants(): Observable<User[]>{
-  //   return this.http.get<User[]>("https://pollifybackend.azurewebsites.net/api/User/noparticipants?userid=" + this.authService.getUser().userID +"&pollid=" + this.pollID);
-  // }
-
-  // setPollID(pollID: number) {
-  //   this.pollID = pollID;
-  // }
-
-  // getPollID() {
-  //   return this.pollID;
-  // }
-
-  // getCountPolls(): Observable<number> {
-  //   return this.http.get<number>("https://pollifybackend.azurewebsites.net/api/Poll/countPolls");
-  // }
-
-  // getCountUsers(): Observable<number> {
-  //   return this.http.get<number>("https://pollifybackend.azurewebsites.net/api/User/countUsers");
-  // }
-
-  // getPollInvites(): Observable<PollUser[]> {
-  //   return this.http.get<PollUser[]>("https://pollifybackend.azurewebsites.net/api/PollUser/pollInvites?userid=" + this.authService.getUser().userID);
-  // }
-
-  // deletePollUser(pollUser: PollUser) {
-  //   return this.http.delete<PollUser>("https://pollifybackend.azurewebsites.net/api/PollUser/" + pollUser.pollUserID);
-  // }
-
-  // acceptPollInvite(pollUser: PollUser) {
-  //   return this.http.put<PollUser>("https://pollifybackend.azurewebsites.net/api/PollUser/", pollUser);
-  // }
-
-  // addAnswer(answer: Answer) {
-  //   return this.http.post<Answer>("https://pollifybackend.azurewebsites.net/api/Answer/", answer);
-  // }
-
-  // delelteAnswer(answer: Answer) {
-  //   return this.http.delete<Answer>("https://pollifybackend.azurewebsites.net/api/Answer/" + answer.answerID);
-  // }
-
-
-  //testing
   getPollbyId() {
-    return this.http.get<Poll>("https://localhost:44389/api/Poll/" + this.pollID);
+    return this.http.get<Poll>(this.baseURL + "/Poll/" + this.pollID);
   }
 
-   getPollUsers(userID: number): Observable<PollUser[]> {
-    return this.http.get<PollUser[]>("https://localhost:44389/api/PollUser/perUser?userid=" + userID);
+  getPollUsers(userID: number): Observable<PollUser[]> {
+    return this.http.get<PollUser[]>(this.baseURL + "/PollUser/perUser?userid=" + userID);
   }
 
   createPoll(poll: Poll) {
-    return this.http.post<Poll>("https://localhost:44389/api/Poll", poll);
+    return this.http.post<Poll>(this.baseURL + "/Poll", poll);
   }
 
   deletePoll(pollID: number) {
-    return this.http.delete<Poll>("https://localhost:44389/api/Poll/" + pollID);
+    return this.http.delete<Poll>(this.baseURL + "/Poll/" + pollID);
   }
 
   createPollUser(pollUser: PollUser) {
-    return this.http.post<PollUser>("https://localhost:44389/api/PollUser", pollUser);
+    return this.http.post<PollUser>(this.baseURL + "/PollUser", pollUser);
   }
 
   getAnswers(userID: number): Observable<Answer[]> {
-    return this.http.get<Answer[]>("https://localhost:44389/api/Answer/specific?userid=" + userID + "&pollID=" + this.pollID);
+    return this.http.get<Answer[]>(this.baseURL + "/Answer/specific?userid=" + userID + "&pollID=" + this.pollID);
   }
 
   createVote(vote: Vote) {
-    return this.http.post<Vote>("https://localhost:44389/api/Vote", vote);
+    return this.http.post<Vote>(this.baseURL + "/Vote", vote);
   }
 
   deleteVote(answerID: number, userID: number) {
-    return this.http.delete<Vote>("https://localhost:44389/api/Vote?answerid=" + answerID + "&userid=" + userID);
+    return this.http.delete<Vote>(this.baseURL + "/Vote?answerid=" + answerID + "&userid=" + userID);
   }
 
-  getPollParticipants(): Observable<User[]>{
-    return this.http.get<User[]>("https://localhost:44389/api/User/participants?pollid=" + this.pollID);
+  getPollParticipants(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseURL + "/User/participants?pollid=" + this.pollID);
   }
 
-  getPollNoParticipants(): Observable<User[]>{
-    return this.http.get<User[]>("https://localhost:44389/api/User/noparticipants?userid=" + this.authService.getUser().userID +"&pollid=" + this.pollID);
+  getPollNoParticipants(): Observable<User[]> {
+    return this.http.get<User[]>(this.baseURL + "/User/noparticipants?userid=" + this.authService.getUser().userID + "&pollid=" + this.pollID);
   }
 
   setPollID(pollID: number) {
@@ -152,34 +75,34 @@ export class PollService {
   }
 
   getCountPolls(): Observable<number> {
-    return this.http.get<number>("https://localhost:44389/api/Poll/countPolls");
+    return this.http.get<number>(this.baseURL + "/Poll/countPolls");
   }
 
   getCountUsers(): Observable<number> {
-    return this.http.get<number>("https://localhost:44389/api/User/countUsers");
+    return this.http.get<number>(this.baseURL + "/User/countUsers");
   }
 
   getPollInvites(): Observable<PollUser[]> {
-    return this.http.get<PollUser[]>("https://localhost:44389/api/PollUser/pollInvites?userid=" + this.authService.getUser().userID);
+    return this.http.get<PollUser[]>(this.baseURL + "/PollUser/pollInvites?userid=" + this.authService.getUser().userID);
   }
 
   deletePollUser(pollUser: PollUser) {
-    return this.http.delete<PollUser>("https://localhost:44389/api/PollUser/" + pollUser.pollUserID);
+    return this.http.delete<PollUser>(this.baseURL + "/PollUser/" + pollUser.pollUserID);
   }
 
   acceptPollInvite(pollUser: PollUser) {
-    return this.http.put<PollUser>("https://localhost:44389/api/PollUser/", pollUser);
+    return this.http.put<PollUser>(this.baseURL + "/PollUser/", pollUser);
   }
 
   addAnswer(answer: Answer) {
-    return this.http.post<Answer>("https://localhost:44389/api/Answer/", answer);
+    return this.http.post<Answer>(this.baseURL + "/Answer/", answer);
   }
 
   delelteAnswer(answer: Answer) {
-    return this.http.delete<Answer>("https://localhost:44389/api/Answer/" + answer.answerID);
+    return this.http.delete<Answer>(this.baseURL + "/Answer/" + answer.answerID);
   }
 
   deleteParticipant(userID: number, pollID: number) {
-    return this.http.delete<PollUser>("https://localhost:44389/api/PollUser?userid=" + userID + "&pollid=" + pollID);
+    return this.http.delete<PollUser>(this.baseURL + "/PollUser?userid=" + userID + "&pollid=" + pollID);
   }
 }

@@ -40,8 +40,8 @@
                     <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/signup">Signup</a></li>
                     <li *ngIf="isAuthenticated$ | async"><a routerLink="/dashboard">Dashboard</a></li>
                     <li *ngIf="isAuthenticated$ | async">
-                        <a [matBadge]="receivedInvitations.toString()" matBadgePosition="below after"
-                            matBadgeColor="warn" [matBadgeHidden]="!(receivedInvitations > 0)"
+                        <a [matBadge]="receivedInvitations" matBadgePosition="below after"
+                            matBadgeColor="warn" [matBadgeHidden]="!receivedInvitations"
                             routerLink="/friends">Friends</a>
                     </li>
                     <!--<div *ngIf="receivedInvitations" id="friendRequests">{{receivedInvitations}}</div>-->

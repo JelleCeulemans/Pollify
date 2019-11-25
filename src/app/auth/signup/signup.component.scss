@@ -9,12 +9,28 @@ button {
     margin-top: 10px;
 }
 
-mat-form-field {
+mat-form-field, mat-card {
     width: 350px;
 }
 
+#characters {
+    font-size: 0.9em;
+    font-weight: normal;
+    margin-top: -15px;
+}
+
+.valid {
+    background-color: green;
+    color: white;
+}
+
+.notValid {
+    background-color: red;
+    color: white;
+}
+
 @include layout-bp(gt-xs) {
-    mat-form-field {
+    mat-form-field, mat-card {
         width: 450px;
     }
 }
