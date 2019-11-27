@@ -7,6 +7,7 @@ import { Observable } from 'rxjs';
 import { Answer } from '../models/answer.model';
 import { HttpClient } from '@angular/common/http';
 import { AuthService } from '../auth/auth.service';
+import { environment } from 'src/environments/environment';
 
 
 
@@ -14,20 +15,17 @@ import { AuthService } from '../auth/auth.service';
   providedIn: 'root'
 })
 export class PollService {
-  pollID: number;
   user: User;
   pollUser: PollUser;
   vote: Vote;
-  baseURL = 'https://localhost:44389/api';
-  //baseURL = 'https://pollifybackend.azurewebsites.net/api';
+  baseURL = environment.baseURL;
 
 
   constructor(private http: HttpClient, private authService: AuthService) {
-
   }
 
   getPollbyId() {
-    return this.http.get<Poll>(this.baseURL + "/Poll/" + this.pollID);
+    return this.http.get<Poll>(this.baseURL + "/Poll/" + this.getPollID());
   }
 
   getPollUsers(userID: number): Observable<PollUser[]> {
@@ -50,7 +48,7 @@ export class PollService {
   }
 
   getAnswers(userID: number): Observable<Answer[]> {
-    return this.http.get<Answer[]>(this.baseURL + "/Answer/specific?userid=" + userID + "&pollID=" + this.pollID);
+    return this.http.get<Answer[]>(this.baseURL + "/Answer/specific?userid=" + userID + "&pollID=" + this.getPollID());
   }
 
   createVote(vote: Vote) {
@@ -62,19 +60,19 @@ export class PollService {
   }
 
   getPollParticipants(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseURL + "/User/participants?pollid=" + this.pollID);
+    return this.http.get<User[]>(this.baseURL + "/User/participants?pollid=" + this.getPollID());
   }
 
   getPollNoParticipants(): Observable<User[]> {
-    return this.http.get<User[]>(this.baseURL + "/User/noparticipants?userid=" + this.authService.getUser().userID + "&pollid=" + this.pollID);
+    return this.http.get<User[]>(this.baseURL + "/User/noparticipants?userid=" + this.authService.getUser().userID + "&pollid=" + this.getPollID());
   }
 
   setPollID(pollID: number) {
-    this.pollID = pollID;
+    localStorage.setItem('pollID', JSON.stringify(pollID));
   }
 
-  getPollID() {
-    return this.pollID;
+  getPollID(): number {
+    return JSON.parse(localStorage.getItem('pollID'));
   }
 
   getCountPolls(): Observable<number> {

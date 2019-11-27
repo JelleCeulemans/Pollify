@@ -18,8 +18,8 @@
                 <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutAlign="center center">
                     <mat-list-item>{{ p.poll.name }}</mat-list-item>
                     <div fxLayout="row" fxLayoutGap="10px">
-                        <button mat-raised-button color="accent" (click)="vote(p.poll)">Vote</button>
-                        <button mat-raised-button color="warn" (click)="deletePoll(p.poll)">Delete</button>
+                        <button mat-raised-button style="margin: 0; padding: 0;" color="accent" (click)="vote(p.poll)"><i class="fas fa-vote-yea"></i></button>
+                        <button mat-raised-button style="margin: 0; padding: 0;" color="warn" (click)="deletePoll(p.poll)"><i class="fas fa-trash"></i></button>
                     </div>
                 </div>
                 <mat-divider></mat-divider>

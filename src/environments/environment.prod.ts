@@ -1,5 +1,6 @@
 export const environment = {
   production: true,
+  baseURL: "https://pollifybackend.azurewebsites.net/api",
   firebaseConfig: {
     apiKey: "AIzaSyA-89zGMqK5JYtCQ1uvUmQ0o_Q-Ai9DBlQ",
     authDomain: "pollify-fccdf.firebaseapp.com",

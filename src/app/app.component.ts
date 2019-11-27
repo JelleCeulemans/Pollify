@@ -36,8 +36,6 @@ export class AppComponent {
       this.store.dispatch(new Auth.SetAuthenticated());
     }
 
-
-
     //When de user is directed to the dashboard page, a method is fired to check if he has recieved some friend request.
     //This one is subscribed to recieve that desired information.
     //If the user has more than zero friend requests a badge will be displayed with the amount of friend requests on the toolbar.
@@ -72,6 +70,7 @@ export class AppComponent {
     localStorage.removeItem('token');
     localStorage.removeItem('user');
     localStorage.removeItem('image');
+    localStorage.removeItem('pollID');
     this.router.navigate(['/login']);
   }
 }

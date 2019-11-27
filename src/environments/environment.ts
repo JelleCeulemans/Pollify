@@ -4,6 +4,7 @@
 
 export const environment = {
   production: false,
+  baseURL: 'https://localhost:44389/api',
   firebaseConfig: {
     apiKey: "AIzaSyA-89zGMqK5JYtCQ1uvUmQ0o_Q-Ai9DBlQ",
     authDomain: "pollify-fccdf.firebaseapp.com",

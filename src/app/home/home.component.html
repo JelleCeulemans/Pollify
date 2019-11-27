@@ -7,8 +7,8 @@
         <mat-card-title>Fun facts:</mat-card-title>
         <mat-card-content>
             <mat-chip-list fxLayout="row">
-                <mat-chip color="primary" selected>Polls:&nbsp;<span *ngIf="countPolls$"> {{ countPolls$ | async }}</span><span *ngIf="!countPolls$"><mat-spinner [diameter]="20" color="accent"></mat-spinner></span></mat-chip>
-                <mat-chip color="primary" selected>Users:&nbsp;<span *ngIf="countUsers$"> {{ countUsers$ | async }}</span><span *ngIf="!countUsers$"><mat-spinner [diameter]="20" color="accent"></mat-spinner></span></mat-chip>
+                <mat-chip color="primary" selected>Polls:&nbsp;<span *ngIf="countPolls"> {{ countPolls }}</span><span *ngIf="!countPolls"><mat-spinner [diameter]="20" color="accent"></mat-spinner></span></mat-chip>
+                <mat-chip color="primary" selected>Users:&nbsp;<span *ngIf="countUsers"> {{ countUsers }}</span><span *ngIf="!countUsers"><mat-spinner [diameter]="20" color="accent"></mat-spinner></span></mat-chip>
             </mat-chip-list>
         </mat-card-content>
     </mat-card>

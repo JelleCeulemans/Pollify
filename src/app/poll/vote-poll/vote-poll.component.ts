@@ -7,15 +7,11 @@ import { Observable } from 'rxjs';
 import { User } from 'src/app/models/user.model';
 import { Vote } from 'src/app/models/vote.model';
 import { PollUser } from 'src/app/models/poll-user.model';
-import * as mail from 'src/assets/js/mail.js';
 import { Answer } from 'src/app/models/answer.model';
 import { MatSnackBar } from '@angular/material';
-import { Label, SingleDataSet, Colors, ThemeService } from 'ng2-charts';
-import { ChartType, ChartOptions } from 'chart.js';
+import { Label, SingleDataSet } from 'ng2-charts';
+import { ChartType } from 'chart.js';
 
-
-
-declare var sendPollInvite: any;
 
 @Component({
   selector: 'app-vote-poll',
@@ -43,12 +39,14 @@ export class VotePollComponent implements OnInit, OnDestroy {
     { // all colors in order
       backgroundColor: ['#E91E63', '#7B1FA2', '#FFEB3B', '#F44336', '#03A9F4', '#607D8B']
     }];
+  public doughnutOptions = {
+    legend: false
+  }
 
 
   constructor(
     private pollService: PollService,
     private authService: AuthService,
-    private router: Router,
     private snackbar: MatSnackBar) { }
 
   ngOnInit() {
@@ -120,7 +118,8 @@ export class VotePollComponent implements OnInit, OnDestroy {
     }
 
     this.pollService.createPollUser(new PollUser(0, this.poll, user, false)).subscribe(result => {
-      sendPollInvite(result.user.email, this.authService.getUser().username, result.poll.name);
+      //sendPollInvite(result.user.email, this.authService.getUser().username, result.poll.name);
+      //REPLACE EMAIL
     });
   }
 

@@ -3,6 +3,7 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
 import { Friend } from '../models/friend.model';
 import { User } from '../models/user.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -14,8 +15,7 @@ export class AuthService {
   sendFriends$ = this.emitFriends.asObservable();
   sendUser$ = this.emitUser.asObservable();
   amount: number;
-  baseURL = 'https://localhost:44389/api';
-  //baseURL = 'https://pollifybackend.azurewebsites.net/api';
+  baseURL = environment.baseURL;
 
   constructor(private http: HttpClient) { }
 

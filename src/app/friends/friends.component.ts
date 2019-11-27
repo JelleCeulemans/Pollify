@@ -1,17 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { FormGroup, Validators, FormControl } from '@angular/forms';
 import { AuthService } from 'src/app/auth/auth.service';
-import * as mail from 'src/assets/js/mail.js';
 import { Friend } from 'src/app/models/friend.model';
 import { Router } from '@angular/router';
 import { Observable } from 'rxjs';
 import { User } from '../models/user.model';
 import { MatSnackBar } from '@angular/material';
 import { find, filter } from 'rxjs/operators';
-
-declare var sendInvite: any;
-declare var sendFriendRequest: any;
-declare var sendAcceptFriend: any;
 
 @Component({
   selector: 'app-friends',
@@ -38,6 +33,7 @@ export class FriendsComponent implements OnInit {
       email: new FormControl('', { validators: [Validators.required, Validators.email] })
     });
     this.authService.getFriends().subscribe(result => {
+      console.log(result);
       this.friends = result;
     });
     this.authService.getSendedInvitations().subscribe(result => {
@@ -86,7 +82,8 @@ export class FriendsComponent implements OnInit {
 
   acceptInvitation(friendID: number) {
     this.authService.updateFriend(friendID).subscribe(result => {
-      sendAcceptFriend(this.authService.getUser().email, this.authService.getUser().username);
+      //sendAcceptFriend(this.authService.getUser().email, this.authService.getUser().username);
+      //UPDATE EMAIL
       console.log(this.receivedInvitations);
       this.ngOnInit();
     });

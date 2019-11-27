@@ -3,11 +3,9 @@ import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { AuthService } from '../auth.service';
-//import * as mail from 'src/assets/js/mail.js';
 import { User } from 'src/app/models/user.model';
 import { OneOptionDialogComponent } from 'src/app/dialog/one-option-dialog/one-option-dialog.component';
-
-//declare var sendActivition: any;
+import { EmailService } from 'src/app/email.service';
 
 @Component({
   selector: 'app-signup',
@@ -30,7 +28,8 @@ export class SignupComponent implements OnInit {
     private snackbar: MatSnackBar,
     private router: Router,
     private authService: AuthService,
-    private dialog: MatDialog) { }
+    private dialog: MatDialog,
+    private emailService: EmailService) { }
 
   ngOnInit() {
     //All the validation variables are false by default.
@@ -51,7 +50,9 @@ export class SignupComponent implements OnInit {
     this.validatePassword();
   }
 
+  //When the user click on the submit button
   onSubmit() {
+    //The spinners is now visible and the submit button is now hidden
     this.spinnerActive = true;
     if (this.identical) {
       this.authService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
@@ -59,36 +60,21 @@ export class SignupComponent implements OnInit {
           if (!result.username && !result.password) {
             result.username = this.signupForm.value.username;
             result.password = this.signupForm.value.password;
-            this.showSnackbarAndCleanForm('Email activation link is sended!', 'Email');
+            this.authService.updateUser(result).subscribe(result => {
+              this.showSnackbarAndCleanForm('Email activation link is sended!', 'Email');
+              this.emailService.activationLink(result).subscribe();
+            });
           } else {
-            //FIXME 
-            //remove email from template!!!!
             this.showSnackbarAndCleanForm('Email already exists!', 'Signup failed');
           }
         } else {
           let user = new User(0, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.username, false, '00000000-0000-0000-0000-000000000000', null, null, null);
           this.authService.insertUser(user).subscribe(result => {
-            this.snackbar.open('Email activation link is sended!', 'Email', {
-              duration: 3000
-            });
-            this.spinnerActive = false;
-            const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
-              data: {
-                title: "Reset Password",
-                content: "<p>" + this.signupForm.value.username + " your account has just been created!</p><p>There is an email sent to you email address: " + this.signupForm.value.email + " with an activation link.</p><p>Please activate your account, before you are able to login.</p>",
-                button: "Go to Login"
-              }
-            });
-            oneOptionDialog.afterClosed().subscribe(result => {
-              if (result) {
-                this.router.navigate(['/login']);
-              }
-            });
+            this.emailService.activationLink(result).subscribe();
+            this.showSnackbarAndCleanForm('Email activation link is sended!', 'Email');
+            this.showOneOptionDialog();
           }, error => {
-            this.snackbar.open('Account creation failed!', 'Signup failed', {
-              duration: 3000
-            });
-            this.spinnerActive = false;
+            this.showSnackbarAndCleanForm('Account creation failed!', 'Signup failed')
           });
         }
       });
@@ -110,6 +96,22 @@ export class SignupComponent implements OnInit {
     this.spinnerActive = false;
   }
 
+  showOneOptionDialog() {
+    const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
+      data: {
+        title: "Reset Password",
+        content: "<p>" + this.signupForm.value.username + " your account has just been created!</p><p>There is an email sent to you email address: " + this.signupForm.value.email + " with an activation link.</p><p>Please activate your account, before you are able to login.</p>",
+        button: "Go to Login"
+      }
+    });
+    oneOptionDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  //This validators will displays which requirements he still need in his password.
   validatePassword() {
     this.signupForm.valueChanges.subscribe(result => {
       //If the password contains a lowercase letter

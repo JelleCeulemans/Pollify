@@ -39,13 +39,11 @@ export class ForgotPasswordComponent implements OnInit {
   onSubmit() {
     //This will show the spinner and hide the button.
     this.showSpinner = true;
-    
-    //FIXME
-    ////////email ????
 
     this.authService.getUserByEmail(this.forgotPasswordForm.value.email).subscribe(result => {
       //if the given email is in the database
       if (result) {
+        //This will send a email to the user's email to reset his password.
         this.emailService.forgotPassword(result).subscribe();
         //This will show a one option dialog with the content of the data object.
         const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {

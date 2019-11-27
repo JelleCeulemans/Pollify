@@ -1,5 +1,5 @@
 import { Component, OnInit } from '@angular/core';
-import { FormGroup, FormControl } from '@angular/forms';
+import { FormGroup, FormControl, Validators } from '@angular/forms';
 import { MatSnackBar } from '@angular/material';
 import { Poll } from 'src/app/models/poll.model';
 import { Router } from '@angular/router';
@@ -32,7 +32,7 @@ export class CreatePollComponent implements OnInit {
     this.answerList = new Array();
     this.answers = new Array<Answer>();
     this.createPollForm = new FormGroup({
-      title: new FormControl(''),
+      title: new FormControl('', {validators: [Validators.required, Validators.maxLength(50)] }),
       answer: new FormControl('')
     })
   }
@@ -60,7 +60,7 @@ export class CreatePollComponent implements OnInit {
 
   onSubmit() {
     this.title = this.createPollForm.value.title;
-    if (this.title && this.answerList.length >= 2) {
+    if (this.answerList.length >= 2) {
       this.answerList.forEach(answer => {
         this.answers.push(new Answer(0, answer, this.poll, null));
       });
