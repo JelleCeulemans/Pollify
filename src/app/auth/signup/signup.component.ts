@@ -54,7 +54,7 @@ export class SignupComponent implements OnInit {
   onSubmit() {
     this.spinnerActive = true;
     if (this.identical) {
-      this.authService.getUserByEmail(this.signupForm.value.email, false).subscribe(result => {
+      this.authService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
         if (result) {
           if (!result.username && !result.password) {
             result.username = this.signupForm.value.username;

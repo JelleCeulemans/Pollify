@@ -52,6 +52,7 @@ export class ResetPasswordComponent implements OnInit {
     this.urlParam = this.route.params.subscribe(params => {
       this.authService.getUserWhereGuid(params['guid']).subscribe(result => {
         this.user = result;
+        console.log(result);
         this.show = true;
       }, error => {
         this.show = false;

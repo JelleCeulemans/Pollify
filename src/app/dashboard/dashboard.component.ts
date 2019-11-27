@@ -33,7 +33,7 @@ export class DashboardComponent implements OnInit {
     this.initializePolls();
     this.authService.getReceivedInvitations().subscribe(result => {
       this.receivedInvitations = result;
-      this.authService.emitChange(result.length);
+      this.authService.emitChangeFriends(result.length);
     });
     this.authService.getFriends().subscribe(result => {
       this.friends = result.length;
@@ -44,7 +44,7 @@ export class DashboardComponent implements OnInit {
   initializePolls() {
     this.user = this.authService.getUser();
     if (this.user) {
-      this.pollUsers$ = this.pollService.getPollUsers(+localStorage.getItem('userID'));
+      this.pollUsers$ = this.pollService.getPollUsers(this.authService.getUser().userID);
     }
   }
 

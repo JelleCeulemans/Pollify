@@ -4,6 +4,7 @@ import { AuthService } from '../auth.service';
 import { MatSnackBar, MatDialog } from '@angular/material';
 import { Router } from '@angular/router';
 import { OneOptionDialogComponent } from 'src/app/dialog/one-option-dialog/one-option-dialog.component';
+import { EmailService } from 'src/app/email.service';
 
 
 @Component({
@@ -19,7 +20,8 @@ export class ForgotPasswordComponent implements OnInit {
     private authService: AuthService,
     private snackbar: MatSnackBar,
     private dialog: MatDialog,
-    private router: Router) { }
+    private router: Router,
+    private emailService: EmailService) { }
 
 
   //Is executing when the forgot password page is initializing.
@@ -41,9 +43,10 @@ export class ForgotPasswordComponent implements OnInit {
     //FIXME
     ////////email ????
 
-    this.authService.getUserByEmail(this.forgotPasswordForm.value.email, true).subscribe(result => {
+    this.authService.getUserByEmail(this.forgotPasswordForm.value.email).subscribe(result => {
       //if the given email is in the database
       if (result) {
+        this.emailService.forgotPassword(result).subscribe();
         //This will show a one option dialog with the content of the data object.
         const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
           data: {

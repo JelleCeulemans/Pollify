@@ -9,17 +9,23 @@ import { User } from '../models/user.model';
 })
 export class AuthService {
   user: User;
-  private emitChargeSource = new Subject<number>();
-  changeEmitted$ = this.emitChargeSource.asObservable();
+  private emitFriends = new Subject<number>();
+  private emitUser = new Subject<User>();
+  sendFriends$ = this.emitFriends.asObservable();
+  sendUser$ = this.emitUser.asObservable();
   amount: number;
   baseURL = 'https://localhost:44389/api';
   //baseURL = 'https://pollifybackend.azurewebsites.net/api';
 
   constructor(private http: HttpClient) { }
 
-  emitChange(change: number) {
+  emitChangeFriends(change: number) {
     this.amount = change;
-    this.emitChargeSource.next(change);
+    this.emitFriends.next(change);
+  }
+
+  emitChangeUser(user: User) {
+    this.emitUser.next(user);
   }
 
   authenticate(user: User): Observable<User> {
@@ -42,7 +48,7 @@ export class AuthService {
     localStorage.setItem('user', JSON.stringify(user));
   }
 
-  getUser() {
+  getUser(): User {
     return JSON.parse(localStorage.getItem('user'));
   }
 
@@ -50,8 +56,8 @@ export class AuthService {
     return this.http.get<User[]>(this.baseURL + "/Friend/byId?userid=" + this.getUser().userID);
   }
 
-  getUserByEmail(email: string, send: boolean) {
-    return this.http.get<User>(this.baseURL + "/User/byEmail?email=" + email + "&send=" + send);
+  getUserByEmail(email: string) {
+    return this.http.get<User>(this.baseURL + "/User/byEmail?email=" + email);
   }
 
   getSendedInvitations(): Observable<User[]> {
@@ -67,7 +73,7 @@ export class AuthService {
   }
 
   removeFriend(friendID: number): Observable<Friend> {
-    this.emitChange(this.amount--);
+    this.emitChangeFriends(this.amount--);
     return this.http.delete<Friend>(this.baseURL + "/Friend/" + friendID);
   }
 

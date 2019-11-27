@@ -45,7 +45,7 @@ export class FriendsComponent implements OnInit {
     })
     this.authService.getReceivedInvitations().subscribe(result => {
       this.receivedInvitations = result; 
-      this.authService.emitChange(result.length);
+      this.authService.emitChangeFriends(result.length);
     });
   }
 
@@ -63,7 +63,7 @@ export class FriendsComponent implements OnInit {
       });
     } else {
       //rewrite
-      this.authService.getUserByEmail(this.inviteForm.value.email, false).subscribe(result => {
+      this.authService.getUserByEmail(this.inviteForm.value.email).subscribe(result => {
         if (result) {
           //sendFriendRequest(this.inviteForm.value.email, this.authService.getUser().username);
           this.inviteFriend(result);

@@ -7,7 +7,6 @@ import * as Auth from './auth.actions';
 import { Store } from '@ngrx/store';
 import { Router } from '@angular/router';
 import { User } from '../models/user.model';
-import { OneOptionDialogComponent } from '../dialog/one-option-dialog/one-option-dialog.component';
 import { MatDialog } from '@angular/material';
 
 @Injectable({
@@ -31,11 +30,9 @@ export class FbAuthService {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((result) => {
         this.afAuth.user.subscribe(user => {
-          console.log(user);
-          
-          this.authService.getUserByEmail(user.email, false).subscribe(result => {
+          localStorage.setItem('image', user.photoURL);
+          this.authService.getUserByEmail(user.email).subscribe(result => {
             if (result) {
-              console.log(result);
               this.login(result);
             } else {
               let insertUser = new User(0, user.email, user.uid, user.displayName, true, '00000000-0000-0000-0000-000000000000', null, null, null);
@@ -46,17 +43,8 @@ export class FbAuthService {
             }
           });
         });
-      }).catch((error) => {
-        console.log('Not able to login'); // show oneOption dialog
-        console.log(error);
-      })
+      });
   }
-  // logout() {
-  //   this.afAuth.auth.signOut().then(() => {
-  //     //logout logic (routing other page)
-  //   });
-  // }
-
 
   login(user: User) {
     this.authService.fbauth(user).subscribe(result => {
@@ -64,14 +52,6 @@ export class FbAuthService {
       this.authService.setUser(result);
       this.store.dispatch(new Auth.SetAuthenticated());
       this.router.navigate(['/dashboard']);
-    }, error => {
-      const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
-        data: {
-          title: "Facebook login error",
-          content: "<p>SHOULD NEVER GET HERE</p>",
-          button: "OK"
-        }
-      });
     });
   }
 }

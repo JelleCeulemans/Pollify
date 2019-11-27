@@ -21,7 +21,7 @@ export class LoginComponent implements OnInit {
   loginForm: FormGroup;
   users$: Observable<User[]>;
   user: User;
-  spinnerActive: boolean;
+  public spinnerActive: boolean;
 
   constructor(
     private authService: AuthService,
@@ -48,6 +48,7 @@ export class LoginComponent implements OnInit {
     let userLogin = new User(0, this.loginForm.value.email, this.loginForm.value.password, null, true, '00000000-0000-0000-0000-000000000000', null, null, null);
     this.authService.authenticate(userLogin).subscribe(result => {
       this.authService.setUser(result);
+      this.authService.emitChangeUser(result);
       localStorage.setItem('token', result.token);
       this.spinnerActive = false;
       this.store.dispatch(new Auth.SetAuthenticated());
@@ -66,6 +67,10 @@ export class LoginComponent implements OnInit {
   }
 
   fbLogin() {
-    this.fbAuthService.facebookAuth();
+    this.spinnerActive = true;
+    this.fbAuthService.facebookAuth()
+    .then(res => {
+      this.spinnerActive = false;
+    });
   }
 }

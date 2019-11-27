@@ -36,6 +36,29 @@ a {
     }
 }
 
+#fbImage {
+    border-radius: 50%;
+    height: 50px;
+    width: auto;
+    margin-right: 10px;
+}
+
+#userField {
+    margin-top: 20px;
+}
+
+#fbImage {
+    margin-left: -20px;
+}
+
+#toolbarUser {
+    margin: 10px 20px;
+}
+
+#toolbarUser #fbImage {
+    margin-right: 20px;
+}
+
 img {
     width: 100px;
     height: auto;

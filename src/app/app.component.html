@@ -4,6 +4,7 @@
             <div mat-list-item>
                 <a routerLink="/" (click)="sidenav.close()"><img src="assets/images/logo_pollify.png"></a>
             </div>
+            <div *ngIf="(isAuthenticated$ | async) && user" id="userField" fxLayoutAlign="center center"><img id="fbImage" *ngIf="image" [src]="image" alt="fbImage"/><span *ngIf="!image">Welcome,&nbsp;</span>{{user.username}}</div>
             <a *ngIf="!(isAuthenticated$ | async)" mat-list-item routerLink="/signup" (click)="sidenav.close()">
                 <mat-icon id="nav-icon">person_add</mat-icon>
                 <span>Signup</span>
@@ -34,10 +35,12 @@
                 </button>
             </div>
             <div><a routerLink="/"><img src="assets/images/logo_pollify.png" /></a></div>
+            <div *ngIf="(isAuthenticated$ | async) && user" id="toolbarUser" fxLayoutAlign="center center" fxHide.lt-sm><img id="fbImage" *ngIf="image" [src]="image" alt="fbImage"/><span *ngIf="!image">Welcome,&nbsp;</span>{{user.username}}</div>
             <div fxFlex fxLayout fxLayoutAlign="flex-end" class="navigation-items" fxHide.lt-sm>
                 <ul fxLayout fxLayoutGap="20px" class="navigation-items">
                     <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/login">Login</a></li>
                     <li *ngIf="!(isAuthenticated$ | async)"><a routerLink="/signup">Signup</a></li>
+                    
                     <li *ngIf="isAuthenticated$ | async"><a routerLink="/dashboard">Dashboard</a></li>
                     <li *ngIf="isAuthenticated$ | async">
                         <a [matBadge]="receivedInvitations" matBadgePosition="below after"

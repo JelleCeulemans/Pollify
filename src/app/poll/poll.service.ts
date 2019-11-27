@@ -35,14 +35,17 @@ export class PollService {
   }
 
   createPoll(poll: Poll) {
+    console.log('create poll');
     return this.http.post<Poll>(this.baseURL + "/Poll", poll);
   }
 
   deletePoll(pollID: number) {
+    
     return this.http.delete<Poll>(this.baseURL + "/Poll/" + pollID);
   }
 
   createPollUser(pollUser: PollUser) {
+    console.log('create pollUser');
     return this.http.post<PollUser>(this.baseURL + "/PollUser", pollUser);
   }
 
