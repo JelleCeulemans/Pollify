@@ -1,0 +1,6 @@
+<section fxLayoutAlign="center center" fxLayout="column">
+    <h1>Wooooooppps...</h1>
+    <h2>Page not found!</h2>
+    <button *ngIf="(isAuthenticated$ | async)" routerLink="/dashboard" color="primary" mat-raised-button>Go to Dashboard</button>
+    <button *ngIf="!(isAuthenticated$ | async)" routerLink="/login" color="primary" mat-raised-button>Go to Login</button>
+</section>

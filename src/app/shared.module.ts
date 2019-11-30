@@ -5,7 +5,7 @@ import { FlexLayoutModule } from '@angular/flex-layout';
 import { ReactiveFormsModule, FormsModule } from '@angular/forms';
 
 
-
+//This shared modules collect all the modules that are frequently used.
 @NgModule({
   declarations: [],
   imports: [

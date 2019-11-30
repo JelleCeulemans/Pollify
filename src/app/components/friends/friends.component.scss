@@ -1,0 +1,28 @@
+@import '~@angular/flex-layout/mq';
+
+mat-card {
+    margin-top: 30px;
+    width: 350px;
+}
+
+mat-card-content {
+    margin-top: 20px;
+}
+
+mat-form-field, input {
+    width: 350px;
+}
+
+section {
+    margin: 30px;
+}
+
+#invitations {
+    margin-bottom: 20px;
+}
+
+@include layout-bp(gt-xs) {
+    mat-card, mat-form-field, input {
+        width: 450px;
+    }
+}

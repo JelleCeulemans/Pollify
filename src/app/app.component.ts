@@ -1,11 +1,13 @@
-import { Component, Injectable} from '@angular/core';
+import { Component, Injectable, OnInit, OnDestroy } from '@angular/core';
 import * as fromRoot from './app.reducer';
 import { Store } from '@ngrx/store';
-import { Observable } from 'rxjs';
-import * as Auth from './auth/auth.actions';
+import { Observable, Subscription } from 'rxjs';
+import * as Auth from './components/auth/auth.actions';
 import { Router } from '@angular/router';
-import { AuthService } from './auth/auth.service';
 import { User } from './models/user.model';
+import { LocalStorageService } from './services/localStorage.service';
+import { FriendService } from './services/friend.service';
+import { UserService } from './services/user.service';
 
 @Component({
   selector: 'app-root',
@@ -14,17 +16,26 @@ import { User } from './models/user.model';
 })
 
 @Injectable()
-export class AppComponent {
+export class AppComponent implements OnInit, OnDestroy {
+  //declarations
+  title = 'Pollify';
   isAuthenticated$: Observable<boolean>;
   receivedInvitations: number;
   user: User;
-  title = 'Pollify';
   image: string;
-  
+
+  //Subscriptions
+  private sendFriends: Subscription;
+  private sendUser: Subscription;
+  private sendImage: Subscription;
+
+  //Making the necessary services available
   constructor(
-    private store: Store<fromRoot.State>, 
-    private router: Router, 
-    private authService: AuthService) { }
+    private store: Store<fromRoot.State>,
+    private router: Router,
+    private userService: UserService,
+    private friendService: FriendService,
+    private localStorageService: LocalStorageService) { }
 
   //Is executed when the the complete app is initializing
   ngOnInit() {
@@ -39,22 +50,28 @@ export class AppComponent {
     //When de user is directed to the dashboard page, a method is fired to check if he has recieved some friend request.
     //This one is subscribed to recieve that desired information.
     //If the user has more than zero friend requests a badge will be displayed with the amount of friend requests on the toolbar.
-    this.authService.sendFriends$.subscribe(result => {
+    this.sendFriends = this.friendService.sendFriends$.subscribe(result => {
       this.receivedInvitations = result;
     });
 
     //When the user is logged in his credentials will be emitted to this parent
-    //This way is used because this ngOnInit never reloads when the route changes. 
-    this.authService.sendUser$.subscribe(result => {
+    //This subspciption will received the emitted user
+    this.sendUser = this.localStorageService.sendUser$.subscribe(result => {
       this.user = result;
     });
 
-    //Recieves the user object after the user is logged in
-    let fbImage = localStorage.getItem('image');
-    this.user = this.authService.getUser();
-    if (fbImage) {
-      this.image = fbImage;
-    }
+    //Get the user if the user refreshes the page
+    this.user = this.localStorageService.getUser();
+
+
+    //When the user is logged in his image will be emitted to this parent
+    //This subspciption will received the emitted image
+    this.sendImage = this.localStorageService.sendImage$.subscribe(result => {
+      this.image = result;
+    })
+
+    //Get the image if the user refreshes the page
+    this.image = this.localStorageService.getImage();
 
     //Will check if the user is authenticated.
     //If he is authenticated het gets access to the app.
@@ -72,5 +89,11 @@ export class AppComponent {
     localStorage.removeItem('image');
     localStorage.removeItem('pollID');
     this.router.navigate(['/login']);
+  }
+
+  ngOnDestroy() {
+    this.sendFriends.unsubscribe();
+    this.sendUser.unsubscribe();
+    this.sendImage.unsubscribe();
   }
 }

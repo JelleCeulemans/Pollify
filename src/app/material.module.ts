@@ -14,7 +14,8 @@ import {
     MatBadgeModule,
     MatChipsModule,
     MatProgressSpinnerModule} from '@angular/material';
-
+    
+//This module contains all the material design import modules
 @NgModule({
     imports: [
         MatToolbarModule, 

@@ -1,0 +1,27 @@
+@import '~@angular/flex-layout/mq';
+
+section {
+    margin: 50px 0px;
+}
+
+h1 {
+    font-size: 45px;
+    margin: 80px 0px 20px 0px;
+}
+
+h2 {
+    font-size: 30px;
+    margin-bottom: 50px;
+}
+
+@include layout-bp(gt-xs) {
+    h1 {
+        font-size: 80px;
+        margin: 80px 0px 20px 0px;
+    }
+    
+    h2 {
+        font-size: 60px;
+        margin-bottom: 50px;
+    }
+}

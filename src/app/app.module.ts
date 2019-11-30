@@ -3,32 +3,34 @@ import { NgModule } from '@angular/core';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { HomeComponent } from './home/home.component';
-import { AuthModule } from './auth/auth.module';
-import { DashboardComponent } from './dashboard/dashboard.component';
+import { HomeComponent } from './components/home/home.component';
+import { AuthModule } from './components/auth/auth.module';
+import { DashboardComponent } from './components/dashboard/dashboard.component';
 import { StoreModule } from '@ngrx/store';
 import { reducers } from './app.reducer';
 import { HTTP_INTERCEPTORS } from '@angular/common/http';
-import { AuthInterceptor } from './auth/auth.interceptor';
-import { AuthGuard } from './auth/auth.guard';
-import { PollModule } from './poll/poll.module';
-import { DialogModule } from './dialog/dialog.module';
-import { FriendsComponent } from './friends/friends.component';
-import { OneOptionDialogComponent } from './dialog/one-option-dialog/one-option-dialog.component';
+import { AuthInterceptor } from './components/auth/auth.interceptor';
+import { AuthGuard } from './components/auth/auth.guard';
+import { PollModule } from './components/poll/poll.module';
+import { DialogModule } from './dialogs/dialog.module';
+import { FriendsComponent } from './components/friends/friends.component';
+import { OneOptionDialogComponent } from './dialogs/one-option-dialog/one-option-dialog.component';
 import { AngularFireModule } from '@angular/fire';
 import { environment } from 'src/environments/environment';
 import { AngularFireAuthModule } from '@angular/fire/auth';
-import { TwoOptionsDialogComponent } from './dialog/two-options-dialog/two-options-dialog.component';
+import { TwoOptionsDialogComponent } from './dialogs/two-options-dialog/two-options-dialog.component';
 import { SharedModule } from './shared.module';
-import { PageNotFoundComponent } from './page-not-found/page-not-found.component';
-
+import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
+import { StringShortenerPipe } from './pipes/string-shortner.pipe';
+//the app root module
 @NgModule({
   declarations: [
     AppComponent,
     HomeComponent,
     DashboardComponent,
     FriendsComponent,
-    PageNotFoundComponent
+    PageNotFoundComponent,
+    StringShortenerPipe
   ],
   imports: [
     BrowserModule,

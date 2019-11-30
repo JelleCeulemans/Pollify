@@ -1,0 +1,43 @@
+<section fxLayoutAlign="center center" fxLayout="column" *ngIf="(polls$ | async)">
+    <mat-card *ngIf="(pollInvites$ | async)?.length > 0">
+        <mat-card-title>Poll Invites</mat-card-title>
+        <mat-card-content>
+            <div *ngFor="let pollUser of (pollInvites$ | async)" fxFlex fxLayout="row" fxLayoutAlign="space-between">
+                <div>{{pollUser.poll.name}}</div>
+                <div fxLayoutGap="10px">
+                    <button mat-raised-button color="warn" (click)="acceptPollInvite(pollUser)">Accept</button>
+                    <button mat-raised-button color="accent" (click)="deletePollInvite(pollUser)">Decline</button>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    <mat-card *ngIf="(polls$ | async)?.length > 0">
+        <mat-card-title fxLayoutAlign="center center">Your polls</mat-card-title>
+        <mat-card-content>
+            <mat-list *ngFor="let poll of (polls$ | async)">
+                <div fxLayout="row" fxLayoutAlign="space-between" fxLayoutAlign="center center">
+                    <mat-list-item fxHide.lt-sm>{{ poll.name | stringShortener:32}}</mat-list-item>
+                    <mat-list-item fxHide.gt-xs>{{ poll.name | stringShortener:20}}</mat-list-item>
+                    <div fxLayout="row" fxLayoutGap="10px">
+                        <button mat-raised-button style="margin: 0; padding: 0;" color="accent" (click)="vote(poll)"><i
+                                class="fas fa-vote-yea"></i></button>
+                        <button mat-raised-button style="margin: 0; padding: 0;" color="warn"
+                            (click)="deletePoll(poll)"><i class="fas fa-trash"></i></button>
+                    </div>
+                </div>
+                <mat-divider></mat-divider>
+            </mat-list>
+        </mat-card-content>
+    </mat-card>
+    <div fxLayoutAlign="center center" id="creatButton" *ngIf="friends > 0">
+        <button mat-raised-button color="warn" (click)="createPoll()">Create new poll</button>
+    </div>
+    <mat-card *ngIf="friends == 0" fxLayoutAlign="center center" fxLayout="column">
+        <mat-card-title>Add Friends</mat-card-title>
+        <mat-card-content>
+            <p>You first need to add friends before you are able to create polls.</p>
+            <p>Go to the <button mat-button color="warn" routerLink="/friends">friends</button> section to send send
+                invitations.</p>
+        </mat-card-content>
+    </mat-card>
+</section>
