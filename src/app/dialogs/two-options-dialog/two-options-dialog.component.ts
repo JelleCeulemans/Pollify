@@ -6,6 +6,7 @@ import { MAT_DIALOG_DATA } from '@angular/material';
   templateUrl: './two-options-dialog.component.html',
   styleUrls: ['./two-options-dialog.component.scss']
 })
+//This is an template for two options dialogs
 export class TwoOptionsDialogComponent implements OnInit {
 
   constructor(@Inject(MAT_DIALOG_DATA) public passedData: any) { }

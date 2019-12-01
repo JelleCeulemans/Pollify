@@ -33,7 +33,7 @@ export class FriendService {
 
     //Retrieve all friend objects who has invited the logged in person.
     getReceivedInvitations(): Observable<Friend[]> {
-        return this.http.get<Friend[]>(this.baseURL + "/Friend/receivedInvitations?gebruikerid=" + this.localStorageService.getUser().userID);
+        return this.http.get<Friend[]>(this.baseURL + "/Friend/receivedInvitations?userid=" + this.localStorageService.getUser().userID);
     }
 
     //Insert a new Friend object into the database

@@ -5,7 +5,6 @@ import { Vote } from '../models/vote.model';
 @Pipe({name: 'stringShortener'})
 export class StringShortenerPipe implements PipeTransform {
   transform(title: string, length: number): string {
-      console.log(length);
       if (title.length > length) {
         title = title.substring(0,length-1) + "...";
       }

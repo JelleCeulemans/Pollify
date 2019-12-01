@@ -51,10 +51,11 @@ export class ActivateAccountComponent implements OnInit, OnDestroy {
     });
   }
 
-  //UnSubscripe all subscriptions
+  //Unsubscribe all subscriptions to avoid data leaks
   ngOnDestroy() {
     this.urlParam.unsubscribe();
     this.userByGuid.unsubscribe();
-    this.activateUser.unsubscribe();
+    this.activateUser ? this.activateUser.unsubscribe() : false;
+    
   }
 }

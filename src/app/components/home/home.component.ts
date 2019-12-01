@@ -28,20 +28,18 @@ export class HomeComponent implements OnInit, OnDestroy {
     //When this function retrieves the an answer from the backend it will first see if it is a number or not.
     //If it is a number it will stop the spinner and desplay the number isntead.
     this.getCountPolls = this.pollService.getCountPolls().subscribe(result => {
-      if (isNumber(result)) {
-        this.countPolls = result;
-      }
+      
+      this.countPolls = result;
     });
 
     //When this function retrieves the an answer from the backend it will first see if it is a number or not.
     //If it is a number it will stop the spinner and desplay the number isntead.
     this.getCountUsers = this.userService.getCountUsers().subscribe(result => {
-        if (isNumber(result)) {
-          this.countUsers = result;
-        }
+      this.countUsers = result;
     });
   }
 
+  //Unsubscribe all subscriptions to avoid data leaks
   ngOnDestroy() {
     this.getCountPolls.unsubscribe();
     this.getCountUsers.unsubscribe();

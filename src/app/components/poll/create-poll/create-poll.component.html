@@ -3,7 +3,8 @@
         <mat-card >
             <mat-card-content fxLayout="column">
                 <mat-form-field>
-                    <input type="text" matInput placeholder="The poll's title" formControlName="title">
+                    <input type="text" matInput placeholder="Poll title" formControlName="title">
+                    <mat-error>This title is required!</mat-error>
                 </mat-form-field>
                 <mat-form-field>
                     <input type="text" matInput placeholder="Poll answer" formControlName="answer">
@@ -18,9 +19,10 @@
             <mat-card-title>Poll answers</mat-card-title>
             <mat-card-content>
                 <div fxFlex fxLayout="column">
-                    <div *ngFor="let a of answerList" fxFlex fxLayoutAlign="space-between">
-                        <div>{{a}}</div>
-                        <button mat-button color="warn" (click)="removeAnswer(a)">Delete</button>
+                    <div *ngFor="let answer of answerList" fxFlex fxLayoutAlign="space-between center">
+                        <div fxHide.lt-sm>{{answer | stringShortener:70}}</div>
+                        <div fxHide.gt-xs>{{ answer | stringShortener:36}}</div>
+                        <button mat-button color="warn" (click)="removeAnswer(answer)">Delete</button>
                     </div>
                 </div>
             </mat-card-content>

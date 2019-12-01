@@ -1,4 +1,4 @@
-import { Injectable } from '@angular/core';
+import { Injectable, OnDestroy } from '@angular/core';
 import { auth } from 'firebase/app';
 import { AngularFireAuth } from "@angular/fire/auth";
 import * as fromAuth from '../components/auth/auth.reducer';
@@ -8,11 +8,17 @@ import { Router } from '@angular/router';
 import { User } from '../models/user.model';
 import { UserService } from './user.service';
 import { LocalStorageService } from './localStorage.service';
+import { Subscription } from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
-export class FbAuthService {
+export class FbAuthService implements OnDestroy {
+  //Subscriptions
+  private signInWithPopup: Subscription;
+  private getUserByEmail: Subscription;
+  private insertUser: Subscription;
+  private fbauth: Subscription;
 
   //Make all the necessary services available
   constructor(
@@ -31,21 +37,20 @@ export class FbAuthService {
   authLogin(provider) {
     return this.afAuth.auth.signInWithPopup(provider)
       .then((result) => {
-        this.afAuth.user.subscribe(user => {
+        this.signInWithPopup = this.afAuth.user.subscribe(user => {
           //Set the image to in the localStorage and emit it
           this.localStorageService.setImage(user.photoURL);
           //Check if the email is in the database
-          this.userService.getUserByEmail(user.email).subscribe(result => {
+          this.getUserByEmail = this.userService.getUserByEmail(user.email).subscribe(result => {
             //If the email is connected to an user
             if (result) {
               //Run the login function
               this.login(result);
-
               //If the user is not in the database
             } else {
               //Create a new user from the fb user object
               let insertUser = new User(0, user.email, user.uid, user.displayName, true, '00000000-0000-0000-0000-000000000000', null, null, null);
-              this.userService.insertUser(insertUser).subscribe(result => {
+              this.insertUser = this.userService.insertUser(insertUser).subscribe(result => {
                 //Run the login function
                 this.login(result);
               });
@@ -58,7 +63,7 @@ export class FbAuthService {
   //Login the user
   login(user: User) {
     //Authenticate the user to receive a token
-    this.userService.fbauth(user).subscribe(result => {
+    this.fbauth = this.userService.fbauth(user).subscribe(result => {
       //Set the token in the localStorage
       this.localStorageService.setToken(result.token);
       //Set the user in the localStorage and emit it
@@ -68,5 +73,14 @@ export class FbAuthService {
       //Redirect to the dashboard
       this.router.navigate(['/dashboard']);
     });
+  }
+
+  //To avoid data leaks
+  //Unsubscribe every subscription
+  ngOnDestroy() {
+    this.signInWithPopup ? this.signInWithPopup.unsubscribe() : false;
+    this.getUserByEmail ? this.getUserByEmail.unsubscribe() : false;
+    this.insertUser ? this.insertUser.unsubscribe() : false;
+    this.fbauth ? this.fbauth.unsubscribe() : false;
   }
 }

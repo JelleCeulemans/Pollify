@@ -20,6 +20,12 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   //Subscription
   private valueSub: Subscription;
+  private getUserByEmail: Subscription;
+  private updateUser: Subscription;
+  private insertUser: Subscription;
+  private activationLink: Subscription;
+  private dialogSubscription: Subscription;
+
 
 
   //password validation variables
@@ -74,7 +80,7 @@ export class SignupComponent implements OnInit, OnDestroy {
     //If the passsword and confirm password are identical
     if (this.identical) {
       //Check if the email is already connected to a user.
-      this.userService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
+      this.getUserByEmail = this.userService.getUserByEmail(this.signupForm.value.email).subscribe(result => {
         //If the user already exists
         if (result) {
           //If the username and password attribute contains null
@@ -83,7 +89,7 @@ export class SignupComponent implements OnInit, OnDestroy {
             result.username = this.signupForm.value.username;
             result.password = this.signupForm.value.password;
             //Update the user in the database
-            this.userService.updateUser(result).subscribe(result => {
+            this.updateUser = this.userService.updateUser(result).subscribe(result => {
               //Send an email with an activation link
               this.sendActivationMail(result);
               //Stop the spinner
@@ -102,7 +108,7 @@ export class SignupComponent implements OnInit, OnDestroy {
         } else {
           //New user will be inserted into the database
           let user = new User(0, this.signupForm.value.email, this.signupForm.value.password, this.signupForm.value.username, false, '00000000-0000-0000-0000-000000000000', null, null, null);
-          this.userService.insertUser(user).subscribe(result => {
+          this.insertUser = this.userService.insertUser(user).subscribe(result => {
             //Send an email with an activation link
             this.sendActivationMail(result);
             //Stop the spinner
@@ -122,7 +128,7 @@ export class SignupComponent implements OnInit, OnDestroy {
 
   //Send an email with an activation link
   sendActivationMail(user: User) {
-    this.emailService.activationLink(user).subscribe();
+    this.activationLink = this.emailService.activationLink(user).subscribe();
   }
 
   //To avoid duplicate code
@@ -152,7 +158,7 @@ export class SignupComponent implements OnInit, OnDestroy {
         button: "Go to Login"
       }
     });
-    oneOptionDialog.afterClosed().subscribe(result => {
+    this.dialogSubscription = oneOptionDialog.afterClosed().subscribe(result => {
       if (result) {
         this.router.navigate(['/login']);
       }
@@ -183,5 +189,10 @@ export class SignupComponent implements OnInit, OnDestroy {
   }
   ngOnDestroy() {
     this.valueSub.unsubscribe();
+    this.getUserByEmail ? this.getUserByEmail.unsubscribe() : false;
+    this.updateUser ? this.updateUser.unsubscribe() : false;
+    this.insertUser ? this.insertUser.unsubscribe() : false;
+    this.activationLink ? this.activationLink.unsubscribe() : false;
+    this.dialogSubscription ? this.dialogSubscription.unsubscribe() : false;
   }
 }

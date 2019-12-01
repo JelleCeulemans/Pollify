@@ -18,11 +18,14 @@ import { Subscription } from 'rxjs';
 })
 
 @Injectable()
-export class LoginComponent implements OnInit {
+export class LoginComponent implements OnInit, OnDestroy {
   //declarations
   loginForm: FormGroup;
   user: User;
   public showSpinner: boolean;
+
+  //Subscription
+  private authenticate: Subscription;
 
   //Make the necessary services available
   constructor(
@@ -53,7 +56,7 @@ export class LoginComponent implements OnInit {
     this.showSpinner = true;
     //Try to login with the given credentials
     let userLogin = new User(0, this.loginForm.value.email, this.loginForm.value.password, null, true, '00000000-0000-0000-0000-000000000000', null, null, null);
-    this.userService.authenticate(userLogin).subscribe(result => {
+    this.authenticate = this.userService.authenticate(userLogin).subscribe(result => {
       // the user successfully logged in
 
       //spinner is stopped
@@ -97,5 +100,10 @@ export class LoginComponent implements OnInit {
       //Spinner is stopped
       this.showSpinner = false;
     });
+  }
+
+  //Unsubscribe the subscription to avoid data leaks
+  ngOnDestroy() {
+    this.authenticate ? this.authenticate.unsubscribe() : false;
   }
 }

@@ -91,6 +91,7 @@ export class AppComponent implements OnInit, OnDestroy {
     this.router.navigate(['/login']);
   }
 
+  //Unsubscribe all the subscriptions to avoid data leaks
   ngOnDestroy() {
     this.sendFriends.unsubscribe();
     this.sendUser.unsubscribe();

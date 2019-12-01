@@ -21,7 +21,6 @@ import { AngularFireAuthModule } from '@angular/fire/auth';
 import { TwoOptionsDialogComponent } from './dialogs/two-options-dialog/two-options-dialog.component';
 import { SharedModule } from './shared.module';
 import { PageNotFoundComponent } from './components/page-not-found/page-not-found.component';
-import { StringShortenerPipe } from './pipes/string-shortner.pipe';
 //the app root module
 @NgModule({
   declarations: [
@@ -29,8 +28,7 @@ import { StringShortenerPipe } from './pipes/string-shortner.pipe';
     HomeComponent,
     DashboardComponent,
     FriendsComponent,
-    PageNotFoundComponent,
-    StringShortenerPipe
+    PageNotFoundComponent
   ],
   imports: [
     BrowserModule,

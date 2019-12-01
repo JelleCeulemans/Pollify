@@ -13,10 +13,15 @@ import { Subscription } from 'rxjs';
   templateUrl: './forgot-password.component.html',
   styleUrls: ['./forgot-password.component.scss']
 })
-export class ForgotPasswordComponent implements OnInit {
+export class ForgotPasswordComponent implements OnInit, OnDestroy {
   //declarations
   forgotPasswordForm: FormGroup;
   showSpinner: boolean;
+
+  //Subscriptions
+  private getUserByEmail: Subscription
+  private forgotPassword: Subscription
+  private dialogSubscription: Subscription
 
   //Make all the necessary services available
   constructor(
@@ -37,17 +42,16 @@ export class ForgotPasswordComponent implements OnInit {
     });
   }
 
-
   //Is execited when the forgot password button is pressed.
   onSubmit() {
     //This will show the spinner and hide the button.
     this.showSpinner = true;
 
-    this.userService.getUserByEmail(this.forgotPasswordForm.value.email).subscribe(result => {
+    this.getUserByEmail = this.userService.getUserByEmail(this.forgotPasswordForm.value.email).subscribe(result => {
       //if the given email is in the database
       if (result) {
         //This will send a email to the user's email to reset his password.
-        this.emailService.forgotPassword(result).subscribe();
+        this.forgotPassword = this.emailService.forgotPassword(result).subscribe();
         //This will show a one option dialog with the content of the data object.
         const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
           data: {
@@ -58,7 +62,7 @@ export class ForgotPasswordComponent implements OnInit {
         });
         //When the button (OK) is pressed or the dialog is closed by clicking on the page arorund to the dialog then
         //the user will be redirected to the inlog page.
-        oneOptionDialog.afterClosed().subscribe(result => {
+        this.dialogSubscription = oneOptionDialog.afterClosed().subscribe(result => {
           this.router.navigate(['/login']);
         });
         //If the given email is not in the database
@@ -71,5 +75,13 @@ export class ForgotPasswordComponent implements OnInit {
       //This will hide the spinner and show the button
       this.showSpinner = false;
     });
+  }
+
+
+  //unsubscribe aal subscriptions to avoid data leaks
+  ngOnDestroy() {
+    this.getUserByEmail ? this.getUserByEmail.unsubscribe() : false;
+    this.forgotPassword ? this.forgotPassword.unsubscribe() : false;
+    this.dialogSubscription ? this.dialogSubscription.unsubscribe() : false;
   }
 }

@@ -14,11 +14,27 @@
             </form>
         </mat-card-content>
     </mat-card>
+    <mat-card *ngIf="receivedInvitations.length > 0">
+        <mat-card-title>Invitations Received</mat-card-title>
+        <mat-divider></mat-divider>
+        <mat-card-content>
+            <div *ngFor="let item of receivedInvitations" fxLayout="row" fxLayoutAlign="space-between center">
+                <div fxLayout="column" id="invitations">
+                    <div>{{item.sender.username}}</div>
+                </div>
+                <div fxLayoutGap="10px">
+                    <button mat-raised-button color="accent" style="font-size: 1.5em;" (click)="acceptInvitation(item.friendID)"><i class="fas fa-check-circle"></i></button>
+                    <button mat-raised-button color="warn" style="font-size: 1.5em;"s (click)="declineInvitation(item.friendID)"><i class="fas fa-times-circle"></i></button>
+                </div>
+            </div>
+        </mat-card-content>
+    </mat-card>
+    
     <mat-card *ngIf="friends.length > 0">
         <mat-card-title>Your friends</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <div *ngFor="let item of friends" fxLayout="row" fxLayoutAlign="space-between">
+            <div *ngFor="let item of friends" fxLayout="row" fxLayoutAlign="space-between center">
                 <p>{{item.username}}</p>
                 <button mat-button color="warn" (click)="deleteFriend(item.userID)">Delete</button>
             </div>
@@ -26,30 +42,15 @@
     </mat-card>
 
     <mat-card *ngIf="sendedInvitations.length > 0">
-        <mat-card-title>Invitations Sended</mat-card-title>
+        <mat-card-title>Invitations Sent</mat-card-title>
         <mat-divider></mat-divider>
         <mat-card-content>
-            <div *ngFor="let item of sendedInvitations" fxLayout="row" fxLayoutAlign="space-between">
+            <div *ngFor="let item of sendedInvitations" fxLayout="row" fxLayoutAlign="space-between center">
                 <p>{{item.email}}</p>
                 <button mat-button color="warn" (click)="deleteFriend(item.userID)">Delete</button>
             </div>
         </mat-card-content>
     </mat-card>
 
-    <mat-card *ngIf="receivedInvitations.length > 0">
-        <mat-card-title>Invitations Received</mat-card-title>
-        <mat-divider></mat-divider>
-        <mat-card-content>
-            <div *ngFor="let item of receivedInvitations" fxLayout="row" fxLayoutAlign="space-between center">
-                <div fxLayout="column" id="invitations">
-                    <div>{{item.sender.email}}</div>
-                    <div>({{item.sender.username}})</div>
-                </div>
-                <div fxLayoutGap="10px">
-                    <button mat-raised-button color="warn" (click)="acceptInvitation(item.friendID)">Accept</button>
-                    <button mat-raised-button color="accent" (click)="declineInvitation(item.friendID)">Decline</button>
-                </div>
-            </div>
-        </mat-card-content>
-    </mat-card>
+    
 </section>

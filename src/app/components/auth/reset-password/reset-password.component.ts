@@ -22,6 +22,8 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   private urlParam: Subscription;
   private userByGuid: Subscription;
   private valueSub: Subscription;
+  private updatePassword: Subscription;
+  private dialogSubscription: Subscription;
 
   //password validation variables
   lowercase: boolean;
@@ -31,6 +33,7 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
   length: boolean;
   identical: boolean
 
+  //Make all the necessary services available
   constructor(
     private route: ActivatedRoute,
     private userService: UserService,
@@ -54,11 +57,16 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
       password: new FormControl('', { validators: [Validators.required,  Validators.pattern(new RegExp("^(?=.*[a-z])(?=.*[A-Z])(?=.*[0-9])(?=.*[!@#\$%\^&\*])(?=.{8,})"))] }),
       confirmPassword: new FormControl('', { validators: [Validators.required, Validators.minLength(8)] })
     });
+    //Get the parameter from the url
     this.urlParam = this.route.params.subscribe(params => {
+      //get the user with the given guid
       this.userByGuid = this.userService.getUserWhereGuid(params['guid']).subscribe(result => {
+        //the user that needs to be updated
         this.user = result;
+        //show the new password form
         this.show = true;
       }, error => {
+        //show the error window
         this.show = false;
       });
     });
@@ -67,27 +75,22 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     this.validatePassword();
   }
 
+  //Pressed on the Reset Password button
   onSubmit() {
+    //If both passwords are identicak
     if (this.identical) {
       this.user.password = this.resetPasswordForm.value.password;
-      this.userService.updatePassword(this.user).subscribe(result => {
-        const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
-          data: {
-            title: "Reset Password",
-            content: "<p>" + this.user.username + " your password has been reset.</p><p>You are now able to login with your new password.</p>",
-            button: "OK"
-          }
-        });
-        oneOptionDialog.afterClosed().subscribe(result => {
-          if (result) {
-            this.router.navigate(['/login']);
-          }
-        });
+      this.updatePassword = this.userService.updatePassword(this.user).subscribe(result => {
+        //show the dialog
+       this.showDialog();
       });
+      //If both passwords aren't identical
     } else {
+      //show a snackbar the passwords aren't identical
       this.snackbar.open('Both passwords aren\'t identical!', 'Password reset failed', {
         duration: 3000
       });
+      //remove the password values from the form
       this.resetPasswordForm.setValue({
         password: '',
         confirmPassword: '',
@@ -95,6 +98,25 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     }
   }
 
+  //Show a dialog with the info that the user's account is updated with the new password.
+  //Makes the code a bit more readable
+  showDialog() {
+    const oneOptionDialog = this.dialog.open(OneOptionDialogComponent, {
+      data: {
+        title: "Reset Password",
+        content: "<p>" + this.user.username + " your password has been reset.</p><p>You are now able to login with your new password.</p>",
+        button: "OK"
+      }
+    });
+    //Naviate to the login screen if the user presses the OK button
+    this.dialogSubscription = oneOptionDialog.afterClosed().subscribe(result => {
+      if (result) {
+        this.router.navigate(['/login']);
+      }
+    });
+  }
+
+  //Password validation section
   validatePassword() {
     this.valueSub = this.resetPasswordForm.valueChanges.subscribe(result => {
       //If the password contains a lowercase letter
@@ -117,9 +139,12 @@ export class ResetPasswordComponent implements OnInit, OnDestroy {
     });
   }
 
+  //Unsubscribe all the subscriptions to avoid data leaks
   ngOnDestroy() {
     this.urlParam.unsubscribe();
     this.userByGuid.unsubscribe();
     this.valueSub.unsubscribe();
+    this.updatePassword ? this.updatePassword.unsubscribe() : false;
+    this.dialogSubscription ? this.dialogSubscription.unsubscribe() : false;
   }
 }

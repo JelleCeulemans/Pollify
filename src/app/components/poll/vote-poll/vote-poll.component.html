@@ -4,10 +4,11 @@
         <mat-divider></mat-divider>
         <mat-card-content>
             <div fxLayoutGap="20px" fxLayout="column">
-                <div *ngFor="let answer of poll.answers" fxLayout="row" fxLayoutAlign="space-between">
+                <div *ngFor="let answer of poll.answers" fxLayout="row" fxLayoutAlign="space-between center">
                     <mat-checkbox color="warn" [value]="answer" (change)="updateVote($event, answer.answerID)"
                         [checked]="answersIDUser.includes(answer.answerID)">
-                        {{answer.name}}
+                        <span fxHide.lt-sm >{{answer.name | stringShortener:60}}</span>
+                        <span fxHide.gt-xs>{{answer.name | stringShortener:22}}</span>
                     </mat-checkbox>
                     <div fxLayout="row">
                         <p [matTooltip]="answer.votes | votingUsers" matTooltipPosition="right"
@@ -15,7 +16,7 @@
                         <button mat-button color="warn" (click)="deleteAnswer(answer)">Delete</button>
                     </div>
                 </div>
-                <div *ngIf="show">
+                <div *ngIf="showAddAnswer">
                     <mat-form-field>
                         <input type="text" matInput placeholder="Answer" [(ngModel)]="answer">
                         <mat-error>Characters...</mat-error>
@@ -24,26 +25,27 @@
                         <mat-icon>add_circle_outline</mat-icon>
                     </button>
                 </div>
-                <div class="chart-container" style="display: block" >
-                    <canvas baseChart 
-                    [data]="doughnutChartData" 
-                    [labels]="doughnutChartLabels"
-                    [chartType]="doughnutChartType"
-                    [colors]="doughnutColors"
-                    [options]="doughnutOptions">
-                </canvas>
-                </div>
+               
             </div>
         </mat-card-content>
         <mat-card-actions fxLayoutAlign="center center">
             <button mat-raised-button color="accent" (click)="saveVote()">Vote</button>
-            <button mat-raised-button color="primary" (click)="showAnswer()">Toggle add answer</button>
+            <button mat-raised-button color="primary" (click)="showAddAnswer = !showAddAnswer">Toggle add answer</button>
         </mat-card-actions>
+        <div *ngIf="totalVotes > 0 " class="chart-container" style="display: block" >
+            <canvas baseChart 
+            [data]="doughnutChartData" 
+            [labels]="doughnutChartLabels"
+            [chartType]="doughnutChartType"
+            [colors]="doughnutColors"
+            [options]="doughnutOptions">
+        </canvas>
+        </div>
     </mat-card>
     <mat-card *ngIf="(participants$ | async)?.length > 0">
         <mat-card-title>Participants</mat-card-title>
         <mat-card-content fxLayout="column">
-            <div fxLayout="row" fxLayoutAlign="space-between" *ngFor="let participant of (participants$ | async)">
+            <div fxLayout="row" fxLayoutAlign="space-between center" *ngFor="let participant of (participants$ | async)">
                 <p>{{participant.username}} <span *ngIf="participant.userID == userID">(you)</span></p>
                 <button mat-button color="warn" (click)="removeParticipant(participant)"
                     *ngIf="participant.userID != userID">Delete</button>
@@ -53,7 +55,7 @@
     <mat-card *ngIf="(noparticipants$ | async)?.length > 0">
         <mat-card-title>Invite friends</mat-card-title>
         <mat-card-content>
-            <div *ngFor="let noparticipant of (noparticipants$ | async)" fxLayoutAlign="space-between">
+            <div *ngFor="let noparticipant of (noparticipants$ | async)" fxLayoutAlign="space-between center">
                 <p>{{noparticipant.username}}</p>
                 <button mat-button color="warn" (click)="inviteFriend(noparticipant, $event)">Invite</button>
             </div>

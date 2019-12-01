@@ -67,7 +67,7 @@ export class UserService {
 
     //Retreive all friends from the database for a specific user.
     getFriends(): Observable<User[]> {
-        return this.http.get<User[]>(this.baseURL + "/Friend/byId?userid=" + this.localStorageService.getUser().userID);
+        return this.http.get<User[]>(this.baseURL + "/User/byId?userid=" + this.localStorageService.getUser().userID);
     }
 
     //Retrieve a user object with a given e-mail adress
@@ -77,6 +77,6 @@ export class UserService {
 
     //Retrieve all user objects where the logged in person an invitation has send to.
     getSendedInvitations(): Observable<User[]> {
-        return this.http.get<User[]>(this.baseURL + "/Friend/sendedInvitations?gebruikerid=" + this.localStorageService.getUser().userID);
+        return this.http.get<User[]>(this.baseURL + "/Friend/sendedInvitations?userid=" + this.localStorageService.getUser().userID);
     }
 }
